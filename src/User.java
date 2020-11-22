@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class User {
     public String name;
-    public String username;
-    public String password;
-    public ArrayList<User> conversations;
+    public String username; //This will be used as the unique ID for each user
+    private String password;
+    public ArrayList<Conversation> conversations;  //all of the conversations this User participates in
 
     public User(String name, String username, String password) {
         this.name = name;
@@ -12,11 +12,12 @@ public class User {
         this.password = password;
     }
 
-    public User(String name, String username, String password, ArrayList<User> conversations) {
+    public User(String name, String username, String password, ArrayList<Conversation> conversations) {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.conversations = conversations;
+
+        //this.conversations = conversations;
     }
 
     public String getName() {
