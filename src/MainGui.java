@@ -78,10 +78,11 @@ public class MainGui extends JComponent implements Runnable {
             user = users[0];
             other = users[1];
             Conversation conversation = (Conversation) in.readObject();
-            while (line != null) {
+            while (conversation != null) {
                 conversations.add(conversation);
+                conversation = (Conversation) in.readObject();
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | NullPointerException e) {
             e.printStackTrace();
         }
         return conversations;
