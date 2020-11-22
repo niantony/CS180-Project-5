@@ -5,6 +5,7 @@ import java.awt.event.*;
 public class Client implements Runnable {
     JButton homeButton;
     JButton saveButton;
+    JButton logoutButton;
     JButton deleteButton;
     JTextField nameField;
     JTextField usernameField;
@@ -21,6 +22,9 @@ public class Client implements Runnable {
             if (e.getSource() == saveButton) {
                 saveAccount();
             }
+            if (e.getSource() == logoutButton) {
+                logout();
+            }
             if (e.getSource() == deleteButton) {
                 deleteAccount();
             }
@@ -32,6 +36,10 @@ public class Client implements Runnable {
     }
     // Updates the user's information with the new inputted info
     public void saveAccount() {
+
+    }
+    // Logs out the user. Will return to the login page
+    public void logout() {
 
     }
     // Deletes the account and removes them from their conversations
@@ -74,10 +82,13 @@ public class Client implements Runnable {
         homeButton.addActionListener(actionListener);
         saveButton = new JButton("Save");
         saveButton.addActionListener(actionListener);
+        logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(actionListener);
         deleteButton = new JButton("Delete");
         deleteButton.addActionListener(actionListener);
         buttonsPanel.add(homeButton);
         buttonsPanel.add(saveButton);
+        buttonsPanel.add(logoutButton);
         buttonsPanel.add(deleteButton);
         content.add(buttonsPanel, BorderLayout.SOUTH);
 
