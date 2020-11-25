@@ -1,15 +1,17 @@
 import java.util.ArrayList;
+import java.io.*;
 
 public class User {
-    public String name;
-    public String username; //This will be used as the unique ID for each user
+    private String name;
+    private String username; //This will be used as the unique ID for each user
     private String password;
-    public ArrayList<Conversation> conversations;  //all of the conversations this User participates in
+    private File conversations;  //all of the conversations this User participates in
 
-    public User(String name, String username, String password) {
+    public User(String name, String username, String password, File conversations) {
         this.name = name;
         this.username = username;
         this.password = password;
+        this.conversations = conversations;
     }
 
     public User(String name, String username, String password, ArrayList<Conversation> conversations) {

@@ -53,7 +53,7 @@ public class Client implements Runnable {
 
     public void run() {
         // testUser is here for testing purposes
-        User testUser = new User("Jimmy", "jimmy123", "jimmypassword");
+//        User testUser = new User("Jimmy", "jimmy123", "jimmypassword");
 
         JFrame frame = new JFrame("Messaging App");
         Container content = frame.getContentPane();
@@ -63,11 +63,11 @@ public class Client implements Runnable {
         // Includes the user's "Name", "Username", and "Password"
         JPanel infoPanel = new JPanel();
         nameLabel = new JLabel("Name");
-        nameField = new JTextField(testUser.getName(), 10);
-        usernameLabel = new JLabel("Username");
-        usernameField = new JTextField(testUser.getUsername(), 10);
-        passwordLabel = new JLabel("Password");
-        passwordField = new JPasswordField(testUser.getPassword(), 10);
+//        nameField = new JTextField(testUser.getName(), 10);
+//        usernameLabel = new JLabel("Username");
+//        usernameField = new JTextField(testUser.getUsername(), 10);
+//        passwordLabel = new JLabel("Password");
+//        passwordField = new JPasswordField(testUser.getPassword(), 10);
         infoPanel.add(nameLabel);
         infoPanel.add(nameField);
         infoPanel.add(usernameLabel);
