@@ -118,7 +118,7 @@ public class MainGui extends JComponent implements Runnable {
         settingsButton = new JButton("Settings");
         settingsButton.addActionListener(actionListener);
         bottomPanel.add(settingsButton, BorderLayout.WEST);
-        addButton = new JButton("Add Conversation");
+        addButton = new JButton("New Conversation");
         addButton.addActionListener(actionListener);
         bottomPanel.add(addButton, BorderLayout.EAST);
         bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -148,7 +148,6 @@ public class MainGui extends JComponent implements Runnable {
     }
 
     private void displayMessages() {
-//        mainFrame.setVisible(false);
         messageFrame = new JFrame(conversationDisplayed.getName());
 //        messageWindow = new JWindow(messageFrame);
 //        messageWindow.addWindowListener(windowListener);
@@ -194,7 +193,7 @@ public class MainGui extends JComponent implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        messageFrame.setVisible(false);
-        displayMessages();
+        messagePanel.add(new JLabel(user.getName() + ": " + message));
+        messageFrame.setVisible(true);
     }
 }
