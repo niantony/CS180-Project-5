@@ -11,16 +11,22 @@ import java.util.ArrayList;
  */
 public class MainGui extends JComponent implements Runnable {
     private ArrayList<Conversation> conversations;
+    private ArrayList<User> users;
     private Conversation conversationDisplayed;
     private File messages;
+    private File usersFile = new File("UsersFile.txt");
     JButton addButton;
     JButton settingsButton;
     JFrame mainFrame;
     JFrame messageFrame;
+    JFrame addConversationFrame;
     JTextField textField;
     JButton sendButton;
     JPanel messagePanel;
-    User user = new User("Jack", "Jack", "0909", new File("ConversationFile.txt"));
+    JPanel usersPanel;
+    JTextField searchUsers;
+    JButton searchButton;
+    private User user = new User("Jack", "Jack", "0909", new File("ConversationFile.txt"));
 //    JWindow mainWindow;
 //    JWindow messageWindow;
 
@@ -28,7 +34,10 @@ public class MainGui extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == addButton) {
-                //add conversation
+                addConversation();
+            } else if (e.getSource() == searchButton) {
+                String searchedUser = searchUsers.getText();
+                displaySearchMatches(searchedUser);
             } else if (e.getSource() == settingsButton) {
                 //settings gui
             } else if (e.getSource() == sendButton) {
@@ -83,6 +92,7 @@ public class MainGui extends JComponent implements Runnable {
 
     public MainGui() {
         conversations = new ArrayList<>();
+        users = new ArrayList<>();
     }
 
     public static void main(String[] args) {
@@ -96,7 +106,8 @@ public class MainGui extends JComponent implements Runnable {
         Container content = mainFrame.getContentPane();
         content.setLayout(new BorderLayout());
 
-        conversations = readConversationsFromFile();
+        readConversationsFromFile();
+        readUsers();
         JPanel conversationPanel = new JPanel(new GridBagLayout());
         JScrollPane scrollPane = new JScrollPane(conversationPanel);
         GridBagConstraints constraints = new GridBagConstraints();
@@ -131,8 +142,10 @@ public class MainGui extends JComponent implements Runnable {
         mainFrame.setVisible(true);
     }
 
-    //Reading conversations from file into ArrayList
-    private ArrayList<Conversation> readConversationsFromFile() {
+    /**
+     * Reading conversations from file into ArrayList
+     */
+    private void readConversationsFromFile() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("ConversationFile.txt"))) {
             Conversation c = (Conversation) in.readObject();
             while (c != null) {
@@ -140,13 +153,32 @@ public class MainGui extends JComponent implements Runnable {
                 c = (Conversation) in.readObject();
             }
         } catch (EOFException e) {
-
+            //end of file
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
             e.printStackTrace();
         }
-        return conversations;
     }
 
+    /**
+     * Reads users from file into Arraylist
+     */
+    private void readUsers() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(usersFile))) {
+            User u = (User) in.readObject();
+            while (u != null) {
+                users.add(u);
+                u = (User) in.readObject();
+            }
+        } catch (EOFException e) {
+            //end of file
+        } catch (IOException | ClassNotFoundException | NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Display messages frame for conversation
+     */
     private void displayMessages() {
         messageFrame = new JFrame(conversationDisplayed.getName());
 //        messageWindow = new JWindow(messageFrame);
@@ -186,6 +218,10 @@ public class MainGui extends JComponent implements Runnable {
         messageFrame.setVisible(true);
     }
 
+    /**
+     * Add message to conversation
+     * @param message message to be added
+     */
     private void addMessage(String message) {
         String formattedMessage = "\n" + user.getName() + "*" + message;
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(messages, true))) {
@@ -195,5 +231,52 @@ public class MainGui extends JComponent implements Runnable {
         }
         messagePanel.add(new JLabel(user.getName() + ": " + message));
         messageFrame.setVisible(true);
+    }
+
+    /**
+     * Displays new frame that allows user to add a new conversation
+     */
+    private void addConversation() {
+        addConversationFrame = new JFrame("New Conversation");
+        Container content = addConversationFrame.getContentPane();
+        content.setLayout(new BorderLayout());
+        usersPanel = new JPanel();
+        JScrollPane usersScrollPane = new JScrollPane(usersPanel);
+        JPanel searchPanel = new JPanel(new BorderLayout());
+        searchUsers = new JTextField("Search for other users");
+        searchUsers.addActionListener(actionListener);
+        searchButton = new JButton("Search");
+        searchButton.addActionListener(actionListener);
+        searchPanel.add(searchUsers, BorderLayout.CENTER);
+        searchPanel.add(searchButton, BorderLayout.EAST);
+        content.add(searchPanel, BorderLayout.NORTH);
+        content.add(usersScrollPane, BorderLayout.CENTER);
+        addConversationFrame.setSize(600, 400);
+        addConversationFrame.setLocationRelativeTo(null);
+        addConversationFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        addConversationFrame.setVisible(true);
+    }
+
+    /**
+     * Displays the users that match the user's search
+     *
+     * @param name name being searched
+     */
+    private void displaySearchMatches(String name) {
+        usersPanel.removeAll();
+        ArrayList<User> userMatches = new ArrayList<>();
+        for (User u : users) {
+            if (u.getName().equalsIgnoreCase(name)) {
+                userMatches.add(u);
+            } else if (u.getUsername().equalsIgnoreCase(name)) {
+                userMatches.add(u);
+            }
+        }
+        for (User u : userMatches) {
+            usersPanel.add(new JButton(u.getName()));
+        }
+        usersPanel.revalidate();
+        usersPanel.repaint();
+        addConversationFrame.setVisible(true);
     }
 }

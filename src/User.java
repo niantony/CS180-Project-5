@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.io.*;
 
-public class User {
+public class User implements Serializable {
     private String name;
     private String username; //This will be used as the unique ID for each user
     private String password;
