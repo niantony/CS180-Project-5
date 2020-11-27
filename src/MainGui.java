@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -15,26 +16,41 @@ public class MainGui extends JComponent implements Runnable {
     private Conversation conversationDisplayed;
     private File messages;
     private File usersFile = new File("UsersFile.txt");
-    JButton addButton;
-    JButton settingsButton;
-    JFrame mainFrame;
-    JFrame messageFrame;
-    JFrame addConversationFrame;
-    JTextField textField;
-    JButton sendButton;
-    JPanel messagePanel;
-    JPanel usersPanel;
-    JTextField searchUsers;
-    JButton searchButton;
-    private User user = new User("Jack", "Jack", "0909", new File("ConversationFile.txt"));
+    private JButton addButton;
+    private JButton settingsButton;
+    private JPanel loginInputPanel;
+    private JPanel loginButtonsPanel;
+    private JButton signUpButton;
+    private JButton loginButton;
+    private JButton signUpPageButton;
+    private JTextField nameField;
+    private JTextField usernameField;
+    private JTextField passwordField;
+    private JFrame loginFrame;
+    private JFrame signUpFrame;
+    private JFrame mainFrame;
+    private JFrame messageFrame;
+    private JFrame addConversationFrame;
+    private JTextField textField;
+    private JButton sendButton;
+    private JPanel messagePanel;
+    private JPanel usersPanel;
+    private JTextField searchUsers;
+    private JButton searchButton;
 //    JWindow mainWindow;
 //    JWindow messageWindow;
 
-    ActionListener actionListener = new ActionListener() {
+    private ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == addButton) {
                 addConversation();
+            } else if (e.getSource() == signUpButton) {
+                loginFrame.setVisible(false);
+                signUpFrame.setVisible(true);
+            } else if (e.getSource() == loginButton) {
+                loginFrame.setVisible(false);
+                mainFrame.setVisible(true);
             } else if (e.getSource() == searchButton) {
                 String searchedUser = searchUsers.getText();
                 displaySearchMatches(searchedUser);
@@ -100,14 +116,59 @@ public class MainGui extends JComponent implements Runnable {
     }
 
     public void run() {
+        /**
+         * Main Login Screen
+         */
+        readConversationsFromFile();
+        readUsers();
+        loginFrame = new JFrame("Login");
+        Container loginContent = loginFrame.getContentPane();
+        loginContent.setLayout(new BorderLayout());
+
+        JPanel loginButtonsPanel = new JPanel(new BorderLayout());
+        loginButton = new JButton("Login");
+        loginButton.addActionListener(actionListener);
+        signUpButton = new JButton("Sign Up");
+        signUpButton.addActionListener(actionListener);
+        loginButtonsPanel.add(loginButton, BorderLayout.EAST);
+        loginButtonsPanel.add(signUpButton, BorderLayout.WEST);
+        loginContent.add(loginButtonsPanel, BorderLayout.SOUTH);
+
+        JPanel loginInputPanel = new JPanel(new BorderLayout());
+        usernameField = new JTextField("Username");
+        passwordField = new JTextField("Password");
+        loginInputPanel.add(usernameField, BorderLayout.WEST);
+        loginInputPanel.add(passwordField, BorderLayout.EAST);
+        loginContent.add(loginInputPanel, BorderLayout.NORTH);
+
+        loginFrame.setSize(600, 400);
+        loginFrame.setLocationRelativeTo(null);
+        loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        loginFrame.setVisible(true);
+        /**
+         * Sign Up Screen
+         */
+        signUpFrame = new JFrame("Sign Up");
+        Container signUpContent = loginFrame.getContentPane();
+        signUpContent.setLayout(new BorderLayout());
+
+        JPanel signUpPanel = new JPanel(new BorderLayout());
+        signUpPageButton = new JButton("Sign Up");
+        signUpPageButton.addActionListener(actionListener);
+//        signUpPanel.add(signUpPageButton, BorderLayout.CENTER);
+        signUpContent.add(signUpPanel, BorderLayout.SOUTH);
+
+        signUpFrame.setSize(600, 400);
+        signUpFrame.setLocationRelativeTo(null);
+        signUpFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        signUpFrame.setVisible(false);
+        /**
+         * Main Page
+         */
         mainFrame = new JFrame("Messages");
-//        mainWindow = new JWindow(mainFrame);
-//        mainWindow.addWindowListener(windowListener);
         Container content = mainFrame.getContentPane();
         content.setLayout(new BorderLayout());
 
-        readConversationsFromFile();
-        readUsers();
         JPanel conversationPanel = new JPanel(new GridBagLayout());
         JScrollPane scrollPane = new JScrollPane(conversationPanel);
         GridBagConstraints constraints = new GridBagConstraints();
@@ -139,7 +200,7 @@ public class MainGui extends JComponent implements Runnable {
         mainFrame.setSize(600, 400);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setVisible(true);
+        mainFrame.setVisible(false);
     }
 
     /**
@@ -223,13 +284,13 @@ public class MainGui extends JComponent implements Runnable {
      * @param message message to be added
      */
     private void addMessage(String message) {
-        String formattedMessage = "\n" + user.getName() + "*" + message;
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(messages, true))) {
-            pw.print(formattedMessage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        messagePanel.add(new JLabel(user.getName() + ": " + message));
+    //    String formattedMessage = "\n" + user.getName() + "*" + message;
+    //    try (PrintWriter pw = new PrintWriter(new FileOutputStream(messages, true))) {
+    //        pw.print(formattedMessage);
+    //    } catch (IOException e) {
+    //        e.printStackTrace();
+    //    }
+    //    messagePanel.add(new JLabel(user.getName() + ": " + message));
         messageFrame.setVisible(true);
     }
 
