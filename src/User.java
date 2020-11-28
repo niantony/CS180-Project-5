@@ -13,6 +13,12 @@ public class User {
     private String password;
     public ArrayList<Conversation> conversations;  //all of the conversations this User participates in
 
+    public User(String name, String username, String password) throws IOException {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+    }
+
     public User(Socket client, String name, String username, String password) throws IOException {
         this.streamOut = new PrintStream(client.getOutputStream());
         this.streamIn = client.getInputStream();

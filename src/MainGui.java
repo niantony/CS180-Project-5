@@ -30,6 +30,7 @@ public class MainGui extends JComponent implements Runnable {
     private JFrame signUpFrame;
     private JFrame mainFrame;
     private JFrame messageFrame;
+    private JFrame settingsFrame;
     private JFrame addConversationFrame;
     private JTextField textField;
     private JButton sendButton;
@@ -37,6 +38,18 @@ public class MainGui extends JComponent implements Runnable {
     private JPanel usersPanel;
     private JTextField searchUsers;
     private JButton searchButton;
+
+    private JButton homeButton;
+    private JButton saveButton;
+    private JButton logoutButton;
+    private JButton deleteButton;
+    private JTextField settingsNameField;
+    private JTextField settingsUsernameField;
+    private JTextField settingsPasswordField;
+    private JLabel nameLabel;
+    private JLabel usernameLabel;
+    private JLabel passwordLabel;
+
 //    JWindow mainWindow;
 //    JWindow messageWindow;
 
@@ -55,10 +68,23 @@ public class MainGui extends JComponent implements Runnable {
                 String searchedUser = searchUsers.getText();
                 displaySearchMatches(searchedUser);
             } else if (e.getSource() == settingsButton) {
-                //settings gui
+                settingsFrame.setVisible(true);
+                mainFrame.setVisible(false);
             } else if (e.getSource() == sendButton) {
                 String message = textField.getText();
                 addMessage(message);
+            } else if (e.getSource() == homeButton) {
+                settingsFrame.setVisible(false);
+                mainFrame.setVisible(true);
+            } else if (e.getSource() == saveButton) {
+                // Saves the inputted info
+            } else if (e.getSource() == logoutButton) {
+                // Stops the thread and creates a new one
+                // Logs the user out
+                settingsFrame.setVisible(false);
+                loginFrame.setVisible(true);
+            } else if (e.getSource() == deleteButton) {
+                // Deletes the user
             } else {
                 int index = Integer.parseInt(e.getActionCommand());
                 conversationDisplayed = conversations.get(index);
@@ -121,11 +147,17 @@ public class MainGui extends JComponent implements Runnable {
          */
         readConversationsFromFile();
         readUsers();
+        try {
+            User user = new User("John", "johnuser", "johnpass");
+            users.add(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         loginFrame = new JFrame("Login");
         Container loginContent = loginFrame.getContentPane();
         loginContent.setLayout(new BorderLayout());
 
-        JPanel loginButtonsPanel = new JPanel(new GridLayout(3,2));
+        JPanel loginButtonsPanel = new JPanel(new GridLayout(3, 2));
         loginButton = new JButton("Login");
         loginButton.addActionListener(actionListener);
         signUpButton = new JButton("Sign Up");
@@ -134,9 +166,9 @@ public class MainGui extends JComponent implements Runnable {
         loginButtonsPanel.add(signUpButton, BorderLayout.WEST);
         loginContent.add(loginButtonsPanel, BorderLayout.SOUTH);
 
-        JPanel loginInputPanel = new JPanel(new GridLayout(3,2));
+        JPanel loginInputPanel = new JPanel(new GridLayout(3, 2));
         JLabel usernameLabel = new JLabel("Username ");
-        usernameLabel.setSize(10,10);
+        usernameLabel.setSize(10, 10);
         JLabel passwordLabel = new JLabel("Password: ");
         usernameField = new JTextField("");
         passwordField = new JPasswordField("");
@@ -206,7 +238,53 @@ public class MainGui extends JComponent implements Runnable {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setVisible(false);
+        /**
+         * Settings Page
+         */
+        settingsFrame = new JFrame("Settings");
+        Container settingsContent = settingsFrame.getContentPane();
+        settingsContent.setLayout(new BorderLayout());
+
+        // Contains all the information fields to view and edit.
+        // Includes the user's "Name", "Username", and "Password"
+        JPanel infoPanel = new JPanel();
+        nameLabel = new JLabel("Name");
+        nameField = new JTextField(10);
+        usernameLabel = new JLabel("Username");
+        usernameField = new JTextField(10);
+        passwordLabel = new JLabel("Password");
+        passwordField = new JPasswordField(10);
+        infoPanel.add(nameLabel);
+        infoPanel.add(nameField);
+        infoPanel.add(usernameLabel);
+        infoPanel.add(usernameField);
+        infoPanel.add(passwordLabel);
+        infoPanel.add(passwordField);
+        settingsContent.add(infoPanel, BorderLayout.CENTER);
+
+        // Shows the "Home", "Save", and "Delete" buttons at the bottom of the GUI
+        JPanel buttonsPanel = new JPanel();
+        homeButton = new JButton("Home");
+        homeButton.addActionListener(actionListener);
+        saveButton = new JButton("Save");
+        saveButton.addActionListener(actionListener);
+        logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(actionListener);
+        deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(actionListener);
+        buttonsPanel.add(homeButton);
+        buttonsPanel.add(saveButton);
+        buttonsPanel.add(logoutButton);
+        buttonsPanel.add(deleteButton);
+        settingsContent.add(buttonsPanel, BorderLayout.SOUTH);
+
+        settingsFrame.setSize(600, 400);
+        settingsFrame.setLocationRelativeTo(null);
+        settingsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        settingsFrame.setVisible(false);
     }
+
+
 
     /**
      * Reading conversations from file into ArrayList
