@@ -189,6 +189,8 @@ public class MainGui extends JComponent implements Runnable {
         if (!success) {
             System.out.println("Failed");
         } else {
+            conversations = new ArrayList<>();
+            users = new ArrayList<>();
             readConversationsFromFile();
             readUsers();
         }
@@ -470,6 +472,7 @@ public class MainGui extends JComponent implements Runnable {
      * Displays new frame that allows user to add a new conversation
      */
     private void addConversation() {
+        readConversationsFromFile();
         usersToAdd = new ArrayList<>();
         addConversationFrame = new JFrame("New Conversation");
         Container content = addConversationFrame.getContentPane();
@@ -560,22 +563,44 @@ public class MainGui extends JComponent implements Runnable {
         }
         Conversation newConversation = new Conversation(nameOfConversation, usersToAdd, file);
         for (User u : usersToAdd) {
-            if (conversations.isEmpty()) {
-                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
-                    out.writeObject(newConversation);
-                    out.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if (u.getUsername().equals(user.getUsername())) {
+                if (conversations.isEmpty()) {
+                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
+                        out.writeObject(newConversation);
+                        out.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
+                        for (Conversation c : conversations) {
+                            out.writeObject(c);
+                            out.flush();
+                        }
+                        out.writeObject(newConversation);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             } else {
-                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
-                    for (Conversation c : conversations) {
-                        out.writeObject(c);
+                ArrayList<Conversation> otherUserConversations = readOtherUserConversations(u);
+                if (otherUserConversations.isEmpty()) {
+                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
+                        out.writeObject(newConversation);
                         out.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    out.writeObject(newConversation);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } else {
+                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
+                        for (Conversation c : otherUserConversations) {
+                            out.writeObject(c);
+                            out.flush();
+                        }
+                        out.writeObject(newConversation);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -606,16 +631,32 @@ public class MainGui extends JComponent implements Runnable {
         mainFrame.setVisible(true);
     }
 
-    public class AppendingObjectOutputStream extends ObjectOutputStream {
-
-        public AppendingObjectOutputStream(OutputStream out) throws IOException {
-            super(out);
+    private ArrayList<Conversation> readOtherUserConversations(User otherUser) {
+        ArrayList<Conversation> otherUserConversations = new ArrayList<>();
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(otherUser.getConversations()))) {
+            Conversation c = (Conversation) in.readObject();
+            while (c != null) {
+                otherUserConversations.add(c);
+                c = (Conversation) in.readObject();
+            }
+        } catch (EOFException | NullPointerException e) {
+            //end of file
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
-
-        @Override
-        protected void writeStreamHeader() throws IOException {
-            reset();
-        }
-
+        return otherUserConversations;
     }
+
+//    public class AppendingObjectOutputStream extends ObjectOutputStream {
+//
+//        public AppendingObjectOutputStream(OutputStream out) throws IOException {
+//            super(out);
+//        }
+//
+//        @Override
+//        protected void writeStreamHeader() throws IOException {
+//            reset();
+//        }
+//
+//    }
 }
