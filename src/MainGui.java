@@ -142,8 +142,6 @@ public class MainGui extends JComponent implements Runnable {
         /**
          * Main Login Screen
          */
-        readConversationsFromFile();
-        readUsers();
         loginFrame = new JFrame("Login");
         Container loginContent = loginFrame.getContentPane();
         loginContent.setLayout(new BorderLayout());
@@ -181,6 +179,7 @@ public class MainGui extends JComponent implements Runnable {
         String username = usernameField.getText();
         String password = passwordField.getText();
         boolean success = false;
+        readUsers();
         for (User u : users) {
             if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
                 success = true;
@@ -189,6 +188,9 @@ public class MainGui extends JComponent implements Runnable {
         }
         if (!success) {
             System.out.println("Failed");
+        } else {
+            readConversationsFromFile();
+            readUsers();
         }
     }
 
@@ -227,6 +229,7 @@ public class MainGui extends JComponent implements Runnable {
     }
 
     private void signUp() {
+        readUsers();
         String username = createUsernameField.getText();
         String password = createPasswordField.getText();
         String name = createNameField.getText();
@@ -238,6 +241,29 @@ public class MainGui extends JComponent implements Runnable {
             newUser = new User(name, username, password, file);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        if (users.isEmpty()) {
+            try {
+                usersFile.createNewFile();
+            } catch (IOException e) {
+                //unable to create file
+            }
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile))) {
+                out.writeObject(newUser);
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile))) {
+                for (User u : users) {
+                    out.writeObject(u);
+                    out.flush();
+                }
+                out.writeObject(newUser);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 //        if (!usersFile.exists()) {
 //            try {
@@ -265,12 +291,12 @@ public class MainGui extends JComponent implements Runnable {
 //            //unable to add to file
 //            e.printStackTrace();
 //        }
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile, true))) {
-            out.writeObject(newUser);
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile, true))) {
+//            out.writeObject(newUser);
+//            out.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         readUsers();
         signUpFrame.setVisible(false);
         loginFrame.setVisible(true);
@@ -333,9 +359,9 @@ public class MainGui extends JComponent implements Runnable {
                 conversations.add(c);
                 c = (Conversation) in.readObject();
             }
-        } catch (EOFException e) {
+        } catch (EOFException | NullPointerException e) {
             //end of file
-        } catch (IOException | ClassNotFoundException | NullPointerException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -345,40 +371,40 @@ public class MainGui extends JComponent implements Runnable {
      */
     private void readUsers() {
         users = new ArrayList<>();
-        try {
-            FileInputStream fis = new FileInputStream(usersFile);
-            boolean done = false;
-            while (!done) {
-                ObjectInputStream in = new ObjectInputStream(fis);
-                try {
-                    User u = (User) in.readObject();
-                    users.add(u);
-                } catch (NullPointerException | EOFException e) {
-                    done = true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (EOFException e) {
-            //end of file
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-
-        }
-//        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(usersFile))) {
-//            User u = (User) in.readObject();
-//            while (u != null) {
-//                users.add(u);
-//                u = (User) in.readObject();
+//        try {
+//            FileInputStream fis = new FileInputStream(usersFile);
+//            boolean done = false;
+//            while (!done) {
+//                ObjectInputStream in = new ObjectInputStream(fis);
+//                try {
+//                    User u = (User) in.readObject();
+//                    users.add(u);
+//                } catch (NullPointerException | EOFException e) {
+//                    done = true;
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (ClassNotFoundException e) {
+//                    e.printStackTrace();
+//                }
 //            }
-//        } catch (EOFException | FileNotFoundException e) {
+//        } catch (EOFException e) {
 //            //end of file
-//        } catch (IOException | ClassNotFoundException | NullPointerException e) {
+//        } catch (IOException e) {
 //            e.printStackTrace();
+//        } finally {
+//
 //        }
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(usersFile))) {
+            User u = (User) in.readObject();
+            while (u != null) {
+                users.add(u);
+                u = (User) in.readObject();
+            }
+        } catch (EOFException | FileNotFoundException e) {
+            //end of file
+        } catch (IOException | ClassNotFoundException | NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -444,6 +470,7 @@ public class MainGui extends JComponent implements Runnable {
      * Displays new frame that allows user to add a new conversation
      */
     private void addConversation() {
+        usersToAdd = new ArrayList<>();
         addConversationFrame = new JFrame("New Conversation");
         Container content = addConversationFrame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -521,7 +548,7 @@ public class MainGui extends JComponent implements Runnable {
     }
 
     private void addConversationToFile() {
-        readUsers();
+        readConversationsFromFile();
         String nameOfConversation = conversationNameField.getText();
         String fileName = nameOfConversation + ".txt";
         File file = new File(fileName);
@@ -533,29 +560,46 @@ public class MainGui extends JComponent implements Runnable {
         }
         Conversation newConversation = new Conversation(nameOfConversation, usersToAdd, file);
         for (User u : usersToAdd) {
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations(), true))) {
-                if (conversations.isEmpty()) {
+            if (conversations.isEmpty()) {
+                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
                     out.writeObject(newConversation);
                     out.flush();
-                    newFileCreated = false;
-                } else {
-                    try (AppendingObjectOutputStream appendingStream = new AppendingObjectOutputStream(out)) {
-                        appendingStream.writeObject(newConversation);
-                        appendingStream.flush();
-                    } catch (IOException e) {
-                        //unable to append to file
-                        e.printStackTrace();
-                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                //unable to add to file
-                e.printStackTrace();
+            } else {
+                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
+                    for (Conversation c : conversations) {
+                        out.writeObject(c);
+                        out.flush();
+                    }
+                    out.writeObject(newConversation);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+//        for (User u : usersToAdd) {
+//            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations(), true))) {
+//                if (conversations.isEmpty()) {
+//                    out.writeObject(newConversation);
+//                    out.flush();
+//                    newFileCreated = false;
+//                } else {
+//                    try (AppendingObjectOutputStream appendingStream = new AppendingObjectOutputStream(out)) {
+//                        appendingStream.writeObject(newConversation);
+//                        appendingStream.flush();
+//                    } catch (IOException e) {
+//                        //unable to append to file
+//                        e.printStackTrace();
+//                    }
+//                }
+//            } catch (IOException e) {
+//                //unable to add to file
+//                e.printStackTrace();
+//            }
+//        }
         readConversationsFromFile();
-        for (Conversation c : conversations) {
-            System.out.println(c.getName());
-        }
         addConversationFields.setVisible(false);
         mainFrame.setVisible(false);
         mainScreen();
