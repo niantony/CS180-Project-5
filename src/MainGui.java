@@ -3,6 +3,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.net.Socket;
 import java.util.ArrayList;
 
 /**
@@ -38,7 +39,6 @@ public class MainGui extends JComponent implements Runnable {
     private JPanel usersPanel;
     private JTextField searchUsers;
     private JButton searchButton;
-
     private JButton homeButton;
     private JButton saveButton;
     private JButton logoutButton;
@@ -49,12 +49,14 @@ public class MainGui extends JComponent implements Runnable {
     private JLabel nameLabel;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
+    BufferedReader input;
+    PrintWriter output;
+    private Socket server;
 
 //    JWindow mainWindow;
 //    JWindow messageWindow;
 
     private ActionListener actionListener = new ActionListener() {
-        @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == addButton) {
                 addConversation();
@@ -62,8 +64,18 @@ public class MainGui extends JComponent implements Runnable {
                 loginFrame.setVisible(false);
                 signUpFrame.setVisible(true);
             } else if (e.getSource() == loginButton) {
-                loginFrame.setVisible(false);
-                mainFrame.setVisible(true);
+                // Connection to Server
+                try {
+                    server = new Socket("localhost", 8080);
+                    System.out.println("Connected to Server");
+                    input = new BufferedReader(new InputStreamReader(server.getInputStream()));
+                    output = new PrintWriter(server.getOutputStream(), true);
+                    loginFrame.setVisible(false);
+                    mainFrame.setVisible(true);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Connection Error",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else if (e.getSource() == searchButton) {
                 String searchedUser = searchUsers.getText();
                 displaySearchMatches(searchedUser);
@@ -423,4 +435,7 @@ public class MainGui extends JComponent implements Runnable {
         usersPanel.repaint();
         addConversationFrame.setVisible(true);
     }
+
+    // Connecting to the Server
+
 }
