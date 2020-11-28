@@ -25,7 +25,7 @@ public class MainGui extends JComponent implements Runnable {
     private JButton signUpPageButton;
     private JTextField nameField;
     private JTextField usernameField;
-    private JTextField passwordField;
+    private JPasswordField passwordField;
     private JFrame loginFrame;
     private JFrame signUpFrame;
     private JFrame mainFrame;
@@ -125,7 +125,7 @@ public class MainGui extends JComponent implements Runnable {
         Container loginContent = loginFrame.getContentPane();
         loginContent.setLayout(new BorderLayout());
 
-        JPanel loginButtonsPanel = new JPanel(new BorderLayout());
+        JPanel loginButtonsPanel = new JPanel(new GridLayout(3,2));
         loginButton = new JButton("Login");
         loginButton.addActionListener(actionListener);
         signUpButton = new JButton("Sign Up");
@@ -134,12 +134,17 @@ public class MainGui extends JComponent implements Runnable {
         loginButtonsPanel.add(signUpButton, BorderLayout.WEST);
         loginContent.add(loginButtonsPanel, BorderLayout.SOUTH);
 
-        JPanel loginInputPanel = new JPanel(new BorderLayout());
-        usernameField = new JTextField("Username");
-        passwordField = new JTextField("Password");
-        loginInputPanel.add(usernameField, BorderLayout.WEST);
-        loginInputPanel.add(passwordField, BorderLayout.EAST);
-        loginContent.add(loginInputPanel, BorderLayout.NORTH);
+        JPanel loginInputPanel = new JPanel(new GridLayout(3,2));
+        JLabel usernameLabel = new JLabel("Username ");
+        usernameLabel.setSize(10,10);
+        JLabel passwordLabel = new JLabel("Password: ");
+        usernameField = new JTextField("");
+        passwordField = new JPasswordField("");
+        loginInputPanel.add(usernameLabel);
+        loginInputPanel.add(usernameField);
+        loginInputPanel.add(passwordLabel);
+        loginInputPanel.add(passwordField);
+        loginContent.add(loginInputPanel);
 
         loginFrame.setSize(600, 400);
         loginFrame.setLocationRelativeTo(null);
