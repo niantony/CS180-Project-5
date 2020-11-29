@@ -44,6 +44,7 @@ public class MainGui extends JComponent implements Runnable {
     private JButton submitFields;
     private JTextField conversationNameField;
     private User user;
+    private boolean successfulLogin = true;
 
     ActionListener actionListener = new ActionListener() {
         @Override
@@ -60,7 +61,11 @@ public class MainGui extends JComponent implements Runnable {
             } else if (e.getSource() == loginButton) {
                 loginFrame.setVisible(false);
                 logIn();
-                mainScreen();
+                if (successfulLogin) {
+                    mainScreen();
+                } else {
+                    loginFrame.setVisible(true);
+                }
             } else if (e.getSource() == searchButton) {
                 String searchedUser = searchUsers.getText();
                 displaySearchMatches(searchedUser);
@@ -103,7 +108,7 @@ public class MainGui extends JComponent implements Runnable {
         Container loginContent = loginFrame.getContentPane();
         loginContent.setLayout(new BorderLayout());
 
-        JPanel loginButtonsPanel = new JPanel(new GridLayout(3,2));
+        loginButtonsPanel = new JPanel(new GridLayout(3,2));
         loginButton = new JButton("Login");
         loginButton.addActionListener(actionListener);
         signUpButton = new JButton("Sign Up");
@@ -112,7 +117,7 @@ public class MainGui extends JComponent implements Runnable {
         loginButtonsPanel.add(signUpButton, BorderLayout.WEST);
         loginContent.add(loginButtonsPanel, BorderLayout.SOUTH);
 
-        JPanel loginInputPanel = new JPanel(new GridLayout(3,2));
+        loginInputPanel = new JPanel(new GridLayout(3,2));
         JLabel usernameLabel = new JLabel("Username ");
         usernameLabel.setSize(10,10);
         JLabel passwordLabel = new JLabel("Password: ");
@@ -145,7 +150,9 @@ public class MainGui extends JComponent implements Runnable {
         }
         if (!success) {
             JOptionPane.showMessageDialog(null, "Wrong username or password", "Login Error", JOptionPane.ERROR_MESSAGE);
+            successfulLogin = false;
         } else {
+            successfulLogin = true;
             conversations = new ArrayList<>();
             users = new ArrayList<>();
             readConversationsFromFile();
@@ -191,6 +198,12 @@ public class MainGui extends JComponent implements Runnable {
     private void signUp() {
         readUsers();
         String username = createUsernameField.getText();
+        for (User u : users) {
+            if (u.getUsername().equals(username)) {
+                //invalid username
+                JOptionPane.showMessageDialog(null, "Invalid username", "Signup Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
         String password = createPasswordField.getText();
         String name = createNameField.getText();
         String fileName = username + ".txt";
