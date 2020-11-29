@@ -46,6 +46,7 @@ public class MainGui extends JComponent implements Runnable {
     private JTextField conversationNameField;
     private User user;
     private boolean successfulLogin = true;
+    private boolean successfulAdditionToFile;
 
     ActionListener actionListener = new ActionListener() {
         @Override
@@ -59,7 +60,10 @@ public class MainGui extends JComponent implements Runnable {
             } else if (e.getSource() == signUpPageButton) {
                 signUp();
             } else if (e.getSource() == submitFields) {
-                addConversationToFile();
+                successfulAdditionToFile = addConversationToFile();
+                if (!successfulAdditionToFile) {
+                    addConversationFields.setVisible(true);
+                }
             } else if (e.getSource() == loginButton) {
                 //send message to server login*username*password
                 loginFrame.setVisible(false);
@@ -538,11 +542,15 @@ public class MainGui extends JComponent implements Runnable {
         addConversationFields.setVisible(true);
     }
 
-    private void addConversationToFile() {
+    private boolean addConversationToFile() {
         readConversationsFromFile();
         String nameOfConversation = conversationNameField.getText();
         String fileName = nameOfConversation + ".txt";
         File file = new File(fileName);
+        if (file.exists()) {
+            JOptionPane.showMessageDialog(null, "Invalid conversation name", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -617,6 +625,7 @@ public class MainGui extends JComponent implements Runnable {
         mainFrame.setVisible(false);
         mainScreen();
         mainFrame.setVisible(true);
+        return true;
     }
 
     private ArrayList<Conversation> readOtherUserConversations(User otherUser) {
