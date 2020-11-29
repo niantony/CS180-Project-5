@@ -43,11 +43,7 @@ public class MainGui extends JComponent implements Runnable {
     private JButton searchButton;
     private JButton submitFields;
     private JTextField conversationNameField;
-    private boolean newFileCreated = false;
-//    private User user = new User("Jack", "Jack", "0909", new File("ConversationFile.txt"));
     private User user;
-//    JWindow mainWindow;
-//    JWindow messageWindow;
 
     ActionListener actionListener = new ActionListener() {
         @Override
@@ -89,45 +85,6 @@ public class MainGui extends JComponent implements Runnable {
             fillConversationFields(userToBeAdded);
         }
     };
-
-//    WindowListener windowListener = new WindowListener() {
-//        @Override
-//        public void windowOpened(WindowEvent e) {
-//
-//        }
-//
-//        @Override
-//        public void windowClosing(WindowEvent e) {
-//
-//        }
-//
-//        @Override
-//        public void windowClosed(WindowEvent e) {
-//            if (e.getSource() == messageWindow) {
-//                mainFrame.setVisible(true);
-//            }
-//        }
-//
-//        @Override
-//        public void windowIconified(WindowEvent e) {
-//
-//        }
-//
-//        @Override
-//        public void windowDeiconified(WindowEvent e) {
-//
-//        }
-//
-//        @Override
-//        public void windowActivated(WindowEvent e) {
-//
-//        }
-//
-//        @Override
-//        public void windowDeactivated(WindowEvent e) {
-//
-//        }
-//    };
 
     public MainGui() {
         conversations = new ArrayList<>();
@@ -187,7 +144,7 @@ public class MainGui extends JComponent implements Runnable {
             }
         }
         if (!success) {
-            System.out.println("Failed");
+            JOptionPane.showMessageDialog(null, "Wrong username or password", "Login Error", JOptionPane.ERROR_MESSAGE);
         } else {
             conversations = new ArrayList<>();
             users = new ArrayList<>();
@@ -205,7 +162,7 @@ public class MainGui extends JComponent implements Runnable {
         usernameLabel.setSize(10,10);
         JLabel passwordLabel = new JLabel("Password: ");
         JLabel nameLabel = new JLabel("Full Name: ");
-        JPanel signUpPanel = new JPanel(new GridLayout(2,3));
+        JPanel signUpPanel = new JPanel(new GridLayout(4,2));
         createUsernameField = new JTextField();
         createUsernameField.addActionListener(actionListener);
         signUpPanel.add(usernameLabel);
@@ -221,7 +178,8 @@ public class MainGui extends JComponent implements Runnable {
 
         signUpPageButton = new JButton("Sign Up");
         signUpPageButton.addActionListener(actionListener);
-        signUpPanel.add(signUpPageButton, BorderLayout.SOUTH);
+        signUpPanel.add(new JLabel());
+        signUpPanel.add(signUpPageButton);
         signUpContent.add(signUpPanel, BorderLayout.CENTER);
 
         signUpFrame.setSize(600, 400);
