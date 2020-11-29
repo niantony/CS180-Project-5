@@ -42,6 +42,7 @@ public class MainGui extends JComponent implements Runnable {
     private JTextField searchUsers;
     private JButton searchButton;
     private JButton submitFields;
+    private JButton addOtherUsers;
     private JTextField conversationNameField;
     private User user;
     private boolean successfulLogin = true;
@@ -50,6 +51,7 @@ public class MainGui extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == addButton) {
+                usersToAdd = new ArrayList<>();
                 addConversation();
             } else if (e.getSource() == signUpButton) {
                 loginFrame.setVisible(false);
@@ -59,6 +61,7 @@ public class MainGui extends JComponent implements Runnable {
             } else if (e.getSource() == submitFields) {
                 addConversationToFile();
             } else if (e.getSource() == loginButton) {
+                //send message to server login*username*password
                 loginFrame.setVisible(false);
                 logIn();
                 if (successfulLogin) {
@@ -66,6 +69,9 @@ public class MainGui extends JComponent implements Runnable {
                 } else {
                     loginFrame.setVisible(true);
                 }
+            } else if (e.getSource() == addOtherUsers) {
+                addConversationFields.setVisible(false);
+                addConversation();
             } else if (e.getSource() == searchButton) {
                 String searchedUser = searchUsers.getText();
                 displaySearchMatches(searchedUser);
@@ -444,7 +450,6 @@ public class MainGui extends JComponent implements Runnable {
      */
     private void addConversation() {
         readConversationsFromFile();
-        usersToAdd = new ArrayList<>();
         addConversationFrame = new JFrame("New Conversation");
         Container content = addConversationFrame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -498,23 +503,39 @@ public class MainGui extends JComponent implements Runnable {
         content.setLayout(new BorderLayout());
 
         JPanel fieldsToFill = new JPanel(new GridLayout(3,2));
+        JPanel fillFieldButtons = new JPanel(new GridLayout(1, 2));
         submitFields = new JButton("Create Conversation");
         submitFields.addActionListener(actionListener);
-        content.add(submitFields, BorderLayout.SOUTH);
+        addOtherUsers = new JButton("Add More Users");
+        addOtherUsers.addActionListener(actionListener);
+        fillFieldButtons.add(addOtherUsers);
+        fillFieldButtons.add(submitFields);
+        content.add(fillFieldButtons, BorderLayout.SOUTH);
         JLabel nameLabel = new JLabel("Name of Conversation: ");
         nameLabel.setSize(10,10);
         fieldsToFill.add(nameLabel);
         conversationNameField = new JTextField();
         conversationNameField.addActionListener(actionListener);
         fieldsToFill.add(conversationNameField);
+        if (!usersToAdd.contains(user)) {
+            usersToAdd.add(user);
+        }
+        usersToAdd.add(otherUser);
+        String names = "";
+        for (User u : usersToAdd) {
+            if (!u.getName().equals(user.getName())) {
+                if (names.equals("")) {
+                    names += u.getName();
+                } else {
+                    names += ", " + u.getName();
+                }
+            }
+        }
         JLabel otherUserLabel = new JLabel("Conversation members: ");
-        JLabel otherUserName = new JLabel(otherUser.getName());
+        JLabel otherUserName = new JLabel(names);
         fieldsToFill.add(otherUserLabel);
         fieldsToFill.add(otherUserName);
         content.add(fieldsToFill, BorderLayout.CENTER);
-        usersToAdd = new ArrayList<>();
-        usersToAdd.add(user);
-        usersToAdd.add(otherUser);
         addConversationFields.setSize(600, 400);
         addConversationFields.setLocationRelativeTo(null);
         addConversationFields.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
