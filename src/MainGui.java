@@ -1,7 +1,9 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.net.Socket;
 import java.util.ArrayList;
 
 /**
@@ -10,6 +12,7 @@ import java.util.ArrayList;
  * Main GUI that interacts with user
  */
 public class MainGui extends JComponent implements Runnable {
+
     private ArrayList<Conversation> conversations;
     private ArrayList<User> users;
     private ArrayList<User> userMatches;
@@ -112,9 +115,10 @@ public class MainGui extends JComponent implements Runnable {
          */
         loginFrame = new JFrame("Login");
         Container loginContent = loginFrame.getContentPane();
+        /*
         loginContent.setLayout(new BorderLayout());
 
-        loginButtonsPanel = new JPanel(new GridLayout(3,2));
+        JPanel loginButtonsPanel = new JPanel(new GridLayout(3,2));
         loginButton = new JButton("Login");
         loginButton.addActionListener(actionListener);
         signUpButton = new JButton("Sign Up");
@@ -123,9 +127,9 @@ public class MainGui extends JComponent implements Runnable {
         loginButtonsPanel.add(signUpButton, BorderLayout.WEST);
         loginContent.add(loginButtonsPanel, BorderLayout.SOUTH);
 
-        loginInputPanel = new JPanel(new GridLayout(3,2));
+        JPanel loginInputPanel = new JPanel(new GridLayout(3,2));
         JLabel usernameLabel = new JLabel("Username ");
-        usernameLabel.setSize(10,10);
+        //usernameLabel.setSize(10,10);
         JLabel passwordLabel = new JLabel("Password: ");
         usernameField = new JTextField();
         usernameField.addActionListener(actionListener);
@@ -135,9 +139,58 @@ public class MainGui extends JComponent implements Runnable {
         loginInputPanel.add(usernameField);
         loginInputPanel.add(passwordLabel);
         loginInputPanel.add(passwordField);
-        loginContent.add(loginInputPanel);
+        loginContent.add(loginInputPanel,BorderLayout.CENTER);
+         */
+        loginContent.setLayout(null);
 
-        loginFrame.setSize(600, 400);
+        JLabel userName = new JLabel("Username");
+        userName.setFont(new Font("Arial", Font.PLAIN, 20));
+        userName.setSize(100, 30);
+        userName.setLocation(300, 195);
+        loginContent.add(userName);
+
+        usernameField = new JTextField();
+        usernameField.setFont(new Font("Arial", Font.PLAIN, 15));
+        usernameField.setSize(190, 20);
+        usernameField.setLocation(400, 200);
+        loginContent.add(usernameField);
+
+        JLabel passWord = new JLabel("Password ");
+        passWord.setFont(new Font("Arial", Font.PLAIN, 20));
+        passWord.setSize(100, 30);
+        passWord.setLocation(300, 265);
+        loginContent.add(passWord);
+
+        passwordField = new JPasswordField();
+        passwordField.setFont(new Font("Arial", Font.PLAIN, 15));
+        passwordField.setSize(190, 20);
+        passwordField.setLocation(400, 270); //285
+        loginContent.add(passwordField);
+
+        loginButton = new JButton("Login");
+        loginButton.setFont(new Font("Arial", Font.PLAIN, 15));
+        loginButton.setSize(100, 20);
+        loginButton.setLocation(360, 320);
+        loginButton.addActionListener(actionListener);
+        loginContent.add(loginButton);
+
+        signUpButton = new JButton("Sign Up");
+        signUpButton.setFont(new Font("Arial", Font.PLAIN, 15));
+        signUpButton.setSize(100, 20);
+        signUpButton.setLocation(360, 360);
+        signUpButton.addActionListener(actionListener);
+        loginContent.add(signUpButton);
+
+        JLabel lginFailMsg = new JLabel("Wrong password. Please Try again");
+        lginFailMsg.setFont(new Font("Arial", Font.PLAIN, 20));
+        lginFailMsg.setForeground(Color.red);
+        lginFailMsg.setSize(400, 30);
+        lginFailMsg.setLocation(300, 400);
+        lginFailMsg.setVisible(false);
+        loginContent.add(lginFailMsg);
+
+        loginFrame.setSize(900, 600);
+        //loginFrame.setSize(600, 400);
         loginFrame.setLocationRelativeTo(null);
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setVisible(true);
@@ -169,13 +222,14 @@ public class MainGui extends JComponent implements Runnable {
     private void displaySignUp() {
         signUpFrame = new JFrame("Sign Up");
         Container signUpContent = signUpFrame.getContentPane();
+        /*
         signUpContent.setLayout(new BorderLayout());
 
         JLabel usernameLabel = new JLabel("Username ");
         usernameLabel.setSize(10,10);
         JLabel passwordLabel = new JLabel("Password: ");
         JLabel nameLabel = new JLabel("Full Name: ");
-        JPanel signUpPanel = new JPanel(new GridLayout(4,2));
+        JPanel signUpPanel = new JPanel(new GridLayout(2,3));
         createUsernameField = new JTextField();
         createUsernameField.addActionListener(actionListener);
         signUpPanel.add(usernameLabel);
@@ -191,11 +245,59 @@ public class MainGui extends JComponent implements Runnable {
 
         signUpPageButton = new JButton("Sign Up");
         signUpPageButton.addActionListener(actionListener);
-        signUpPanel.add(new JLabel());
-        signUpPanel.add(signUpPageButton);
+        signUpPanel.add(signUpPageButton, BorderLayout.SOUTH);
         signUpContent.add(signUpPanel, BorderLayout.CENTER);
+         */
+        signUpContent.setLayout(null);
+        JLabel fullNameLabel = new JLabel("Full Name ");
+        fullNameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        fullNameLabel.setSize(100, 20);
+        fullNameLabel.setLocation(300, 170);
+        signUpContent.add(fullNameLabel);
 
-        signUpFrame.setSize(600, 400);
+        createNameField = new JTextField();
+        createNameField.addActionListener(actionListener);
+        createNameField.setFont(new Font("Arial", Font.PLAIN, 15));
+        createNameField.setSize(190, 20);
+        createNameField.setLocation(400, 170);
+        signUpContent.add(createNameField, BorderLayout.CENTER);
+
+        JLabel userName = new JLabel("Username");
+        userName.setFont(new Font("Arial", Font.PLAIN, 20));
+        userName.setSize(100, 20);
+        userName.setLocation(300, 200); //350
+        signUpContent.add(userName, BorderLayout.CENTER);
+
+        createUsernameField = new JTextField();
+        createUsernameField.addActionListener(actionListener);
+        createUsernameField.setFont(new Font("Arial", Font.PLAIN, 15));
+        createUsernameField.setSize(190, 20);
+        createUsernameField.setLocation(400, 200);
+        signUpContent.add(createUsernameField, BorderLayout.CENTER);
+
+        JLabel passWord = new JLabel("Password ");
+        passWord.setFont(new Font("Arial", Font.PLAIN, 20));
+        passWord.setSize(100, 20);
+        passWord.setLocation(300, 230);
+        signUpContent.add(passWord);
+
+        createPasswordField = new JPasswordField();
+        createPasswordField.addActionListener(actionListener);
+        createPasswordField.setFont(new Font("Arial", Font.PLAIN, 15));
+        createPasswordField.setSize(190, 20);
+        createPasswordField.setLocation(400, 230);
+        signUpContent.add(createPasswordField);
+
+        signUpPageButton = new JButton("Sign Up");
+        signUpPageButton.setFont(new Font("Arial", Font.PLAIN, 15));
+        signUpPageButton.setSize(100, 20);
+        signUpPageButton.setLocation(360, 320);
+        signUpPageButton.addActionListener(actionListener);
+        signUpContent.add(signUpPageButton);
+
+        signUpFrame.setSize(900, 600);
+
+        //signUpFrame.setSize(600, 400);
         signUpFrame.setLocationRelativeTo(null);
         signUpFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         signUpFrame.setVisible(true);
@@ -428,6 +530,7 @@ public class MainGui extends JComponent implements Runnable {
 
     /**
      * Add message to conversation
+     *
      * @param message message to be added
      */
     private void addMessage(String message) {
@@ -498,7 +601,7 @@ public class MainGui extends JComponent implements Runnable {
         Container content = addConversationFields.getContentPane();
         content.setLayout(new BorderLayout());
 
-        JPanel fieldsToFill = new JPanel(new GridLayout(3,2));
+        JPanel fieldsToFill = new JPanel(new GridLayout(3, 2));
         JPanel fillFieldButtons = new JPanel(new GridLayout(1, 2));
         submitFields = new JButton("Create Conversation");
         submitFields.addActionListener(actionListener);
@@ -508,7 +611,7 @@ public class MainGui extends JComponent implements Runnable {
         fillFieldButtons.add(submitFields);
         content.add(fillFieldButtons, BorderLayout.SOUTH);
         JLabel nameLabel = new JLabel("Name of Conversation: ");
-        nameLabel.setSize(10,10);
+        nameLabel.setSize(10, 10);
         fieldsToFill.add(nameLabel);
         conversationNameField = new JTextField();
         conversationNameField.addActionListener(actionListener);
