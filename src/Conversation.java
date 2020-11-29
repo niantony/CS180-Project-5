@@ -1,12 +1,15 @@
 import java.util.ArrayList;
+import java.io.*;
 
-public class Conversation {
-    public String nameOfConversation; //Name of the Chat, can be used to identify
-    public ArrayList<User> conversationList; //the particpants in the conversation
+public class Conversation implements Serializable {
+    private String nameOfConversation; //Name of the Chat, can be used to identify
+    private ArrayList<User> conversationList; //the participants in the conversation
+    private File messages;
 
-    public Conversation (String name, ArrayList<User> users) {
+    public Conversation (String name, ArrayList<User> users, File messages) {
         this.nameOfConversation = name;
         this.conversationList = users;
+        this.messages = messages;
     }
 
     //return the name of the conversation
@@ -28,6 +31,10 @@ public class Conversation {
     //return int of number of users in the conversation
     public int numberOfParticipants () {
         return this.conversationList.size();
+    }
+
+    public File getMessages() {
+        return messages;
     }
 
 }
