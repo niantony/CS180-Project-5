@@ -286,8 +286,6 @@ public class MainGui extends JComponent implements Runnable {
      */
     private void mainScreen() {
         mainFrame = new JFrame("Messages");
-//        mainWindow = new JWindow(mainFrame);
-//        mainWindow.addWindowListener(windowListener);
         Container content = mainFrame.getContentPane();
         content.setLayout(new BorderLayout());
 
@@ -391,8 +389,6 @@ public class MainGui extends JComponent implements Runnable {
      */
     private void displayMessages() {
         messageFrame = new JFrame(conversationDisplayed.getName());
-//        messageWindow = new JWindow(messageFrame);
-//        messageWindow.addWindowListener(windowListener);
         Container content = messageFrame.getContentPane();
         content.setLayout(new BorderLayout());
         messagePanel = new JPanel();
@@ -637,6 +633,40 @@ public class MainGui extends JComponent implements Runnable {
             e.printStackTrace();
         }
         return otherUserConversations;
+    }
+
+    private void writeConversationsToFile() {
+        if (conversations.isEmpty()) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(user.getConversations(), false))) {
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(user.getConversations()))) {
+                for (Conversation c : conversations) {
+                    out.writeObject(c);
+                    out.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void writeUsersToFile() {
+        if (users.isEmpty() && user == null) {
+            usersFile.delete();
+        } else {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile))) {
+                for (User u : users) {
+                    out.writeObject(u);
+                    out.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 //    public class AppendingObjectOutputStream extends ObjectOutputStream {
