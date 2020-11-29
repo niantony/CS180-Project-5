@@ -25,6 +25,7 @@ public class UserHandler implements Runnable {
                     } else {
                         System.out.println("Fail");
                     }
+                    userInput = "";
                 }
 
                 if (userInput.contains("SignUp*")) {
@@ -33,6 +34,7 @@ public class UserHandler implements Runnable {
                     } else {
                         System.out.println("Fail");
                     }
+                    userInput = "";
                 }
 
                 if (userInput.contains("NewConversation*")) {

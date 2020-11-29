@@ -16,7 +16,6 @@ public class Server {
                 userHandler.run();
             }
         }
-
     }
 
     private Server(int port) {
