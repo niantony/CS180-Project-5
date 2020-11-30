@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public class UserHandler implements Runnable {
     private Socket socket;
+    public ArrayList<User> userArrayList = new ArrayList<User>();
+    public File usersFile = new File("UsersFile.txt");
 
     public UserHandler(Socket socket) {
         this.socket = socket;
@@ -18,21 +20,24 @@ public class UserHandler implements Runnable {
 
             while (true) {
                 String userInput = input.readLine();
+                System.out.println(userInput);
 
                 if (userInput.contains("LogIn*")) {
+
                     if (LogIn(userInput)) {
-                        System.out.println("Success");
+                        output.println(true);
                     } else {
-                        System.out.println("Fail");
+                        output.println(false);
                     }
                     userInput = "";
                 }
 
                 if (userInput.contains("SignUp*")) {
+
                     if (SignUp(userInput)) {
-                        System.out.println("Success");
+                        output.println(true);
                     } else {
-                        System.out.println("Fail");
+                        System.out.println(false);
                     }
                     userInput = "";
                 }
@@ -77,56 +82,91 @@ public class UserHandler implements Runnable {
         }
     }
 
+    public void ReadUsers() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(usersFile))) {
+            User u = (User) in.readObject();
+            while (u != null) {
+                this.userArrayList.add(u);
+                u = (User) in.readObject();
+            }
+        } catch (EOFException | FileNotFoundException e) {
+            //end of file
+        } catch (IOException | ClassNotFoundException | NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean LogIn(String logIn) {
         //LogIn*MichaelCon*password123
         String[] checkUser = logIn.split("\\*");
-        ArrayList<String> users = new ArrayList<>();
-
-        try {
-            File UsersList = new File ("UsersList.txt");
-            FileReader fr = new FileReader(UsersList);
-            BufferedReader br = new BufferedReader(fr);
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                users.add(line);
-            }
-
-        } catch (IOException i) {
-            System.out.println("File does not exist");
-        }
-
-        for (String userLine : users) {
-            String[] arrayLine = userLine.split("\\*");
-            if (checkUser[1].equals(arrayLine[0])) {
-                if (checkUser[2].equals(arrayLine[1])) {
-                    return true;
-                }
+        ReadUsers();
+        for (User u : userArrayList) {
+            if (u.getUsername().equals(checkUser[1]) && u.getPassword().equals(checkUser[2])) {
+                return true;
             }
         }
         return false;
     }
 
     public boolean SignUp(String signUp) {
-        //SignUp*MichaelCon*password123
+        //SignUp*MichaelCon*Username*password123
         try {
-            File UsersList = new File ("UsersList.txt");
-            FileWriter fw = new FileWriter(UsersList);
-            BufferedWriter bw = new BufferedWriter(fw);
 
             String[] checkUser = signUp.split("\\*");
+            ReadUsers();
 
-            StringBuilder sb = new StringBuilder();
-            sb.append(checkUser[2]);
-            sb.append("*");
-            sb.append(checkUser[1]);
-            bw.write(sb.toString());
+            //Check if username is unique
+            for (User u : userArrayList) {
+                if (u.getUsername().equals(checkUser[2])) {
+                    return false;
+                }
+            }
 
-            return true;
-        } catch (IOException i) {
+            //create a textfile for the User
+            String fileName = checkUser[2] + ".txt";
+            File file = new File(fileName);
+
+            try {
+                file.createNewFile();
+            } catch (IOException a) {
+                System.out.println("Failed creating new fail for user");
+            }
+
+            User newUser = new User(checkUser[1], checkUser[2], checkUser[3], file);
+
+            if (userArrayList.isEmpty()) {
+                try {
+                    usersFile.createNewFile();
+                } catch (IOException e) {
+                    //unable to create file
+                }
+
+                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile))) {
+                    out.writeObject(newUser);
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return true;
+            } else {
+                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile))) {
+
+                    for (User u : userArrayList) {
+                        out.writeObject(u);
+                        out.flush();
+                    }
+
+                    out.writeObject(newUser);
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } finally {
             System.out.println("Error in Sign Up");
         }
-
         return false;
     }
 

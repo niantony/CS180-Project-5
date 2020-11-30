@@ -9,7 +9,7 @@ public class Client {
     private int port;
 
     public static void main(String[] args) throws IOException {
-        Client user = new Client("127.0.0.1", 8080);
+        Client user = new Client("192.168.100.210", 8080);
         user.run();
     }
 
@@ -20,6 +20,7 @@ public class Client {
 
     public void run() throws IOException {
         Socket user = new Socket(host, port);
+
         System.out.println("User has connected to the server");
 
         PrintStream outputStream = new PrintStream(user.getOutputStream());

@@ -12,6 +12,7 @@ public class Server {
         try(ServerSocket serverSocket = new ServerSocket(8080)) {
             while (true) {
                 Socket socket = serverSocket.accept();
+                System.out.println("Connected to server");
                 UserHandler userHandler = new UserHandler(socket);
                 userHandler.run();
             }
