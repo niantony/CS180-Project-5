@@ -17,6 +17,7 @@ public class UserHandler implements Runnable {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
             while (true) {
                 String userInput = input.readLine();
@@ -37,12 +38,16 @@ public class UserHandler implements Runnable {
                     if (SignUp(userInput)) {
                         output.println(true);
                     } else {
-                        System.out.println(false);
+                        output.println(false);
                     }
                     userInput = "";
                 }
 
-                if (userInput.contains("NewConversation*")) {
+                if (userInput.contains("SearchUser*")) {
+                    oos.writeObject(SearchUser(userInput));
+                }
+
+                if (userInput.contains("CreateConversation*")) {
 
                 }
 
@@ -83,6 +88,7 @@ public class UserHandler implements Runnable {
     }
 
     public void ReadUsers() {
+        userArrayList.removeAll(userArrayList);
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(usersFile))) {
             User u = (User) in.readObject();
             while (u != null) {
@@ -170,6 +176,19 @@ public class UserHandler implements Runnable {
         return false;
     }
 
+    public ArrayList<User> SearchUser(String userSearch) {
+        //SearchUser*Name
+        String[] checkUser = userSearch.split("\\*");
 
+        ArrayList<User> result = new ArrayList<>();
+        ReadUsers();
 
+        for (User user : userArrayList) {
+            if (user.getUsername().toLowerCase().contains(checkUser[1].toLowerCase())) {
+                result.add(user);
+            }
+        }
+
+        return result;
+    }
 }
