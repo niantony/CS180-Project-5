@@ -52,6 +52,7 @@ public class MainGui extends JComponent implements Runnable {
     public static Socket socket;
     public static BufferedReader bfr;
     public static PrintWriter outputToServer;
+    public static ObjectInputStream obj;
 
     ActionListener actionListener = new ActionListener() {
         @Override
@@ -65,10 +66,12 @@ public class MainGui extends JComponent implements Runnable {
             } else if (e.getSource() == signUpPageButton) {
                 signUp();
             } else if (e.getSource() == submitFields) {
+
                 successfulAdditionToFile = addConversationToFile();
                 if (!successfulAdditionToFile) {
                     addConversationFields.setVisible(true);
                 }
+
             } else if (e.getSource() == loginButton) {
                 //send message to server login*username*password
                 loginFrame.setVisible(false);
@@ -86,6 +89,7 @@ public class MainGui extends JComponent implements Runnable {
             } else if (e.getSource() == searchButton) {
                 String searchedUser = searchUsers.getText();
                 displaySearchMatches(searchedUser);
+
             } else if (e.getSource() == settingsButton) {
                 //settings gui
             } else if (e.getSource() == sendButton) {
@@ -107,6 +111,7 @@ public class MainGui extends JComponent implements Runnable {
             fillConversationFields(userToBeAdded);
         }
     };
+
     private boolean success;
 
     public MainGui() {
@@ -119,6 +124,7 @@ public class MainGui extends JComponent implements Runnable {
             socket = new Socket("192.168.100.210", 8080);
             bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             outputToServer = new PrintWriter(socket.getOutputStream(), true);
+            obj = new ObjectInputStream(socket.getInputStream());
 
         } catch (IOException i) {
             System.out.println("Error connecting");
@@ -524,22 +530,28 @@ public class MainGui extends JComponent implements Runnable {
      * @param name name being searched
      */
     private void displaySearchMatches(String name) {
+
         usersPanel.removeAll();
-        name = name.toLowerCase();
+        name = name.toLowerCase().trim();
         userMatches = new ArrayList<>();
-        for (User u : users) {
-            if (u.getName().toLowerCase().contains(name)) {
-                userMatches.add(u);
-            } else if (u.getUsername().toLowerCase().contains(name)) {
-                userMatches.add(u);
-            }
+
+        outputToServer.println("SearchUser*" + name);
+
+        try {
+            userMatches = (ArrayList<User>) obj.readObject();
+        } catch (IOException i) {
+            System.out.println("Connection failed while searching for a user");
+        } catch (ClassNotFoundException c) {
+            System.out.println("Class not found whilst searching for a user");
         }
+
         for (int i = 0; i < userMatches.size(); i++) {
             JButton userButton = new JButton(userMatches.get(i).getName());
             userButton.setActionCommand(String.valueOf(i));
             userButton.addActionListener(addUserToConversation);
             usersPanel.add(userButton);
         }
+
         usersPanel.revalidate();
         usersPanel.repaint();
         addConversationFrame.setVisible(true);
@@ -554,10 +566,12 @@ public class MainGui extends JComponent implements Runnable {
         JPanel fillFieldButtons = new JPanel(new GridLayout(1, 2));
         submitFields = new JButton("Create Conversation");
         submitFields.addActionListener(actionListener);
+
         addOtherUsers = new JButton("Add More Users");
         addOtherUsers.addActionListener(actionListener);
         fillFieldButtons.add(addOtherUsers);
         fillFieldButtons.add(submitFields);
+
         content.add(fillFieldButtons, BorderLayout.SOUTH);
         JLabel nameLabel = new JLabel("Name of Conversation: ");
         nameLabel.setSize(10, 10);
