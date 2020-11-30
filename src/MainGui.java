@@ -47,6 +47,7 @@ public class MainGui extends JComponent implements Runnable {
     private JTextField conversationNameField;
     private User user;
     private boolean successfulLogin = true;
+    private boolean successfulAdditionToFile;
 
     public static Socket socket;
     public static BufferedReader bfr;
@@ -64,7 +65,10 @@ public class MainGui extends JComponent implements Runnable {
             } else if (e.getSource() == signUpPageButton) {
                 signUp();
             } else if (e.getSource() == submitFields) {
-                addConversationToFile();
+                successfulAdditionToFile = addConversationToFile();
+                if (!successfulAdditionToFile) {
+                    addConversationFields.setVisible(true);
+                }
             } else if (e.getSource() == loginButton) {
                 //send message to server login*username*password
                 loginFrame.setVisible(false);
@@ -333,8 +337,6 @@ public class MainGui extends JComponent implements Runnable {
      */
     private void mainScreen() {
         mainFrame = new JFrame("Messages");
-//        mainWindow = new JWindow(mainFrame);
-//        mainWindow.addWindowListener(windowListener);
         Container content = mainFrame.getContentPane();
         content.setLayout(new BorderLayout());
 
@@ -438,8 +440,6 @@ public class MainGui extends JComponent implements Runnable {
      */
     private void displayMessages() {
         messageFrame = new JFrame(conversationDisplayed.getName());
-//        messageWindow = new JWindow(messageFrame);
-//        messageWindow.addWindowListener(windowListener);
         Container content = messageFrame.getContentPane();
         content.setLayout(new BorderLayout());
         messagePanel = new JPanel();
@@ -590,11 +590,15 @@ public class MainGui extends JComponent implements Runnable {
         addConversationFields.setVisible(true);
     }
 
-    private void addConversationToFile() {
+    private boolean addConversationToFile() {
         readConversationsFromFile();
         String nameOfConversation = conversationNameField.getText();
         String fileName = nameOfConversation + ".txt";
         File file = new File(fileName);
+        if (file.exists()) {
+            JOptionPane.showMessageDialog(null, "Invalid conversation name", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -669,6 +673,7 @@ public class MainGui extends JComponent implements Runnable {
         mainFrame.setVisible(false);
         mainScreen();
         mainFrame.setVisible(true);
+        return true;
     }
 
     private ArrayList<Conversation> readOtherUserConversations(User otherUser) {
@@ -685,6 +690,40 @@ public class MainGui extends JComponent implements Runnable {
             e.printStackTrace();
         }
         return otherUserConversations;
+    }
+
+    private void writeConversationsToFile() {
+        if (conversations.isEmpty()) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(user.getConversations(), false))) {
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(user.getConversations()))) {
+                for (Conversation c : conversations) {
+                    out.writeObject(c);
+                    out.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void writeUsersToFile() {
+        if (users.isEmpty() && user == null) {
+            usersFile.delete();
+        } else {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile))) {
+                for (User u : users) {
+                    out.writeObject(u);
+                    out.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 //    public class AppendingObjectOutputStream extends ObjectOutputStream {
