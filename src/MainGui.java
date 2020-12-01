@@ -26,6 +26,7 @@ public class MainGui extends JComponent implements Runnable {
     private JButton signUpButton;
     private JButton loginButton;
     private JButton signUpPageButton;
+    private JButton signupToLogin;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JTextField createNameField;
@@ -72,6 +73,9 @@ public class MainGui extends JComponent implements Runnable {
                 displaySignUp();
             } else if (e.getSource() == signUpPageButton) {
                 signUp();
+            } else if (e.getSource() == signupToLogin) {
+                loginFrame.setVisible(true);
+                signUpFrame.setVisible(false);
             } else if (e.getSource() == submitFields) {
                 successfulAdditionToFile = addConversationToFile();
                 if (!successfulAdditionToFile) {
@@ -262,33 +266,87 @@ public class MainGui extends JComponent implements Runnable {
     private void displaySignUp() {
         signUpFrame = new JFrame("Sign Up");
         Container signUpContent = signUpFrame.getContentPane();
-        signUpContent.setLayout(new BorderLayout());
+//        signUpContent.setLayout(new BorderLayout());
+//
+//        JLabel usernameLabel = new JLabel("Username ");
+//        usernameLabel.setSize(10, 10);
+//        JLabel passwordLabel = new JLabel("Password: ");
+//        JLabel nameLabel = new JLabel("Full Name: ");
+//        JPanel signUpPanel = new JPanel(new GridLayout(4, 2));
+//        createUsernameField = new JTextField();
+//        createUsernameField.addActionListener(actionListener);
+//        signUpPanel.add(usernameLabel);
+//        signUpPanel.add(createUsernameField);
+//        createPasswordField = new JPasswordField();
+//        createPasswordField.addActionListener(actionListener);
+//        signUpPanel.add(passwordLabel);
+//        signUpPanel.add(createPasswordField);
+//        createNameField = new JTextField();
+//        createNameField.addActionListener(actionListener);
+//        signUpPanel.add(nameLabel);
+//        signUpPanel.add(createNameField);
+//
+//        signUpPageButton = new JButton("Sign Up");
+//        signUpPageButton.addActionListener(actionListener);
+//        signUpPanel.add(new JLabel());
+//        signUpPanel.add(signUpPageButton);
+//        signUpContent.add(signUpPanel, BorderLayout.CENTER);
 
-        JLabel usernameLabel = new JLabel("Username ");
-        usernameLabel.setSize(10, 10);
-        JLabel passwordLabel = new JLabel("Password: ");
-        JLabel nameLabel = new JLabel("Full Name: ");
-        JPanel signUpPanel = new JPanel(new GridLayout(4, 2));
-        createUsernameField = new JTextField();
-        createUsernameField.addActionListener(actionListener);
-        signUpPanel.add(usernameLabel);
-        signUpPanel.add(createUsernameField);
-        createPasswordField = new JPasswordField();
-        createPasswordField.addActionListener(actionListener);
-        signUpPanel.add(passwordLabel);
-        signUpPanel.add(createPasswordField);
+        signUpContent.setLayout(null);
+        JLabel fullNameLabel = new JLabel("Full Name ");
+        fullNameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        fullNameLabel.setSize(100, 20);
+        fullNameLabel.setLocation(300, 170);
+        signUpContent.add(fullNameLabel);
+
         createNameField = new JTextField();
         createNameField.addActionListener(actionListener);
-        signUpPanel.add(nameLabel);
-        signUpPanel.add(createNameField);
+        createNameField.setFont(new Font("Arial", Font.PLAIN, 15));
+        createNameField.setSize(190, 20);
+        createNameField.setLocation(400, 170);
+        signUpContent.add(createNameField, BorderLayout.CENTER);
+
+        JLabel userName = new JLabel("Username");
+        userName.setFont(new Font("Arial", Font.PLAIN, 20));
+        userName.setSize(100, 20);
+        userName.setLocation(300, 200); //350
+        signUpContent.add(userName, BorderLayout.CENTER);
+
+        createUsernameField = new JTextField();
+        createUsernameField.addActionListener(actionListener);
+        createUsernameField.setFont(new Font("Arial", Font.PLAIN, 15));
+        createUsernameField.setSize(190, 20);
+        createUsernameField.setLocation(400, 200);
+        signUpContent.add(createUsernameField, BorderLayout.CENTER);
+
+        JLabel passWord = new JLabel("Password ");
+        passWord.setFont(new Font("Arial", Font.PLAIN, 20));
+        passWord.setSize(100, 20);
+        passWord.setLocation(300, 230);
+        signUpContent.add(passWord);
+
+        createPasswordField = new JPasswordField();
+        createPasswordField.addActionListener(actionListener);
+        createPasswordField.setFont(new Font("Arial", Font.PLAIN, 15));
+        createPasswordField.setSize(190, 20);
+        createPasswordField.setLocation(400, 230);
+        signUpContent.add(createPasswordField);
 
         signUpPageButton = new JButton("Sign Up");
+        signUpPageButton.setFont(new Font("Arial", Font.PLAIN, 15));
+        signUpPageButton.setSize(100, 20);
+        signUpPageButton.setLocation(360, 320);
         signUpPageButton.addActionListener(actionListener);
-        signUpPanel.add(new JLabel());
-        signUpPanel.add(signUpPageButton);
-        signUpContent.add(signUpPanel, BorderLayout.CENTER);
+        signUpContent.add(signUpPageButton);
 
-        signUpFrame.setSize(600, 400);
+        signupToLogin = new JButton("Login"); //Sruthi
+        signupToLogin.setFont(new Font("Arial", Font.PLAIN, 15));
+        signupToLogin.setSize(100, 20);
+        signupToLogin.setLocation(360, 350);
+        signupToLogin.addActionListener(actionListener);
+        signUpContent.add(signupToLogin);
+
+        signUpFrame.setSize(900, 600);
         signUpFrame.setLocationRelativeTo(null);
         signUpFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         signUpFrame.setVisible(true);
