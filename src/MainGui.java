@@ -50,7 +50,7 @@ public class MainGui extends JComponent implements Runnable {
     private boolean successfulAdditionToFile;
 
     public static Socket socket;
-    public static BufferedReader bfr;
+//    public static BufferedReader bfr;
     public static PrintWriter outputToServer;
     public static ObjectInputStream obj;
 
@@ -129,7 +129,7 @@ public class MainGui extends JComponent implements Runnable {
     public static void main(String[] args) {
         try {
             socket = new Socket("localhost", 8080);
-            bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//            bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             outputToServer = new PrintWriter(socket.getOutputStream(), true);
             obj = new ObjectInputStream(socket.getInputStream());
         } catch (IOException i) {
@@ -194,7 +194,8 @@ public class MainGui extends JComponent implements Runnable {
 
         outputToServer.println(sb.toString());
         try {
-            success = Boolean.parseBoolean(bfr.readLine());
+//            success = Boolean.parseBoolean(bfr.readLine());
+            success = obj.readBoolean();
         } catch (IOException e) {
             System.out.println("no response");
         }
@@ -348,7 +349,8 @@ public class MainGui extends JComponent implements Runnable {
         readUsers();
 
         try {
-            if (Boolean.parseBoolean(bfr.readLine())) {
+            //changed
+            if (obj.readBoolean()) {
                 signUpFrame.setVisible(false);
                 loginFrame.setVisible(true);
             }
@@ -605,8 +607,11 @@ public class MainGui extends JComponent implements Runnable {
 //        usersToAdd.add(otherUser);
         outputToServer.println("AddUserToConversation*" + otherUser.getUsername());
         try {
-            usersToAdd = null;
-            usersToAdd = (ArrayList<User>) obj.readObject();
+            usersToAdd = new ArrayList<>();
+            int size = obj.readInt();
+            for (int i = 0; i < size; i++) {
+                usersToAdd.add((User) obj.readObject());
+            }
             for (User u : usersToAdd) {
                 System.out.println("1 " + u.getName());
             }
@@ -641,7 +646,8 @@ public class MainGui extends JComponent implements Runnable {
         outputToServer.println("CreateConversation*" + nameOfConversation);
         boolean successfulAddition = false;
         try {
-            successfulAddition = Boolean.parseBoolean(bfr.readLine());
+//            successfulAddition = Boolean.parseBoolean(bfr.readLine());
+            successfulAddition = obj.readBoolean();
             System.out.println(successfulAddition);
 //            conversations = (ArrayList<Conversation>) obj.readObject();
         } catch (IOException e) {

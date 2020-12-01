@@ -19,7 +19,7 @@ public class UserHandler implements Runnable {
     public void run() {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+//            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
             while (true) {
@@ -30,14 +30,18 @@ public class UserHandler implements Runnable {
 
                     if (LogIn(userInput)) {
                         readConversations();
-                        output.println(true);
+//                        output.println(true);
+                        oos.writeBoolean(true);
+                        oos.flush();
 //                        oos.reset();
 //                        System.out.println(currentUser.getName());
 //                        oos.writeObject(currentUser);
 //                        oos.flush();
 //                        System.out.println(currentUser.getName());
                     } else {
-                        output.println(false);
+//                        output.println(false);
+                        oos.writeBoolean(false);
+                        oos.flush();
                         System.out.println("User not found");
                     }
                     userInput = "";
@@ -46,10 +50,13 @@ public class UserHandler implements Runnable {
                 if (userInput.contains("SignUp*")) {
 
                     if (SignUp(userInput)) {
-                        output.println(true);
+//                        output.println(true);
+                        oos.writeBoolean(true);
                     } else {
-                        output.println(false);
+//                        output.println(false);
+                        oos.writeBoolean(false);
                     }
+                    oos.flush();
                     userInput = "";
                 }
 
@@ -62,8 +69,12 @@ public class UserHandler implements Runnable {
                     for (User u : usersToAdd) {
                         System.out.println("Test: " + u.getName());
                     }
-                    oos.writeObject(usersToAdd);
+                    oos.writeInt(usersToAdd.size());
                     oos.flush();
+                    for (User u : usersToAdd) {
+                        oos.writeObject(u);
+                        oos.flush();
+                    }
                 }
 
                 if (userInput.contains("SearchUser*")) {
@@ -73,11 +84,14 @@ public class UserHandler implements Runnable {
                 if (userInput.contains("CreateConversation*")) {
                     if (createConversation(userInput)) {
                         System.out.println(true);
-                        output.println(true);
+//                        output.println(true);
+                        oos.writeBoolean(true);
                     } else {
                         System.out.println(false);
-                        output.println(false);
+//                        output.println(false);
+                        oos.writeBoolean(false);
                     }
+                    oos.flush();
 //                    oos.writeObject(userConversations);
                 }
 
@@ -105,7 +119,7 @@ public class UserHandler implements Runnable {
 
                 }
                 oos.flush();
-                output.flush();
+//                output.flush();
             }
         } catch(IOException e) {
             System.out.println("Oops: " + e.getMessage());
