@@ -59,6 +59,7 @@ public class MainGui extends JComponent implements Runnable {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == addButton) {
                 usersToAdd = new ArrayList<>();
+                outputToServer.println("AddConversation*");
                 addConversation();
             } else if (e.getSource() == signUpButton) {
                 loginFrame.setVisible(false);
@@ -66,7 +67,6 @@ public class MainGui extends JComponent implements Runnable {
             } else if (e.getSource() == signUpPageButton) {
                 signUp();
             } else if (e.getSource() == submitFields) {
-
                 successfulAdditionToFile = addConversationToFile();
                 if (!successfulAdditionToFile) {
                     addConversationFields.setVisible(true);
@@ -91,7 +91,14 @@ public class MainGui extends JComponent implements Runnable {
                 displaySearchMatches(searchedUser);
 
             } else if (e.getSource() == settingsButton) {
-                //settings gui
+//                try {
+//                    socket.close();
+//                    bfr.close();
+//                    outputToServer.close();
+//                    obj.close();
+//                } catch (IOException exception) {
+//                    exception.printStackTrace();
+//                }
             } else if (e.getSource() == sendButton) {
                 String message = textField.getText();
                 addMessage(message);
@@ -121,15 +128,13 @@ public class MainGui extends JComponent implements Runnable {
 
     public static void main(String[] args) {
         try {
-            socket = new Socket("192.168.100.210", 8080);
+            socket = new Socket("localhost", 8080);
             bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             outputToServer = new PrintWriter(socket.getOutputStream(), true);
             obj = new ObjectInputStream(socket.getInputStream());
-
         } catch (IOException i) {
             System.out.println("Error connecting");
         }
-
         SwingUtilities.invokeLater(new MainGui());
     }
 
@@ -172,6 +177,11 @@ public class MainGui extends JComponent implements Runnable {
     }
 
     private void logIn() {
+//        try {
+//            obj.reset();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         String username = usernameField.getText();
         String password = passwordField.getText();
         boolean success = false;
@@ -196,8 +206,18 @@ public class MainGui extends JComponent implements Runnable {
             successfulLogin = true;
             conversations = new ArrayList<>();
             users = new ArrayList<>();
-            readConversationsFromFile();
+//            try {
+//                user = (User) obj.readObject();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
             readUsers();
+            for (User u : users) {
+                if (u.getUsername().equals(username)) {
+                    user = u;
+                }
+            }
+            readConversationsFromFile();
         }
     }
 
@@ -347,7 +367,7 @@ public class MainGui extends JComponent implements Runnable {
         content.setLayout(new BorderLayout());
 
         readConversationsFromFile();
-        readUsers();
+//        readUsers();
         JPanel conversationPanel = new JPanel(new GridBagLayout());
         JScrollPane scrollPane = new JScrollPane(conversationPanel);
         GridBagConstraints constraints = new GridBagConstraints();
@@ -503,7 +523,7 @@ public class MainGui extends JComponent implements Runnable {
      * Displays new frame that allows user to add a new conversation
      */
     private void addConversation() {
-        readConversationsFromFile();
+//        readConversationsFromFile();
         addConversationFrame = new JFrame("New Conversation");
         Container content = addConversationFrame.getContentPane();
         content.setLayout(new BorderLayout());
@@ -579,13 +599,24 @@ public class MainGui extends JComponent implements Runnable {
         conversationNameField = new JTextField();
         conversationNameField.addActionListener(actionListener);
         fieldsToFill.add(conversationNameField);
-        if (!usersToAdd.contains(user)) {
-            usersToAdd.add(user);
+//        if (!usersToAdd.contains(user)) {
+//            usersToAdd.add(user);
+//        }
+//        usersToAdd.add(otherUser);
+        outputToServer.println("AddUserToConversation*" + otherUser.getUsername());
+        try {
+            usersToAdd = null;
+            usersToAdd = (ArrayList<User>) obj.readObject();
+            for (User u : usersToAdd) {
+                System.out.println("1 " + u.getName());
+            }
+        } catch (IOException | ClassNotFoundException | NullPointerException e) {
+            e.printStackTrace();
         }
-        usersToAdd.add(otherUser);
         String names = "";
         for (User u : usersToAdd) {
-            if (!u.getName().equals(user.getName())) {
+            System.out.println(u.getName());
+            if (!u.getUsername().equals(user.getUsername())) {
                 if (names.equals("")) {
                     names += u.getName();
                 } else {
@@ -607,103 +638,30 @@ public class MainGui extends JComponent implements Runnable {
     private boolean addConversationToFile() {
         readConversationsFromFile();
         String nameOfConversation = conversationNameField.getText();
-        String fileName = nameOfConversation + ".txt";
-        File file = new File(fileName);
-        if (file.exists()) {
+        outputToServer.println("CreateConversation*" + nameOfConversation);
+        boolean successfulAddition = false;
+        try {
+            successfulAddition = Boolean.parseBoolean(bfr.readLine());
+            System.out.println(successfulAddition);
+//            conversations = (ArrayList<Conversation>) obj.readObject();
+        } catch (IOException e) {
+            System.out.println("Failed to add conversation");
+            e.printStackTrace();
+        }
+//        catch (ClassNotFoundException e) {
+//            System.out.println("Failed to add conversation");
+//            e.printStackTrace();
+//        }
+        if (!successfulAddition) {
             JOptionPane.showMessageDialog(null, "Invalid conversation name", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-            //failed
-        }
-        Conversation newConversation = new Conversation(nameOfConversation, usersToAdd, file);
-        for (User u : usersToAdd) {
-            if (u.getUsername().equals(user.getUsername())) {
-                if (conversations.isEmpty()) {
-                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
-                        out.writeObject(newConversation);
-                        out.flush();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
-                        for (Conversation c : conversations) {
-                            out.writeObject(c);
-                            out.flush();
-                        }
-                        out.writeObject(newConversation);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else {
-                ArrayList<Conversation> otherUserConversations = readOtherUserConversations(u);
-                if (otherUserConversations.isEmpty()) {
-                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
-                        out.writeObject(newConversation);
-                        out.flush();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
-                        for (Conversation c : otherUserConversations) {
-                            out.writeObject(c);
-                            out.flush();
-                        }
-                        out.writeObject(newConversation);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-//        for (User u : usersToAdd) {
-//            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations(), true))) {
-//                if (conversations.isEmpty()) {
-//                    out.writeObject(newConversation);
-//                    out.flush();
-//                    newFileCreated = false;
-//                } else {
-//                    try (AppendingObjectOutputStream appendingStream = new AppendingObjectOutputStream(out)) {
-//                        appendingStream.writeObject(newConversation);
-//                        appendingStream.flush();
-//                    } catch (IOException e) {
-//                        //unable to append to file
-//                        e.printStackTrace();
-//                    }
-//                }
-//            } catch (IOException e) {
-//                //unable to add to file
-//                e.printStackTrace();
-//            }
-//        }
         readConversationsFromFile();
         addConversationFields.setVisible(false);
         mainFrame.setVisible(false);
         mainScreen();
         mainFrame.setVisible(true);
         return true;
-    }
-
-    private ArrayList<Conversation> readOtherUserConversations(User otherUser) {
-        ArrayList<Conversation> otherUserConversations = new ArrayList<>();
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(otherUser.getConversations()))) {
-            Conversation c = (Conversation) in.readObject();
-            while (c != null) {
-                otherUserConversations.add(c);
-                c = (Conversation) in.readObject();
-            }
-        } catch (EOFException | NullPointerException e) {
-            //end of file
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return otherUserConversations;
     }
 
     private void writeConversationsToFile() {

@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -7,13 +8,15 @@ public class UserHandler implements Runnable {
     private Socket socket;
     public ArrayList<User> userArrayList = new ArrayList<User>();
     public File usersFile = new File("UsersFile.txt");
+    private ArrayList<User> usersToAdd;
+    private ArrayList<Conversation> userConversations;
+    private User currentUser;
 
     public UserHandler(Socket socket) {
         this.socket = socket;
     }
 
     public void run() {
-
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
@@ -26,9 +29,16 @@ public class UserHandler implements Runnable {
                 if (userInput.contains("LogIn*")) {
 
                     if (LogIn(userInput)) {
+                        readConversations();
                         output.println(true);
+//                        oos.reset();
+//                        System.out.println(currentUser.getName());
+//                        oos.writeObject(currentUser);
+//                        oos.flush();
+//                        System.out.println(currentUser.getName());
                     } else {
                         output.println(false);
+                        System.out.println("User not found");
                     }
                     userInput = "";
                 }
@@ -43,12 +53,32 @@ public class UserHandler implements Runnable {
                     userInput = "";
                 }
 
+                if (userInput.contains("AddConversation*")) {
+                    usersToAdd = new ArrayList<>();
+                }
+
+                if (userInput.contains("AddUserToConversation*")) {
+                    addUserToConversation(userInput);
+                    for (User u : usersToAdd) {
+                        System.out.println("Test: " + u.getName());
+                    }
+                    oos.writeObject(usersToAdd);
+                    oos.flush();
+                }
+
                 if (userInput.contains("SearchUser*")) {
                     oos.writeObject(SearchUser(userInput));
                 }
 
                 if (userInput.contains("CreateConversation*")) {
-
+                    if (createConversation(userInput)) {
+                        System.out.println(true);
+                        output.println(true);
+                    } else {
+                        System.out.println(false);
+                        output.println(false);
+                    }
+//                    oos.writeObject(userConversations);
                 }
 
                 if (userInput.contains("DeleteConversation*")) {
@@ -74,7 +104,8 @@ public class UserHandler implements Runnable {
                 if (userInput.contains("DeleteProfile*")) {
 
                 }
-
+                oos.flush();
+                output.flush();
             }
         } catch(IOException e) {
             System.out.println("Oops: " + e.getMessage());
@@ -82,22 +113,37 @@ public class UserHandler implements Runnable {
             try {
                 socket.close();
             } catch(IOException e) {
-                // Oh, well!
+                e.printStackTrace();
             }
         }
     }
 
     public void ReadUsers() {
-        userArrayList.removeAll(userArrayList);
+        userArrayList = new ArrayList<>();
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(usersFile))) {
             User u = (User) in.readObject();
             while (u != null) {
-                this.userArrayList.add(u);
+                userArrayList.add(u);
                 u = (User) in.readObject();
             }
         } catch (EOFException | FileNotFoundException e) {
             //end of file
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readConversations() {
+        userConversations = new ArrayList<>();
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(currentUser.getConversations()))) {
+            Conversation c = (Conversation) in.readObject();
+            while (c != null) {
+                userConversations.add(c);
+                c = (Conversation) in.readObject();
+            }
+        } catch (EOFException | NullPointerException e) {
+            //end of file
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -108,6 +154,10 @@ public class UserHandler implements Runnable {
         ReadUsers();
         for (User u : userArrayList) {
             if (u.getUsername().equals(checkUser[1]) && u.getPassword().equals(checkUser[2])) {
+                currentUser = u;
+                readConversations();
+                ReadUsers();
+                System.out.println("Correct login");
                 return true;
             }
         }
@@ -135,7 +185,7 @@ public class UserHandler implements Runnable {
             try {
                 file.createNewFile();
             } catch (IOException a) {
-                System.out.println("Failed creating new fail for user");
+                System.out.println("Failed creating new file for user");
             }
 
             User newUser = new User(checkUser[1], checkUser[2], checkUser[3], file);
@@ -162,7 +212,6 @@ public class UserHandler implements Runnable {
                         out.writeObject(u);
                         out.flush();
                     }
-
                     out.writeObject(newUser);
                     return true;
                 } catch (IOException e) {
@@ -171,8 +220,9 @@ public class UserHandler implements Runnable {
             }
 
         } finally {
-            System.out.println("Error in Sign Up");
+//            System.out.println("Error in Sign Up");
         }
+        System.out.println("Error in Sign Up");
         return false;
     }
 
@@ -183,12 +233,102 @@ public class UserHandler implements Runnable {
         ArrayList<User> result = new ArrayList<>();
         ReadUsers();
 
-        for (User user : userArrayList) {
-            if (user.getUsername().toLowerCase().contains(checkUser[1].toLowerCase())) {
-                result.add(user);
+        for (User u : userArrayList) {
+            if (u.getUsername().toLowerCase().contains(checkUser[1].toLowerCase())) {
+                result.add(u);
             }
         }
-
         return result;
+    }
+
+    public void addUserToConversation(String userInput) {
+        ReadUsers();
+        String[] input = userInput.split("\\*");
+        String username = input[1];
+        if (!usersToAdd.contains(currentUser)) {
+            usersToAdd.add(currentUser);
+        }
+        for (User u : userArrayList) {
+            if (u.getUsername().equals(username)) {
+                usersToAdd.add(u);
+            }
+        }
+    }
+
+    public boolean createConversation(String userInput) {
+        readConversations();
+        String[] input = userInput.split("\\*");
+        String nameOfConversation = input[1];
+        String fileName = nameOfConversation + ".txt";
+        File file = new File(fileName);
+//        if (file.exists()) {
+//            return false;
+//        }
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            //failed
+        }
+        Conversation newConversation = new Conversation(nameOfConversation, usersToAdd, file);
+        for (User u : usersToAdd) {
+            if (u.getUsername().equals(currentUser.getUsername())) {
+                if (userConversations.isEmpty()) {
+                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
+                        out.writeObject(newConversation);
+                        out.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
+                        for (Conversation c : userConversations) {
+                            out.writeObject(c);
+                            out.flush();
+                        }
+                        out.writeObject(newConversation);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                ArrayList<Conversation> otherUserConversations = readOtherUserConversations(u);
+                if (otherUserConversations.isEmpty()) {
+                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
+                        out.writeObject(newConversation);
+                        out.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(u.getConversations()))) {
+                        for (Conversation c : otherUserConversations) {
+                            out.writeObject(c);
+                            out.flush();
+                        }
+                        out.writeObject(newConversation);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private ArrayList<Conversation> readOtherUserConversations(User otherUser) {
+        ArrayList<Conversation> otherUserConversations = new ArrayList<>();
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(otherUser.getConversations()))) {
+            Conversation c = (Conversation) in.readObject();
+            while (c != null) {
+                otherUserConversations.add(c);
+                c = (Conversation) in.readObject();
+            }
+        } catch (EOFException | NullPointerException e) {
+            //end of file
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return otherUserConversations;
     }
 }
