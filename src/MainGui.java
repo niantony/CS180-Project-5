@@ -21,8 +21,6 @@ public class MainGui extends JComponent implements Runnable {
     private File usersFile = new File("UsersFile.txt");
     private JButton addButton;
     private JButton settingsButton;
-    private JPanel loginInputPanel;
-    private JPanel loginButtonsPanel;
     private JButton signUpButton;
     private JButton loginButton;
     private JButton signUpPageButton;
@@ -163,7 +161,8 @@ public class MainGui extends JComponent implements Runnable {
             outputToServer = new PrintWriter(socket.getOutputStream(), true);
             obj = new ObjectInputStream(socket.getInputStream());
         } catch (IOException i) {
-            System.out.println("Error connecting");
+            JOptionPane.showMessageDialog(null, "Error connecting to Server", "Connection Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         SwingUtilities.invokeLater(new MainGui());
     }
@@ -266,31 +265,6 @@ public class MainGui extends JComponent implements Runnable {
     private void displaySignUp() {
         signUpFrame = new JFrame("Sign Up");
         Container signUpContent = signUpFrame.getContentPane();
-//        signUpContent.setLayout(new BorderLayout());
-//
-//        JLabel usernameLabel = new JLabel("Username ");
-//        usernameLabel.setSize(10, 10);
-//        JLabel passwordLabel = new JLabel("Password: ");
-//        JLabel nameLabel = new JLabel("Full Name: ");
-//        JPanel signUpPanel = new JPanel(new GridLayout(4, 2));
-//        createUsernameField = new JTextField();
-//        createUsernameField.addActionListener(actionListener);
-//        signUpPanel.add(usernameLabel);
-//        signUpPanel.add(createUsernameField);
-//        createPasswordField = new JPasswordField();
-//        createPasswordField.addActionListener(actionListener);
-//        signUpPanel.add(passwordLabel);
-//        signUpPanel.add(createPasswordField);
-//        createNameField = new JTextField();
-//        createNameField.addActionListener(actionListener);
-//        signUpPanel.add(nameLabel);
-//        signUpPanel.add(createNameField);
-//
-//        signUpPageButton = new JButton("Sign Up");
-//        signUpPageButton.addActionListener(actionListener);
-//        signUpPanel.add(new JLabel());
-//        signUpPanel.add(signUpPageButton);
-//        signUpContent.add(signUpPanel, BorderLayout.CENTER);
 
         signUpContent.setLayout(null);
         JLabel fullNameLabel = new JLabel("Full Name ");
@@ -355,34 +329,38 @@ public class MainGui extends JComponent implements Runnable {
     private void signUp() {
         readUsers();
         String username = createUsernameField.getText();
-//        for (User u : users) {
-//            if (u.getUsername().equals(username)) {
-//                //invalid username
-//                JOptionPane.showMessageDialog(null, "Invalid username", "Signup Error", JOptionPane.ERROR_MESSAGE);
-//            }
-//        }
         String password = createPasswordField.getText();
         String name = createNameField.getText();
+        if (username == null || ("".equals(username))
+                || ("".equals(password)) || password == null
+                || ("".equals(name)) || name == null) {
+            JOptionPane.showMessageDialog(null, "Please enter all details.", "Signup Error", JOptionPane.ERROR_MESSAGE);
+            signUpFrame.setVisible(false);
+            displaySignUp();
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append("SignUp*");
+            sb.append(name + "*");
+            sb.append(username + "*");
+            sb.append(password);
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("SignUp*");
-        sb.append(name + "*");
-        sb.append(username + "*");
-        sb.append(password);
+            outputToServer.println(sb.toString());
+            readUsers();
 
-        outputToServer.println(sb.toString());
-        readUsers();
-
-        try {
-            //changed
-            if (obj.readBoolean()) {
-                signUpFrame.setVisible(false);
-                loginFrame.setVisible(true);
+            try {
+                //changed
+                if (obj.readBoolean()) {
+                    signUpFrame.setVisible(false);
+                    loginFrame.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid username", "Signup Error", JOptionPane.ERROR_MESSAGE);
+                    signUpFrame.setVisible(false);
+                    displaySignUp();
+                }
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
             }
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
         }
-
     }
 
     /**
