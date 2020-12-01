@@ -1,9 +1,13 @@
+import com.sun.tools.javac.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * CS 180 Project 5 -- MainGui.java
@@ -11,6 +15,7 @@ import java.util.ArrayList;
  * Main GUI that interacts with user
  */
 public class MainGui extends JComponent implements Runnable {
+    private static MainGui clientConnection;
     private ArrayList<Conversation> conversations;
     private ArrayList<User> users;
     private ArrayList<User> userMatches;
@@ -54,6 +59,9 @@ public class MainGui extends JComponent implements Runnable {
     public static PrintWriter outputToServer;
     public static ObjectInputStream obj;
 
+    private String host;
+    private int port;
+
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -79,6 +87,7 @@ public class MainGui extends JComponent implements Runnable {
 
                 if (successfulLogin) {
                     mainScreen();
+
                 } else {
                     loginFrame.setVisible(true);
                 }
@@ -102,6 +111,7 @@ public class MainGui extends JComponent implements Runnable {
             } else if (e.getSource() == sendButton) {
                 String message = textField.getText();
                 addMessage(message);
+                clientConnection.start();
             } else {
                 int index = Integer.parseInt(e.getActionCommand());
                 conversationDisplayed = conversations.get(index);
@@ -121,28 +131,69 @@ public class MainGui extends JComponent implements Runnable {
 
     private boolean success;
 
-    public MainGui() {
+    public MainGui(String host, int port) {
+        this.host = host;
+        this.port = port;
         conversations = new ArrayList<>();
         users = new ArrayList<>();
     }
 
     public static void main(String[] args) {
-        try {
-            socket = new Socket("localhost", 8080);
-            bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            outputToServer = new PrintWriter(socket.getOutputStream(), true);
-            obj = new ObjectInputStream(socket.getInputStream());
-        } catch (IOException i) {
-            System.out.println("Error connecting");
+        clientConnection = new MainGui("localhost", 8080);
+        clientConnection.run();
+    }
+
+    Timer timer = new Timer();
+    TimerTask task = new TimerTask() {
+        public void run() {
+            try {
+                System.out.println("Time task running");
+                readUsers();
+                readConversationsFromFile();
+                String messageToAdd = bfr.readLine();
+                if (messageToAdd.contains("update*")) {
+                    System.out.println("Update message received");
+                    System.out.println(messageToAdd);
+                    if (messageFrame.isActive()) {
+                        String[] parsedMessage = messageToAdd.split("\\*");
+                        String nameOfSender = parsedMessage[1];
+                        String message = parsedMessage[2];
+                        messagePanel.add(new JLabel(nameOfSender + ": " + message));
+                        System.out.println("added to panel");
+                        messageFrame.setVisible(true);
+                    } else {
+                        task.cancel();
+                    }
+                } else {
+                    task.cancel();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        SwingUtilities.invokeLater(new MainGui());
+    };
+
+    private void start() {
+        timer.scheduleAtFixedRate(task, 20000, 2000);
     }
 
     public void run() {
+        try {
+            try {
+                this.socket = new Socket(host, port);
+                bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                outputToServer = new PrintWriter(socket.getOutputStream(), true);
+                obj = new ObjectInputStream(socket.getInputStream());
+                System.out.println("Connected to server");
+            } catch (IOException i) {
+                System.out.println("Error connecting to server");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         /**
          * Main Login Screen
          */
-
         loginFrame = new JFrame("Login");
         Container loginContent = loginFrame.getContentPane();
         loginContent.setLayout(new BorderLayout());
@@ -174,6 +225,7 @@ public class MainGui extends JComponent implements Runnable {
         loginFrame.setLocationRelativeTo(null);
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setVisible(true);
+
     }
 
     private void logIn() {
@@ -509,14 +561,26 @@ public class MainGui extends JComponent implements Runnable {
      * @param message message to be added
      */
     private void addMessage(String message) {
-        String formattedMessage = "\n" + user.getName() + "*" + message;
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(messages, true))) {
-            pw.print(formattedMessage);
+        boolean success = false;
+        outputToServer.println(messages);
+        System.out.println("Sent " + messages);
+        String formattedMessage = "Message*" + user.getName() + "*" + message;
+        System.out.println("Sent " + formattedMessage);
+        outputToServer.println(formattedMessage);
+
+        try {
+            success = Boolean.parseBoolean(bfr.readLine());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("no response");
         }
-        messagePanel.add(new JLabel(user.getName() + ": " + message));
-        messageFrame.setVisible(true);
+        if (!success) {
+            JOptionPane.showMessageDialog(null, "Couldn't log the message", "Message Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            messagePanel.add(new JLabel(user.getName() + ": " + message));
+            outputToServer.println("update*" + user.getName() + "*"+ message);
+            System.out.println("update message sent to server");
+            messageFrame.setVisible(true);
+        }
     }
 
     /**
@@ -698,16 +762,4 @@ public class MainGui extends JComponent implements Runnable {
         }
     }
 
-//    public class AppendingObjectOutputStream extends ObjectOutputStream {
-//
-//        public AppendingObjectOutputStream(OutputStream out) throws IOException {
-//            super(out);
-//        }
-//
-//        @Override
-//        protected void writeStreamHeader() throws IOException {
-//            reset();
-//        }
-//
-//    }
 }

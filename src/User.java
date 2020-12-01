@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.net.Socket;
 import java.io.*;
@@ -62,5 +64,4 @@ public class User implements Serializable {
     public File getConversations() {
         return conversations;
     }
-
 }

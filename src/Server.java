@@ -23,4 +23,5 @@ public class Server {
         this.port = port;
         this.clients = new ArrayList<User>();
     }
+
 }

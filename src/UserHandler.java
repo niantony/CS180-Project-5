@@ -11,6 +11,7 @@ public class UserHandler implements Runnable {
     private ArrayList<User> usersToAdd;
     private ArrayList<Conversation> userConversations;
     private User currentUser;
+    private File messages;
 
     public UserHandler(Socket socket) {
         this.socket = socket;
@@ -85,8 +86,24 @@ public class UserHandler implements Runnable {
 
                 }
 
-                if (userInput.contains("Message*")) {
+                if (userInput.contains(".txt")) {
+                    System.out.println("Received .txt");
+                    messages = new File(userInput);
+                }
 
+                if (userInput.contains("Message*")) {
+                    if (userMessage(userInput)) {
+                        output.println(true);
+                    } else {
+                        output.println(false);
+                    }
+
+                    userInput = "";
+                }
+
+                if (userInput.contains("update*")) {
+                    output.println(userInput);
+                    System.out.println("update message sent to client");
                 }
 
                 if (userInput.contains("EditMessage*")) {
@@ -330,5 +347,26 @@ public class UserHandler implements Runnable {
             e.printStackTrace();
         }
         return otherUserConversations;
+    }
+
+    public boolean userMessage(String inputMessage) {
+        //Message*name*user'sMessage
+        try {
+            System.out.println(inputMessage);
+            String[] splitMessage = inputMessage.split("\\*");
+            System.out.println(splitMessage[1] + splitMessage[2]);
+            String formattedMessage = "\n" + splitMessage[1] + "*" + splitMessage[2];
+            System.out.println(formattedMessage);
+
+            try (PrintWriter pw = new PrintWriter(new FileOutputStream(messages, true))) {
+                pw.print(formattedMessage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return true;
+        } catch (Exception i) {
+            System.out.println("Error with message");
+        }
+        return false;
     }
 }
