@@ -13,7 +13,6 @@ public class Server {
                 Socket socket = serverSocket.accept();
                 System.out.println("Connected to server");
                 Thread t = new Thread(new UserHandler(socket));
-//                UserHandler userHandler = new UserHandler(socket);
                 t.start();
             }
         }

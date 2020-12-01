@@ -15,6 +15,7 @@ public class MainGui extends JComponent implements Runnable {
     private ArrayList<User> users;
     private ArrayList<User> userMatches;
     private ArrayList<User> usersToAdd;
+    private ArrayList<String> messagesArr = new ArrayList<>();
     private Conversation conversationDisplayed;
     private File messages;
     private File usersFile = new File("UsersFile.txt");
@@ -34,10 +35,15 @@ public class MainGui extends JComponent implements Runnable {
     private JFrame signUpFrame;
     private JFrame mainFrame;
     private JFrame messageFrame;
+    private JFrame editMessageFrame;
     private JFrame addConversationFrame;
     private JFrame addConversationFields;
     private JTextField textField;
     private JButton sendButton;
+    private JButton backButton;
+    private JButton editMessBackButton;
+    private JButton editMessagesButton;
+    private JButton deleteMessageButton;
     private JPanel messagePanel;
     private JPanel usersPanel;
     private JTextField searchUsers;
@@ -91,22 +97,44 @@ public class MainGui extends JComponent implements Runnable {
                 displaySearchMatches(searchedUser);
 
             } else if (e.getSource() == settingsButton) {
-//                try {
-//                    socket.close();
-//                    bfr.close();
-//                    outputToServer.close();
-//                    obj.close();
-//                } catch (IOException exception) {
-//                    exception.printStackTrace();
-//                }
+                //settings gui
             } else if (e.getSource() == sendButton) {
                 String message = textField.getText();
+                textField.setText(null);
                 addMessage(message);
+            } else if (e.getSource() == backButton) {
+                messageFrame.setVisible(false);
+                mainFrame.setVisible(true);
+            } else if (e.getSource() == editMessagesButton) {
+                messageFrame.setVisible(false);
+                editMessages();
+            } else if (e.getSource() == editMessBackButton) {
+                editMessageFrame.setVisible(false);
+                displayMessages();
             } else {
                 int index = Integer.parseInt(e.getActionCommand());
                 conversationDisplayed = conversations.get(index);
                 displayMessages();
             }
+        }
+    };
+
+//    ActionListener deleteConversation = new ActionListener() {
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            int index = Integer.parseInt(e.getActionCommand());
+//            conversationDisplayed = conversations.get(index);
+//            deleteConversation();
+//            mainScreen();
+//        }
+//    };
+
+    ActionListener deleteMessageAL = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = Integer.parseInt(e.getActionCommand());
+            deleteMessage(index);
+            editMessages();
         }
     };
 
@@ -118,8 +146,6 @@ public class MainGui extends JComponent implements Runnable {
             fillConversationFields(userToBeAdded);
         }
     };
-
-    private boolean success;
 
     public MainGui() {
         conversations = new ArrayList<>();
@@ -145,43 +171,54 @@ public class MainGui extends JComponent implements Runnable {
 
         loginFrame = new JFrame("Login");
         Container loginContent = loginFrame.getContentPane();
-        loginContent.setLayout(new BorderLayout());
+        loginContent.setLayout(null);
 
-        loginButtonsPanel = new JPanel(new GridLayout(3, 2));
-        loginButton = new JButton("Login");
-        loginButton.addActionListener(actionListener);
-        signUpButton = new JButton("Sign Up");
-        signUpButton.addActionListener(actionListener);
-        loginButtonsPanel.add(loginButton, BorderLayout.EAST);
-        loginButtonsPanel.add(signUpButton, BorderLayout.WEST);
-        loginContent.add(loginButtonsPanel, BorderLayout.SOUTH);
+        JLabel userName = new JLabel("Username");
+        userName.setFont(new Font("Arial", Font.PLAIN, 20));
+        userName.setSize(100, 30);
+        userName.setLocation(300, 195);
+        loginContent.add(userName);
 
-        loginInputPanel = new JPanel(new GridLayout(3, 2));
-        JLabel usernameLabel = new JLabel("Username ");
-        usernameLabel.setSize(10, 10);
-        JLabel passwordLabel = new JLabel("Password: ");
         usernameField = new JTextField();
-        usernameField.addActionListener(actionListener);
-        passwordField = new JPasswordField();
-        passwordField.addActionListener(actionListener);
-        loginInputPanel.add(usernameLabel);
-        loginInputPanel.add(usernameField);
-        loginInputPanel.add(passwordLabel);
-        loginInputPanel.add(passwordField);
-        loginContent.add(loginInputPanel);
+        usernameField.setFont(new Font("Arial", Font.PLAIN, 15));
+        usernameField.setSize(190, 20);
+        usernameField.setLocation(400, 200);
+        loginContent.add(usernameField);
 
-        loginFrame.setSize(600, 400);
+        JLabel passWord = new JLabel("Password ");
+        passWord.setFont(new Font("Arial", Font.PLAIN, 20));
+        passWord.setSize(100, 30);
+        passWord.setLocation(300, 265);
+        loginContent.add(passWord);
+
+        passwordField = new JPasswordField();
+        passwordField.setFont(new Font("Arial", Font.PLAIN, 15));
+        passwordField.setSize(190, 20);
+        passwordField.setLocation(400, 270); //285
+        loginContent.add(passwordField);
+
+        loginButton = new JButton("Login");
+        loginButton.setFont(new Font("Arial", Font.PLAIN, 15));
+        loginButton.setSize(100, 20);
+        loginButton.setLocation(360, 320);
+        loginButton.addActionListener(actionListener);
+        loginContent.add(loginButton);
+
+        signUpButton = new JButton("Sign Up");
+        signUpButton.setFont(new Font("Arial", Font.PLAIN, 15));
+        signUpButton.setSize(100, 20);
+        signUpButton.setLocation(360, 360);
+        signUpButton.addActionListener(actionListener);
+        loginContent.add(signUpButton);
+
+        loginFrame.setSize(900, 600);
+        loginFrame.setResizable(false);
         loginFrame.setLocationRelativeTo(null);
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setVisible(true);
     }
 
     private void logIn() {
-//        try {
-//            obj.reset();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         String username = usernameField.getText();
         String password = passwordField.getText();
         boolean success = false;
@@ -276,76 +313,6 @@ public class MainGui extends JComponent implements Runnable {
         sb.append(password);
 
         outputToServer.println(sb.toString());
-
-//        String fileName = username + ".txt";
-//        File file = new File(fileName);
-//        User newUser = null;
-
-//        try {
-//            file.createNewFile();
-//            newUser = new User(name, username, password, file);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-//        if (users.isEmpty()) {
-//            try {
-//                usersFile.createNewFile();
-//            } catch (IOException e) {
-//                //unable to create file
-//            }
-//
-//            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile))) {
-//                out.writeObject(newUser);
-//                out.flush();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//        } else {
-//            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile))) {
-//                for (User u : users) {
-//                    out.writeObject(u);
-//                    out.flush();
-//                }
-//
-//                out.writeObject(newUser);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        if (!usersFile.exists()) {
-//            try {
-//                usersFile.createNewFile();
-//                newFileCreated = true;
-//            } catch (IOException e) {
-//                //unable to create file
-//            }
-//        }
-//        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile, true))) {
-//            if (newFileCreated) {
-//                out.writeObject(newUser);
-//                out.flush();
-//                newFileCreated = false;
-//            } else {
-//                try (AppendingObjectOutputStream appendingStream = new AppendingObjectOutputStream(out)) {
-//                    appendingStream.writeObject(newUser);
-//                    appendingStream.flush();
-//                } catch (IOException e) {
-//                    //unable to append to file
-//                    e.printStackTrace();
-//                }
-//            }
-//        } catch (IOException e) {
-//            //unable to add to file
-//            e.printStackTrace();
-//        }
-//        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile, true))) {
-//            out.writeObject(newUser);
-//            out.flush();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         readUsers();
 
         try {
@@ -427,29 +394,6 @@ public class MainGui extends JComponent implements Runnable {
      */
     private void readUsers() {
         users = new ArrayList<>();
-//        try {
-//            FileInputStream fis = new FileInputStream(usersFile);
-//            boolean done = false;
-//            while (!done) {
-//                ObjectInputStream in = new ObjectInputStream(fis);
-//                try {
-//                    User u = (User) in.readObject();
-//                    users.add(u);
-//                } catch (NullPointerException | EOFException e) {
-//                    done = true;
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } catch (ClassNotFoundException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        } catch (EOFException e) {
-//            //end of file
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//
-//        }
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(usersFile))) {
             User u = (User) in.readObject();
             while (u != null) {
@@ -491,18 +435,111 @@ public class MainGui extends JComponent implements Runnable {
             //do something?
         }
         content.add(scrollPane, BorderLayout.CENTER);
-        JPanel textFieldPanel = new JPanel(new BorderLayout());
-        textField = new JTextField();
+//        JPanel textFieldPanel = new JPanel(new BorderLayout());
+        JPanel textFieldPanel = new JPanel();
+        textField = new JTextField(30);
         textField.addActionListener(actionListener);
         textFieldPanel.add(textField, BorderLayout.CENTER);
         sendButton = new JButton("Send");
         sendButton.addActionListener(actionListener);
-        textFieldPanel.add(sendButton, BorderLayout.EAST);
+        backButton = new JButton("Back");
+        backButton.addActionListener(actionListener);
+        editMessagesButton = new JButton("Edit");
+        editMessagesButton.addActionListener(actionListener);
+        textFieldPanel.add(backButton);
+        textFieldPanel.add(editMessagesButton);
+        textFieldPanel.add(textField);
+        textFieldPanel.add(sendButton);
         content.add(textFieldPanel, BorderLayout.SOUTH);
         messageFrame.setSize(600, 400);
         messageFrame.setLocationRelativeTo(null);
         messageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         messageFrame.setVisible(true);
+    }
+
+    private void editMessages() {
+        editMessageFrame = new JFrame(conversationDisplayed.getName());
+
+        Container content = editMessageFrame.getContentPane();
+        content.setLayout(new BorderLayout());
+
+        JPanel messagePanel = new JPanel(new GridBagLayout());
+        JScrollPane scrollPane = new JScrollPane(messagePanel);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = GridBagConstraints.RELATIVE;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 1.0;
+        constraints.anchor = GridBagConstraints.NORTH;
+
+        outputToServer.println("EditMessage*" + conversationDisplayed.getName());
+        try {
+            int size = obj.readInt();
+            messagesArr.clear();
+            for (int i = 0; i < size; i++) {
+                messagesArr.add((String) obj.readObject());
+            }
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        for (String line : messagesArr) {
+            String[] output = line.split("\\*");
+            constraints.gridwidth = 2;
+            constraints.gridx = 0;
+            constraints.ipadx = 300;
+            String formattedMessage = output[0] + ": " + output[1];
+            messagePanel.add(new JLabel(formattedMessage), constraints);
+            boolean deletable = Boolean.parseBoolean(output[2]);
+            String index = output[3];
+            if (deletable) {
+                deleteMessageButton = new JButton("Delete");
+                deleteMessageButton.setActionCommand(index);
+                deleteMessageButton.addActionListener(deleteMessageAL);
+                constraints.gridwidth = 1;
+                constraints.gridx = 2;
+                constraints.ipadx = 0;
+                messagePanel.add(deleteMessageButton, constraints);
+            } else {
+                JLabel noDeleteMessage = new JLabel("Cannot Delete");
+                constraints.gridwidth = 1;
+                constraints.gridx = 2;
+                constraints.ipadx = 0;
+                messagePanel.add(noDeleteMessage, constraints);
+            }
+        }
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        content.add(scrollPane, BorderLayout.NORTH);
+
+        //messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
+        //JScrollPane scrollPane = new JScrollPane(messagePanel);
+        content.add(scrollPane, BorderLayout.CENTER);
+        //JPanel textFieldPanel = new JPanel(new BorderLayout());
+        JPanel textFieldPanel = new JPanel();
+
+        editMessBackButton = new JButton("Back");
+        editMessBackButton.addActionListener(actionListener);
+
+        //JPanel homeEditPanel = new JPanel(new BorderLayout());
+        textFieldPanel.add(editMessBackButton);
+        //textFieldPanel.add(editMessagesButton);
+        //textFieldPanel.add(textField);
+        //textFieldPanel.add(sendButton);
+        content.add(textFieldPanel, BorderLayout.SOUTH);
+        //content.add(homeEditPanel, BorderLayout.WEST);
+
+        editMessageFrame.setSize(600, 400);
+        editMessageFrame.setLocationRelativeTo(null);
+        editMessageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        editMessageFrame.setVisible(true);
+    }
+
+    private void deleteMessage(int index) {
+        editMessageFrame.setVisible(false);
+        outputToServer.println("DeleteMessage*" + String.valueOf(index));
+        messagesArr.remove(index);
+        readConversationsFromFile();
     }
 
     /**
@@ -511,13 +548,13 @@ public class MainGui extends JComponent implements Runnable {
      * @param message message to be added
      */
     private void addMessage(String message) {
-        String formattedMessage = "\n" + user.getName() + "*" + message;
+        String formattedMessage = "\n" + user.getUsername() + "*" + message;
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(messages, true))) {
             pw.print(formattedMessage);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        messagePanel.add(new JLabel(user.getName() + ": " + message));
+        messagePanel.add(new JLabel(user.getUsername() + ": " + message));
         messageFrame.setVisible(true);
     }
 
@@ -612,15 +649,11 @@ public class MainGui extends JComponent implements Runnable {
             for (int i = 0; i < size; i++) {
                 usersToAdd.add((User) obj.readObject());
             }
-            for (User u : usersToAdd) {
-                System.out.println("1 " + u.getName());
-            }
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
             e.printStackTrace();
         }
         String names = "";
         for (User u : usersToAdd) {
-            System.out.println(u.getName());
             if (!u.getUsername().equals(user.getUsername())) {
                 if (names.equals("")) {
                     names += u.getName();

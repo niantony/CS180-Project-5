@@ -11,6 +11,8 @@ public class UserHandler implements Runnable {
     private ArrayList<User> usersToAdd;
     private ArrayList<Conversation> userConversations;
     private User currentUser;
+    private ArrayList<String> messagesArr = new ArrayList<>();
+    private File messages;
 
     public UserHandler(Socket socket) {
         this.socket = socket;
@@ -66,9 +68,6 @@ public class UserHandler implements Runnable {
 
                 if (userInput.contains("AddUserToConversation*")) {
                     addUserToConversation(userInput);
-                    for (User u : usersToAdd) {
-                        System.out.println("Test: " + u.getName());
-                    }
                     oos.writeInt(usersToAdd.size());
                     oos.flush();
                     for (User u : usersToAdd) {
@@ -104,11 +103,15 @@ public class UserHandler implements Runnable {
                 }
 
                 if (userInput.contains("EditMessage*")) {
-
+                    editMessage(userInput);
+                    oos.writeInt(messagesArr.size());
+                    for (String line : messagesArr) {
+                        oos.writeObject(line);
+                    }
                 }
 
                 if (userInput.contains("DeleteMessage*")) {
-
+                    deleteMessage(userInput);
                 }
 
                 if (userInput.contains("EditProfile*")) {
@@ -328,6 +331,64 @@ public class UserHandler implements Runnable {
             }
         }
         return true;
+    }
+
+    private void editMessage(String userInput) {
+        readConversations();
+        String[] input = userInput.split("\\*");
+        String conversationName = input[1];
+        Conversation conversationDisplayed = userConversations.get(0);
+        for (Conversation c : userConversations) {
+            if (c.getName().equals(conversationName)) {
+                conversationDisplayed = c;
+            }
+        }
+        messages = conversationDisplayed.getMessages();
+        String userS;
+        String message;
+        int i = 0;
+        messagesArr.clear();
+        //returns Message*Deletable*i
+        try (BufferedReader br = new BufferedReader(new FileReader(messages))) {
+            String line = br.readLine();
+            while (line != null) {
+                if (!line.equals("")) {
+                    String result = "";
+                    boolean deletable;
+                    String[] userAndMessage = line.split("\\*");
+                    userS = userAndMessage[0];
+                    message = userAndMessage[1];
+                    result += userS + "*" + message + "*";
+                    if (userS.equals(currentUser.getUsername())) {
+                        deletable = true;
+                    } else {
+                        deletable = false;
+                    }
+                    result += String.valueOf(deletable) + "*" + String.valueOf(i);
+                    messagesArr.add(result);
+                    i++;
+                }
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            //do something?
+        }
+    }
+
+    private void deleteMessage(String userInput) {
+        String[] input = userInput.split("\\*");
+        int indexToDelete = Integer.parseInt(input[1]);
+        messagesArr.remove(indexToDelete);
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(messages))) {
+            String formattedMessage;
+            for (String msg : messagesArr) {
+                String[] message = msg.split("\\*");
+                formattedMessage = "\n" + message[0] + "*" + message[1];
+                pw.print(formattedMessage);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private ArrayList<Conversation> readOtherUserConversations(User otherUser) {
