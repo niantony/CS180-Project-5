@@ -42,6 +42,7 @@ public class MainGui extends JComponent implements Runnable {
     private JFrame addConversationFields;
     private JTextField textField;
     private JButton sendButton;
+    private JButton backButton;
     private JPanel messagePanel;
     private JPanel usersPanel;
     private JTextField searchUsers;
@@ -64,6 +65,8 @@ public class MainGui extends JComponent implements Runnable {
     JLabel nameLabel;
     JLabel usernameLabel;
     JLabel passwordLabel;
+
+    JButton deleteConvButton;
 
     ActionListener actionListener = new ActionListener() {
         @Override
@@ -101,9 +104,11 @@ public class MainGui extends JComponent implements Runnable {
                 //messageFrame.setVisible(false);
                 mainFrame.setVisible(false);
             } else if (e.getSource() == sendButton) {
-                String message = textField.getText();
-                textField.setText(null);
-                addMessage(message);
+                if (!((textField.getText() == null) || "".equals(textField.getText()))) {
+                    String message = textField.getText();
+                    textField.setText(null);
+                    addMessage(message);
+                }
             } else if (e.getSource() == deleteButton) {
                 deleteAccount();
                 settingsFrame.setVisible(false);
@@ -115,11 +120,24 @@ public class MainGui extends JComponent implements Runnable {
                 //messageFrame.setVisible(true);
                 mainFrame.setVisible(true);
                 settingsFrame.setVisible(false);
+            } else if (e.getSource() == backButton) {
+                messagePanel.setVisible(false);
+                mainFrame.setVisible(true);
             } else {
                 int index = Integer.parseInt(e.getActionCommand());
                 conversationDisplayed = conversations.get(index);
                 displayMessages();
             }
+        }
+    };
+
+    ActionListener deleteConversation = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = Integer.parseInt(e.getActionCommand());
+            conversationDisplayed = conversations.get(index);
+            deleteConversation();
+            mainScreen();
         }
     };
 
@@ -451,11 +469,23 @@ public class MainGui extends JComponent implements Runnable {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 1.0;
         constraints.anchor = GridBagConstraints.NORTH;
+        deleteConvButton = new JButton("Delete");
         for (int i = 0; i < conversations.size(); i++) {
             JButton button = new JButton(conversations.get(i).getName());
             button.setActionCommand(String.valueOf(i));
             button.addActionListener(actionListener);
+            constraints.gridwidth = 1;
+            constraints.gridx = 0;
+            constraints.ipadx = 300;
             conversationPanel.add(button, constraints);
+            //JButton delButton = new JButton("Delete");
+            deleteConvButton = new JButton("Delete");
+            deleteConvButton.setActionCommand(String.valueOf(i));
+            deleteConvButton.addActionListener(deleteConversation);
+            constraints.gridwidth = 1;
+            constraints.gridx = 2;
+            constraints.ipadx = 0;
+            conversationPanel.add(deleteConvButton, constraints);
         }
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         content.add(scrollPane, BorderLayout.CENTER);
@@ -572,12 +602,38 @@ public class MainGui extends JComponent implements Runnable {
         textFieldPanel.add(textField, BorderLayout.CENTER);
         sendButton = new JButton("Send");
         sendButton.addActionListener(actionListener);
+        backButton = new JButton("Back");
+        backButton.addActionListener(actionListener);
         textFieldPanel.add(sendButton, BorderLayout.EAST);
+        textFieldPanel.add(backButton, BorderLayout.WEST);
         content.add(textFieldPanel, BorderLayout.SOUTH);
+
         messageFrame.setSize(600, 400);
         messageFrame.setLocationRelativeTo(null);
         messageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         messageFrame.setVisible(true);
+    }
+
+    /**
+     * Delete conversation for the current user
+     */
+    private void deleteConversation() {
+        //File userConversationF = user.getConversations();
+        String convNameTodelete = conversationDisplayed.getName();
+        for (int i = 0; i < conversations.size(); i++) {
+            if (conversations.get(i).getName().equals(convNameTodelete)) {
+                conversations.remove(i);
+            }
+        }
+
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(user.getConversations()))) {
+            for (Conversation c : conversations) {
+                out.writeObject(c);
+                out.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
