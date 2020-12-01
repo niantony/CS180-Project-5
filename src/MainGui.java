@@ -18,6 +18,7 @@ public class MainGui extends JComponent implements Runnable {
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<User> userMatches = new ArrayList<>();
     private ArrayList<User> usersToAdd = new ArrayList<>();
+    private ArrayList<String> messagesArr = new ArrayList<>();
     private Conversation conversationDisplayed;
     private File messages;
     private File usersFile = new File("UsersFile.txt");
@@ -38,11 +39,15 @@ public class MainGui extends JComponent implements Runnable {
     private JFrame signUpFrame;
     private JFrame mainFrame;
     private JFrame messageFrame;
+    private JFrame editMessageFrame;
     private JFrame addConversationFrame;
     private JFrame addConversationFields;
     private JTextField textField;
     private JButton sendButton;
     private JButton backButton;
+    private JButton editMessBackButton;
+    private JButton editMessagesButton;
+    private JButton deleteMessageButton;
     private JPanel messagePanel;
     private JPanel usersPanel;
     private JTextField searchUsers;
@@ -121,11 +126,18 @@ public class MainGui extends JComponent implements Runnable {
                 mainFrame.setVisible(true);
                 settingsFrame.setVisible(false);
             } else if (e.getSource() == backButton) {
-                messagePanel.setVisible(false);
+                messageFrame.setVisible(false);
                 mainFrame.setVisible(true);
+            } else if (e.getSource() == editMessagesButton) {
+                messageFrame.setVisible(false);
+                editMessages();
+            } else if (e.getSource() == editMessBackButton) {
+                editMessageFrame.setVisible(false);
+                displayMessages();
             } else {
                 int index = Integer.parseInt(e.getActionCommand());
                 conversationDisplayed = conversations.get(index);
+                mainFrame.setVisible(false);
                 displayMessages();
             }
         }
@@ -138,6 +150,15 @@ public class MainGui extends JComponent implements Runnable {
             conversationDisplayed = conversations.get(index);
             deleteConversation();
             mainScreen();
+        }
+    };
+
+    ActionListener deleteMessageAL = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = Integer.parseInt(e.getActionCommand());
+            deleteMessage(index);
+            editMessages();
         }
     };
 
@@ -596,22 +617,133 @@ public class MainGui extends JComponent implements Runnable {
             //do something?
         }
         content.add(scrollPane, BorderLayout.CENTER);
-        JPanel textFieldPanel = new JPanel(new BorderLayout());
-        textField = new JTextField();
+        //JPanel textFieldPanel = new JPanel(new BorderLayout());
+        JPanel textFieldPanel = new JPanel();
+        textField = new JTextField(30);
         textField.addActionListener(actionListener);
         textFieldPanel.add(textField, BorderLayout.CENTER);
         sendButton = new JButton("Send");
         sendButton.addActionListener(actionListener);
         backButton = new JButton("Back");
         backButton.addActionListener(actionListener);
-        textFieldPanel.add(sendButton, BorderLayout.EAST);
-        textFieldPanel.add(backButton, BorderLayout.WEST);
+        editMessagesButton = new JButton("Edit");
+        editMessagesButton.addActionListener(actionListener);
+        //JPanel homeEditPanel = new JPanel(new BorderLayout());
+
+        textFieldPanel.add(backButton);
+        textFieldPanel.add(editMessagesButton);
+        textFieldPanel.add(textField);
+        textFieldPanel.add(sendButton);
         content.add(textFieldPanel, BorderLayout.SOUTH);
+        //content.add(homeEditPanel, BorderLayout.WEST);
 
         messageFrame.setSize(600, 400);
         messageFrame.setLocationRelativeTo(null);
         messageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         messageFrame.setVisible(true);
+    }
+
+    private void editMessages() {
+        editMessageFrame = new JFrame(conversationDisplayed.getName());
+
+        Container content = editMessageFrame.getContentPane();
+        content.setLayout(new BorderLayout());
+
+        JPanel messagePanel = new JPanel(new GridBagLayout());
+        JScrollPane scrollPane = new JScrollPane(messagePanel);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = GridBagConstraints.RELATIVE;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 1.0;
+        constraints.anchor = GridBagConstraints.NORTH;
+
+        messages = conversationDisplayed.getMessages();
+        String userS;
+        String message;
+        int i = 0;
+        messagesArr.clear();
+        try (BufferedReader br = new BufferedReader(new FileReader(messages))) {
+            String line = br.readLine();
+            while (line != null) {
+                if (!line.equals("")) {
+                    messagesArr.add(line);
+
+                    String[] userAndMessage = line.split("\\*");
+                    userS = userAndMessage[0];
+                    message = userAndMessage[1];
+                    constraints.gridwidth = 2;
+                    constraints.gridx = 0;
+                    constraints.ipadx = 300;
+                    messagePanel.add(new JLabel(userS + ": " + message), constraints);
+
+                    if (userS.equals(user.getUsername())) {
+                        deleteMessageButton = new JButton("Delete");
+                        deleteMessageButton.setActionCommand(String.valueOf(i));
+                        i++;
+                        deleteMessageButton.addActionListener(deleteMessageAL);
+                        constraints.gridwidth = 1;
+                        constraints.gridx = 2;
+                        constraints.ipadx = 0;
+                        messagePanel.add(deleteMessageButton, constraints);
+                    } else {
+                        JLabel noDeleteMessage = new JLabel("Cannot Delete");
+                        constraints.gridwidth = 1;
+                        constraints.gridx = 2;
+                        constraints.ipadx = 0;
+                        i++;
+                        messagePanel.add(noDeleteMessage, constraints);
+                    }
+
+                }
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            //do something?
+        }
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        content.add(scrollPane, BorderLayout.NORTH);
+
+        //messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
+        //JScrollPane scrollPane = new JScrollPane(messagePanel);
+        content.add(scrollPane, BorderLayout.CENTER);
+        //JPanel textFieldPanel = new JPanel(new BorderLayout());
+        JPanel textFieldPanel = new JPanel();
+
+        editMessBackButton = new JButton("Back");
+        editMessBackButton.addActionListener(actionListener);
+
+        //JPanel homeEditPanel = new JPanel(new BorderLayout());
+        textFieldPanel.add(editMessBackButton);
+        //textFieldPanel.add(editMessagesButton);
+        //textFieldPanel.add(textField);
+        //textFieldPanel.add(sendButton);
+        content.add(textFieldPanel, BorderLayout.SOUTH);
+        //content.add(homeEditPanel, BorderLayout.WEST);
+
+        editMessageFrame.setSize(600, 400);
+        editMessageFrame.setLocationRelativeTo(null);
+        editMessageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        editMessageFrame.setVisible(true);
+    }
+
+    /**
+     * Delete message
+     */
+    private void deleteMessage(int index) {
+        //File userConversationF = user.getConversations();
+        messagesArr.remove(index);
+
+        //Overwrite messages file
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(messages))) {
+            String formattedMessage;
+            for (String msg : messagesArr) {
+                formattedMessage = "\n" + msg;
+                pw.print(formattedMessage);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -642,13 +774,13 @@ public class MainGui extends JComponent implements Runnable {
      * @param message message to be added
      */
     private void addMessage(String message) {
-        String formattedMessage = "\n" + user.getName() + "*" + message;
+        String formattedMessage = "\n" + user.getUsername() + "*" + message;
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(messages, true))) {
             pw.print(formattedMessage);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        messagePanel.add(new JLabel(user.getName() + ": " + message));
+        messagePanel.add(new JLabel(user.getUsername() + ": " + message));
         messageFrame.setVisible(true);
     }
 
