@@ -58,6 +58,7 @@ public class MainGui extends JComponent implements Runnable {
     public static BufferedReader bfr;
     public static PrintWriter outputToServer;
     public static ObjectInputStream obj;
+    public static FileInputStream fis;
 
     private String host;
     private int port;
@@ -111,7 +112,9 @@ public class MainGui extends JComponent implements Runnable {
             } else if (e.getSource() == sendButton) {
                 String message = textField.getText();
                 addMessage(message);
-                clientConnection.start();
+                messageFrame.dispose();
+                displayMessages();
+                //clientConnection.start();
             } else {
                 int index = Integer.parseInt(e.getActionCommand());
                 conversationDisplayed = conversations.get(index);
@@ -143,39 +146,39 @@ public class MainGui extends JComponent implements Runnable {
         clientConnection.run();
     }
 
-    Timer timer = new Timer();
-    TimerTask task = new TimerTask() {
-        public void run() {
-            try {
-                System.out.println("Time task running");
-                readUsers();
-                readConversationsFromFile();
-                String messageToAdd = bfr.readLine();
-                if (messageToAdd.contains("update*")) {
-                    System.out.println("Update message received");
-                    System.out.println(messageToAdd);
-                    if (messageFrame.isActive()) {
-                        String[] parsedMessage = messageToAdd.split("\\*");
-                        String nameOfSender = parsedMessage[1];
-                        String message = parsedMessage[2];
-                        messagePanel.add(new JLabel(nameOfSender + ": " + message));
-                        System.out.println("added to panel");
-                        messageFrame.setVisible(true);
-                    } else {
-                        task.cancel();
-                    }
-                } else {
-                    task.cancel();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    };
-
-    private void start() {
-        timer.scheduleAtFixedRate(task, 20000, 2000);
-    }
+//    Timer timer = new Timer();
+//    TimerTask task = new TimerTask() {
+//        public void run() {
+//            try {
+//                System.out.println("Time task running");
+//                readUsers();
+//                readConversationsFromFile();
+//                String messageToAdd = bfr.readLine();
+//                if (messageToAdd.contains("update*")) {
+//                    System.out.println("Update message received");
+//                    System.out.println(messageToAdd);
+//                    if (messageFrame.isActive()) {
+//                        String[] parsedMessage = messageToAdd.split("\\*");
+//                        String nameOfSender = parsedMessage[1];
+//                        String message = parsedMessage[2];
+//                        messagePanel.add(new JLabel(nameOfSender + ": " + message));
+//                        System.out.println("added to panel");
+//                        messageFrame.setVisible(true);
+//                    } else {
+//                        task.cancel();
+//                    }
+//                } else {
+//                    task.cancel();
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    };
+//
+//    private void start() {
+//        timer.scheduleAtFixedRate(task, 20000, 2000);
+//    }
 
     public void run() {
         try {
@@ -577,8 +580,26 @@ public class MainGui extends JComponent implements Runnable {
             JOptionPane.showMessageDialog(null, "Couldn't log the message", "Message Error", JOptionPane.ERROR_MESSAGE);
         } else {
             messagePanel.add(new JLabel(user.getName() + ": " + message));
-            outputToServer.println("update*" + user.getName() + "*"+ message);
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("Update*");
+            sb.append(user.getName());
+            sb.append("*");
+            sb.append(message);
+
+            //outputToServer.println(sb.toString());
+
             System.out.println("update message sent to server");
+
+//            try {
+//                displayMessages();
+//                DataInputStream dis = new DataInputStream(user.getInputStream());
+//                messages = (File) dis.read();
+//            } catch (IOException ioException) {
+//                ioException.printStackTrace();
+//            } catch (ClassNotFoundException e) {
+//                e.printStackTrace();
+//            }
             messageFrame.setVisible(true);
         }
     }

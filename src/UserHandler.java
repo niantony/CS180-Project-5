@@ -22,6 +22,10 @@ public class UserHandler implements Runnable {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+//
+//            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+//            FileInputStream fis = new FileInputStream(messages);
+//            byte[] buffer = new byte[4096];
 
             while (true) {
                 String userInput = input.readLine();
@@ -101,9 +105,19 @@ public class UserHandler implements Runnable {
                     userInput = "";
                 }
 
-                if (userInput.contains("update*")) {
-                    output.println(userInput);
-                    System.out.println("update message sent to client");
+                if (userInput.contains("Update*")) {
+//                    Socket socket = new Socket("localhost" , 8080);
+//                    System.out.println("HEREEEEEEE");
+//
+//                    for (User u : userArrayList ) {
+//                        while (fis.read(buffer) > 0) {
+//                            dos = new DataOutputStream(u.getOutStream());
+//                            dos.write(buffer);
+//                        }
+//                    }
+//
+//                    output.println(userInput);
+//                    System.out.println("update message sent to client");
                 }
 
                 if (userInput.contains("EditMessage*")) {
@@ -287,6 +301,7 @@ public class UserHandler implements Runnable {
             e.printStackTrace();
             //failed
         }
+
         Conversation newConversation = new Conversation(nameOfConversation, usersToAdd, file);
         for (User u : usersToAdd) {
             if (u.getUsername().equals(currentUser.getUsername())) {

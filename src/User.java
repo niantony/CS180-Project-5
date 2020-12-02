@@ -64,4 +64,8 @@ public class User implements Serializable {
     public File getConversations() {
         return conversations;
     }
+
+    public Socket getClient() {
+        return this.client;
+    }
 }

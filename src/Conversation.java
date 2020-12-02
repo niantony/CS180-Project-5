@@ -37,4 +37,9 @@ public class Conversation implements Serializable {
         return messages;
     }
 
+    public void setMessages(File file) {
+        this.messages.delete();
+        this.messages = file;
+    }
+
 }
