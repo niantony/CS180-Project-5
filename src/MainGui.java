@@ -55,6 +55,21 @@ public class MainGui extends JComponent implements Runnable {
     private boolean successfulLogin = true;
     private boolean successfulAdditionToFile;
 
+    //settings 
+    private JFrame settingsFrame;
+    JButton homeButton;
+    JButton saveButton;
+    JButton logoutButton;
+    JButton deleteButton;
+    JTextField nameField;
+    //JTextField usernameField;
+    //JTextField passwordField;
+    JLabel nameLabel;
+    JLabel usernameLabel;
+    JLabel passwordLabel;
+
+    JButton deleteConvButton;
+    
     public static Socket socket;
 //    public static BufferedReader bfr;
     public static PrintWriter outputToServer;
@@ -100,11 +115,25 @@ public class MainGui extends JComponent implements Runnable {
                 displaySearchMatches(searchedUser);
 
             } else if (e.getSource() == settingsButton) {
-                //settings gui
+                settings();
+                mainFrame.setVisible(false);
             } else if (e.getSource() == sendButton) {
+                if (!((textField.getText() == null) || "".equals(textField.getText()))) {
                 String message = textField.getText();
                 textField.setText(null);
                 addMessage(message);
+                }
+            } else if (e.getSource() == deleteButton) {
+                deleteAccount();
+                settingsFrame.setVisible(false);
+            } else if (e.getSource() == logoutButton) {
+                logoutButton.addActionListener(a -> System.exit(0));
+            } else if (e.getSource() == saveButton) {
+                saveSettings();
+            } else if (e.getSource() == homeButton) {
+                //messageFrame.setVisible(true);
+                mainFrame.setVisible(true);
+                settingsFrame.setVisible(false);
             } else if (e.getSource() == backButton) {
                 messageFrame.setVisible(false);
                 mainFrame.setVisible(true);
@@ -117,20 +146,21 @@ public class MainGui extends JComponent implements Runnable {
             } else {
                 int index = Integer.parseInt(e.getActionCommand());
                 conversationDisplayed = conversations.get(index);
+                mainFrame.setVisible(false);
                 displayMessages();
             }
         }
     };
 
-//    ActionListener deleteConversation = new ActionListener() {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            int index = Integer.parseInt(e.getActionCommand());
-//            conversationDisplayed = conversations.get(index);
-//            deleteConversation();
-//            mainScreen();
-//        }
-//    };
+    ActionListener deleteConversation = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = Integer.parseInt(e.getActionCommand());
+            conversationDisplayed = conversations.get(index);
+            deleteConversation();
+            mainScreen();
+        }
+    };
 
     ActionListener deleteMessageAL = new ActionListener() {
         @Override
@@ -391,11 +421,22 @@ public class MainGui extends JComponent implements Runnable {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 1.0;
         constraints.anchor = GridBagConstraints.NORTH;
+        deleteConvButton = new JButton("Delete");
         for (int i = 0; i < conversations.size(); i++) {
             JButton button = new JButton(conversations.get(i).getName());
             button.setActionCommand(String.valueOf(i));
             button.addActionListener(actionListener);
+            constraints.gridwidth = 1;
+            constraints.gridx = 0;
+            constraints.ipadx = 300;
             conversationPanel.add(button, constraints);
+            deleteConvButton = new JButton("Delete");
+            deleteConvButton.setActionCommand(String.valueOf(i));
+            deleteConvButton.addActionListener(deleteConversation);
+            constraints.gridwidth = 1;
+            constraints.gridx = 2;
+            constraints.ipadx = 0;
+            conversationPanel.add(deleteConvButton, constraints);
         }
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         content.add(scrollPane, BorderLayout.CENTER);
@@ -622,6 +663,28 @@ public class MainGui extends JComponent implements Runnable {
     }
 
     /**
+     * Delete conversation for the current user
+     */
+    private void deleteConversation() {
+        //File userConversationF = user.getConversations();
+        String convNameTodelete = conversationDisplayed.getName();
+        for (int i = 0; i < conversations.size(); i++) {
+            if (conversations.get(i).getName().equals(convNameTodelete)) {
+                conversations.remove(i);
+            }
+        }
+
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(user.getConversations()))) {
+            for (Conversation c : conversations) {
+                out.writeObject(c);
+                out.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
      * Add message to conversation
      *
      * @param message message to be added
@@ -781,6 +844,94 @@ public class MainGui extends JComponent implements Runnable {
         mainFrame.setVisible(true);
         return true;
     }
+    
+    public void settings() {
+        // testUser is here for testing purposes
+//        User testUser = new User("Jimmy", "jimmy123", "jimmypassword");
+
+        settingsFrame = new JFrame("Settings");
+        Container content = settingsFrame.getContentPane();
+        content.setLayout(new BorderLayout());
+
+        // Contains all the information fields to view and edit.
+        // Includes the user's "Name", "Username", and "Password"
+        JPanel infoPanel = new JPanel();
+        nameLabel = new JLabel("Name");
+        nameField = new JTextField(user.getName(), 10);
+        usernameLabel = new JLabel("Username");
+        JLabel usernameField = new JLabel(user.getUsername(), 10);
+        passwordLabel = new JLabel("Password");
+        //passwordField = new JPasswordField(user.getPassword(), 10);
+        passwordField = new JPasswordField("", 10);
+
+        infoPanel.add(usernameLabel);
+        infoPanel.add(usernameField);
+        infoPanel.add(nameLabel);
+        infoPanel.add(nameField);
+        infoPanel.add(passwordLabel);
+        infoPanel.add(passwordField);
+        content.add(infoPanel, BorderLayout.CENTER);
+
+        // Shows the "Home", "Save", and "Delete" buttons at the bottom of the GUI
+        JPanel buttonsPanel = new JPanel();
+        homeButton = new JButton("Home");
+        homeButton.addActionListener(actionListener);
+        saveButton = new JButton("Save Settings");
+        saveButton.addActionListener(actionListener);
+        logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(actionListener);
+        deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(actionListener);
+        buttonsPanel.add(homeButton);
+        buttonsPanel.add(saveButton);
+        buttonsPanel.add(logoutButton);
+        buttonsPanel.add(deleteButton);
+        content.add(buttonsPanel, BorderLayout.SOUTH);
+
+        settingsFrame.setSize(600, 400);
+        settingsFrame.setLocationRelativeTo(null);
+        settingsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        settingsFrame.setVisible(true);
+        //messageFrame.setVisible(false);
+    }
+
+    private void deleteAccount() {
+        String fileName = user.getUsername() + ".txt";
+        File file = new File(fileName);
+        //User newUser = null;
+        if (file.exists()) {
+            file.delete();
+        }
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(user.getUsername())) {
+                users.remove(i);
+            }
+        }
+        writeUsersToFile();
+        loginFrame.setVisible(true);
+
+    }
+
+    public void saveSettings() {
+        String fullName = nameField.getText();
+        String newPassword = passwordField.getText();
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(user.getUsername())) {
+                if (nameField.getText() != null && !("".equals(nameField.getText()))) {
+                    users.get(i).setName(fullName);
+                    user.setName(fullName);
+                }
+                if (passwordField.getText() != null && !("".equals(passwordField.getText()))) {
+                    users.get(i).setPassword(newPassword);
+                    user.setName(fullName);
+                }
+                break;
+            }
+        }
+        writeUsersToFile();
+        JOptionPane.showMessageDialog(null, "New information saved to account.", "SavedSettings",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
 
     private void writeConversationsToFile() {
         if (conversations.isEmpty()) {
@@ -815,3 +966,4 @@ public class MainGui extends JComponent implements Runnable {
             }
         }
     }
+}
