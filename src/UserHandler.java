@@ -130,6 +130,22 @@ public class UserHandler implements Runnable {
                 if (userInput.contains("DeleteProfile*")) {
 
                 }
+                
+                if (userInput.contains("Settings*")) {
+                   oos.writeObject(currentUser);
+                   oos.flush();
+                }                
+
+                if (userInput.contains("deleteAccount*")) {
+                   deleteAccount();
+                   oos.writeBoolean(true);
+                }                
+                
+                if (userInput.contains("saveSettings*")) {
+                   saveSettings(userInput);
+                   oos.writeBoolean(true);
+                }                
+                
                 oos.flush();
 //                output.flush();
             }
@@ -264,6 +280,7 @@ public class UserHandler implements Runnable {
                 result.add(u);
             }
         }
+        
         return result;
     }
 
@@ -433,4 +450,55 @@ public class UserHandler implements Runnable {
         }
         return otherUserConversations;
     }
+    
+    private void deleteAccount() {
+        String fileName = currentUser.getUsername() + ".txt";
+        File file = new File(fileName);
+        //User newUser = null;
+        if (file.exists()) {
+            file.delete();
+        }
+        for (int i = 0; i < userArrayList.size(); i++) {
+            if (userArrayList.get(i).getUsername().equals(currentUser.getUsername())) {
+                userArrayList.remove(i);
+            }
+        }
+        writeUsersToFile();
+    }
+
+    public void saveSettings(String userInfo) {
+
+        String[] checkUser = userInfo.split("\\*");
+        String nameField = checkUser[1];
+        String passwordField = checkUser[2];
+        for (int i = 0; i < userArrayList.size(); i++) {
+            if (userArrayList.get(i).getUsername().equals(currentUser.getUsername())) {
+                if (nameField != null && !("".equals(nameField))) {
+                    userArrayList.get(i).setName(nameField);
+                    currentUser.setName(nameField);
+                }
+                if (passwordField != null && !("".equals(passwordField))) {
+                    userArrayList.get(i).setPassword(passwordField);
+                    currentUser.setPassword(passwordField);
+                }
+                break;
+            }
+        }
+        writeUsersToFile();
+    }
+    
+    private void writeUsersToFile() {
+        if (userArrayList.isEmpty()) {
+            usersFile.delete();
+        } else {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile))) {
+                for (User u : userArrayList) {
+                    out.writeObject(u);
+                    out.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }        
 }
