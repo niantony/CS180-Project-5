@@ -43,6 +43,7 @@ public class MainGui extends JComponent implements Runnable {
     private JButton editMessBackButton;
     private JButton editMessagesButton;
     private JButton deleteMessageButton;
+    private JButton editSpecificMsgButton;
     private JPanel messagePanel;
     private JPanel usersPanel;
     private JTextField searchUsers;
@@ -136,6 +137,15 @@ public class MainGui extends JComponent implements Runnable {
         public void actionPerformed(ActionEvent e) {
             int index = Integer.parseInt(e.getActionCommand());
             deleteMessage(index);
+            editMessages();
+        }
+    };
+
+    ActionListener editSpecificMessageAL = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = Integer.parseInt(e.getActionCommand());
+            editSpecificMessage(index);
             editMessages();
         }
     };
@@ -527,16 +537,22 @@ public class MainGui extends JComponent implements Runnable {
             constraints.ipadx = 300;
             String formattedMessage = output[0] + ": " + output[1];
             messagePanel.add(new JLabel(formattedMessage), constraints);
-            boolean deletable = Boolean.parseBoolean(output[2]);
+            boolean editable = Boolean.parseBoolean(output[2]);
             String index = output[3];
-            if (deletable) {
+            if (editable) {
                 deleteMessageButton = new JButton("Delete");
                 deleteMessageButton.setActionCommand(index);
                 deleteMessageButton.addActionListener(deleteMessageAL);
+                editSpecificMsgButton = new JButton("Edit");
+                editSpecificMsgButton.setActionCommand(index);
+                editSpecificMsgButton.addActionListener(editSpecificMessageAL);
+                JPanel editButtons = new JPanel();
+                editButtons.add(deleteMessageButton);
+                editButtons.add(editSpecificMsgButton);
                 constraints.gridwidth = 1;
                 constraints.gridx = 2;
                 constraints.ipadx = 0;
-                messagePanel.add(deleteMessageButton, constraints);
+                messagePanel.add(editButtons, constraints);
             } else {
                 JLabel noDeleteMessage = new JLabel("Cannot Delete");
                 constraints.gridwidth = 1;
@@ -575,6 +591,33 @@ public class MainGui extends JComponent implements Runnable {
         editMessageFrame.setVisible(false);
         outputToServer.println("DeleteMessage*" + String.valueOf(index));
         messagesArr.remove(index);
+        readConversationsFromFile();
+    }
+
+    private void editSpecificMessage(int index) {
+        editMessageFrame.setVisible(false);
+        String editedMessage = JOptionPane.showInputDialog("Enter the new edited message:");
+        if (editedMessage == null || editedMessage.equals("")) {
+            JOptionPane.showMessageDialog(null, "Invalid message", "Error Editing Message", JOptionPane.ERROR_MESSAGE);
+            editMessages();
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("EditSpecificMessage*");
+        sb.append(editedMessage + "*");
+        sb.append(String.valueOf(index) + "*");
+        outputToServer.println(sb);
+        try {
+            int size = obj.readInt();
+            messagesArr.clear();
+            for (int i = 0; i < size; i++) {
+                messagesArr.add((String) obj.readObject());
+            }
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         readConversationsFromFile();
     }
 

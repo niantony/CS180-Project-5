@@ -110,6 +110,14 @@ public class UserHandler implements Runnable {
                     }
                 }
 
+                if (userInput.contains("EditSpecificMessage*")) {
+                    editSpecificMessage(userInput);
+                    oos.writeInt(messagesArr.size());
+                    for (String line : messagesArr) {
+                        oos.writeObject(line);
+                    }
+                }
+
                 if (userInput.contains("DeleteMessage*")) {
                     deleteMessage(userInput);
                 }
@@ -354,17 +362,17 @@ public class UserHandler implements Runnable {
             while (line != null) {
                 if (!line.equals("")) {
                     String result = "";
-                    boolean deletable;
+                    boolean editable;
                     String[] userAndMessage = line.split("\\*");
                     userS = userAndMessage[0];
                     message = userAndMessage[1];
                     result += userS + "*" + message + "*";
                     if (userS.equals(currentUser.getUsername())) {
-                        deletable = true;
+                        editable = true;
                     } else {
-                        deletable = false;
+                        editable = false;
                     }
-                    result += String.valueOf(deletable) + "*" + String.valueOf(i);
+                    result += String.valueOf(editable) + "*" + String.valueOf(i);
                     messagesArr.add(result);
                     i++;
                 }
@@ -379,6 +387,24 @@ public class UserHandler implements Runnable {
         String[] input = userInput.split("\\*");
         int indexToDelete = Integer.parseInt(input[1]);
         messagesArr.remove(indexToDelete);
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(messages))) {
+            String formattedMessage;
+            for (String msg : messagesArr) {
+                String[] message = msg.split("\\*");
+                formattedMessage = "\n" + message[0] + "*" + message[1];
+                pw.print(formattedMessage);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void editSpecificMessage(String userInput) {
+        String[] input = userInput.split("\\*");
+        String newMessage = input[1];
+        int index = Integer.parseInt(input[2]);
+        String editedMessage = currentUser.getUsername() + "*" + newMessage + "*true*" + String.valueOf(index);
+        messagesArr.set(index, editedMessage);
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(messages))) {
             String formattedMessage;
             for (String msg : messagesArr) {
