@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
  * Main GUI that interacts with user
  */
 public class MainGui extends JComponent implements Runnable {
+
     private ArrayList<Conversation> conversations;
     private ArrayList<User> users;
     private ArrayList<User> userMatches;
@@ -62,14 +64,12 @@ public class MainGui extends JComponent implements Runnable {
     JButton logoutButton;
     JButton deleteButton;
     JTextField nameField;
-    //JTextField usernameField;
-    //JTextField passwordField;
     JLabel nameLabel;
     JLabel usernameLabel;
     JLabel passwordLabel;
 
     JButton deleteConvButton;
-    
+
     public static Socket socket;
 //    public static BufferedReader bfr;
     public static PrintWriter outputToServer;
@@ -119,9 +119,9 @@ public class MainGui extends JComponent implements Runnable {
                 mainFrame.setVisible(false);
             } else if (e.getSource() == sendButton) {
                 if (!((textField.getText() == null) || "".equals(textField.getText()))) {
-                String message = textField.getText();
-                textField.setText(null);
-                addMessage(message);
+                    String message = textField.getText();
+                    textField.setText(null);
+                    addMessage(message);
                 }
             } else if (e.getSource() == deleteButton) {
                 deleteAccount();
@@ -683,7 +683,7 @@ public class MainGui extends JComponent implements Runnable {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Add message to conversation
      *
@@ -844,10 +844,21 @@ public class MainGui extends JComponent implements Runnable {
         mainFrame.setVisible(true);
         return true;
     }
-    
+
     public void settings() {
         // testUser is here for testing purposes
-//        User testUser = new User("Jimmy", "jimmy123", "jimmypassword");
+        // User testUser = new User("Jimmy", "jimmy123", "jimmypassword");
+        outputToServer.println("Settings*");
+
+        try {
+            user = (User) obj.readObject();
+        } catch (IOException i) {
+            System.out.println("Connection failed while searching for a user");
+            JOptionPane.showMessageDialog(null, "Connection failed while searching for a user", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException c) {
+            System.out.println("Class not found whilst searching for a user");
+            JOptionPane.showMessageDialog(null, "Connection failed while searching for a user", "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
         settingsFrame = new JFrame("Settings");
         Container content = settingsFrame.getContentPane();
@@ -896,39 +907,36 @@ public class MainGui extends JComponent implements Runnable {
     }
 
     private void deleteAccount() {
-        String fileName = user.getUsername() + ".txt";
-        File file = new File(fileName);
-        //User newUser = null;
-        if (file.exists()) {
-            file.delete();
-        }
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername().equals(user.getUsername())) {
-                users.remove(i);
-            }
-        }
-        writeUsersToFile();
-        loginFrame.setVisible(true);
 
+        outputToServer.println("deleteAccount*");
+        boolean success = false;
+        try {
+            success = obj.readBoolean();
+            System.out.println("deleteAccount success");
+            if (!success) {
+                JOptionPane.showMessageDialog(null, "Error in deleting Account", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to delete account");
+            e.printStackTrace();
+        }
+
+        usernameField.setText("");
+        passwordField.setText("");
+        loginFrame.setVisible(true);
     }
 
     public void saveSettings() {
         String fullName = nameField.getText();
         String newPassword = passwordField.getText();
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername().equals(user.getUsername())) {
-                if (nameField.getText() != null && !("".equals(nameField.getText()))) {
-                    users.get(i).setName(fullName);
-                    user.setName(fullName);
-                }
-                if (passwordField.getText() != null && !("".equals(passwordField.getText()))) {
-                    users.get(i).setPassword(newPassword);
-                    user.setName(fullName);
-                }
-                break;
-            }
-        }
-        writeUsersToFile();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("saveSettings*");
+        sb.append(fullName + "*");
+        sb.append(newPassword);
+
+        outputToServer.println(sb.toString());
+
         JOptionPane.showMessageDialog(null, "New information saved to account.", "SavedSettings",
                 JOptionPane.INFORMATION_MESSAGE);
     }
@@ -944,21 +952,6 @@ public class MainGui extends JComponent implements Runnable {
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(user.getConversations()))) {
                 for (Conversation c : conversations) {
                     out.writeObject(c);
-                    out.flush();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void writeUsersToFile() {
-        if (users.isEmpty() && user == null) {
-            usersFile.delete();
-        } else {
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(usersFile))) {
-                for (User u : users) {
-                    out.writeObject(u);
                     out.flush();
                 }
             } catch (IOException e) {
