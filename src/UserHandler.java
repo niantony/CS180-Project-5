@@ -426,10 +426,14 @@ public class UserHandler implements Runnable {
     private boolean deleteAccount() {
         ReadUsers();
         boolean success = false;
-        String fileName = currentUser.getUsername() + ".txt";
-        File file = new File(fileName);
-        if (file.exists()) {
-            file.delete();
+        File file = currentUser.getConversations();
+        try {
+            if (file.exists()) {
+                new PrintWriter(file).close();
+                file.delete();
+            }
+        } catch (IOException e) {
+            return false;
         }
         for (int i = 0; i < userArrayList.size(); i++) {
             if (userArrayList.get(i).getUsername().equals(currentUser.getUsername())) {
