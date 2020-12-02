@@ -497,7 +497,7 @@ public class MainGui extends JComponent implements Runnable {
         textFieldPanel.add(textField);
         textFieldPanel.add(sendButton);
         content.add(textFieldPanel, BorderLayout.SOUTH);
-        messageFrame.setSize(600, 400);
+        messageFrame.setSize(800, 400);
         messageFrame.setLocationRelativeTo(null);
         messageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         messageFrame.setVisible(true);
@@ -815,3 +815,5 @@ public class MainGui extends JComponent implements Runnable {
             }
         }
     }
+
+}
