@@ -78,6 +78,7 @@ public class UserHandler implements Runnable {
 
                 if (userInput.contains("SearchUser*")) {
                     oos.writeObject(SearchUser(userInput));
+                    oos.flush();
                 }
 
                 if (userInput.contains("CreateConversation*")) {
