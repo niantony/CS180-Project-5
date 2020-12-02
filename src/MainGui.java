@@ -55,6 +55,19 @@ public class MainGui extends JComponent implements Runnable {
     private boolean successfulLogin = true;
     private boolean successfulAdditionToFile;
 
+    //settings
+    private JFrame settingsFrame;
+    private JButton homeButton;
+    private JButton saveButton;
+    private JButton logoutButton;
+    private JButton deleteAccountButton;
+    private JTextField nameField;
+    //JTextField usernameField;
+    //JTextField passwordField;
+    private JLabel nameLabel;
+    private JLabel usernameLabel;
+    private JLabel passwordLabel;
+
     public static Socket socket;
 //    public static BufferedReader bfr;
     public static PrintWriter outputToServer;
@@ -98,9 +111,9 @@ public class MainGui extends JComponent implements Runnable {
             } else if (e.getSource() == searchButton) {
                 String searchedUser = searchUsers.getText();
                 displaySearchMatches(searchedUser);
-
             } else if (e.getSource() == settingsButton) {
-                //settings gui
+                settings();
+                mainFrame.setVisible(false);
             } else if (e.getSource() == sendButton) {
                 String message = textField.getText();
                 textField.setText(null);
@@ -131,6 +144,25 @@ public class MainGui extends JComponent implements Runnable {
 //            mainScreen();
 //        }
 //    };
+
+    ActionListener settingsAL = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == deleteAccountButton) {
+                settingsFrame.setVisible(false);
+                deleteAccount();
+            } else if (e.getSource() == homeButton) {
+                settingsFrame.setVisible(false);
+                mainScreen();
+            } else if (e.getSource() == saveButton) {
+                saveSettings();
+            } else if (e.getSource() == logoutButton) {
+                settingsFrame.setVisible(false);
+                JOptionPane.showMessageDialog(null, "Logging out...", "Log Out", JOptionPane.PLAIN_MESSAGE);
+                System.exit(0);
+            }
+        }
+    };
 
     ActionListener deleteMessageAL = new ActionListener() {
         @Override
@@ -415,6 +447,97 @@ public class MainGui extends JComponent implements Runnable {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setVisible(true);
+    }
+
+    private void settings() {
+        outputToServer.println("Settings*");
+
+        try {
+            user = (User) obj.readObject();
+            System.out.println(user.getName());
+        } catch (IOException i) {
+            System.out.println("Connection failed while searching for a user");
+            JOptionPane.showMessageDialog(null, "Connection failed while searching for a user", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException c) {
+            System.out.println("Class not found whilst searching for a user");
+            JOptionPane.showMessageDialog(null, "Connection failed while searching for a user", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        settingsFrame = new JFrame("Settings");
+        Container content = settingsFrame.getContentPane();
+        content.setLayout(new BorderLayout());
+
+        // Contains all the information fields to view and edit.
+        // Includes the user's "Name", "Username", and "Password"
+        JPanel infoPanel = new JPanel();
+        nameLabel = new JLabel("Name: ");
+        nameField = new JTextField(user.getName(), 10);
+        usernameLabel = new JLabel("Username: ");
+        JLabel usernameField = new JLabel(user.getUsername(), 10);
+        passwordLabel = new JLabel("Password: ");
+        //passwordField = new JPasswordField(user.getPassword(), 10);
+        passwordField = new JPasswordField("", 10);
+
+        infoPanel.add(usernameLabel);
+        infoPanel.add(usernameField);
+        infoPanel.add(nameLabel);
+        infoPanel.add(nameField);
+        infoPanel.add(passwordLabel);
+        infoPanel.add(passwordField);
+        content.add(infoPanel, BorderLayout.CENTER);
+
+        // Shows the "Home", "Save", and "Delete" buttons at the bottom of the GUI
+        JPanel buttonsPanel = new JPanel();
+        homeButton = new JButton("Home");
+        homeButton.addActionListener(settingsAL);
+        saveButton = new JButton("Save Settings");
+        saveButton.addActionListener(settingsAL);
+        logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(settingsAL);
+        deleteAccountButton = new JButton("Delete");
+        deleteAccountButton.addActionListener(settingsAL);
+        buttonsPanel.add(homeButton);
+        buttonsPanel.add(saveButton);
+        buttonsPanel.add(logoutButton);
+        buttonsPanel.add(deleteAccountButton);
+        content.add(buttonsPanel, BorderLayout.SOUTH);
+
+        settingsFrame.setSize(600, 400);
+        settingsFrame.setLocationRelativeTo(null);
+        settingsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        settingsFrame.setVisible(true);
+    }
+
+    private void deleteAccount() {
+        outputToServer.println("DeleteAccount*");
+        boolean success = false;
+        try {
+            success = obj.readBoolean();
+            if (!success) {
+                JOptionPane.showMessageDialog(null, "Error in deleting Account", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Successfully Deleted Account", "Deletion Complete", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error in deleting Account", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+        readUsers();
+        System.exit(0);
+    }
+
+    private void saveSettings() {
+        String fullName = nameField.getText();
+        String newPassword = passwordField.getText();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("saveSettings*");
+        sb.append(fullName + "*");
+        sb.append(newPassword);
+
+        outputToServer.println(sb.toString());
+
+        JOptionPane.showMessageDialog(null, "New information saved to account.", "SavedSettings",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -815,17 +938,4 @@ public class MainGui extends JComponent implements Runnable {
             }
         }
     }
-
-//    public class AppendingObjectOutputStream extends ObjectOutputStream {
-//
-//        public AppendingObjectOutputStream(OutputStream out) throws IOException {
-//            super(out);
-//        }
-//
-//        @Override
-//        protected void writeStreamHeader() throws IOException {
-//            reset();
-//        }
-//
-//    }
 }
