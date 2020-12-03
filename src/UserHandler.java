@@ -26,117 +26,103 @@ public class UserHandler implements Runnable {
 
             while (true) {
                 String userInput = input.readLine();
-                System.out.println(userInput);
+                if (userInput != null) {
+                    System.out.println(userInput);
 
-                if (userInput.contains("LogIn*")) {
+                    if (userInput.contains("LogIn*")) {
 
-                    if (LogIn(userInput)) {
-                        readConversations();
-//                        output.println(true);
-                        oos.writeBoolean(true);
+                        if (LogIn(userInput)) {
+                            readConversations();
+                            oos.writeBoolean(true);
+                            oos.flush();
+                        } else {
+                            oos.writeBoolean(false);
+                            oos.flush();
+                            System.out.println("User not found");
+                        }
+                        userInput = "";
+                    }
+
+                    if (userInput.contains("SignUp*")) {
+
+                        if (SignUp(userInput)) {
+                            oos.writeBoolean(true);
+                        } else {
+                            oos.writeBoolean(false);
+                        }
                         oos.flush();
-//                        oos.reset();
-//                        System.out.println(currentUser.getName());
-//                        oos.writeObject(currentUser);
-//                        oos.flush();
-//                        System.out.println(currentUser.getName());
-                    } else {
-//                        output.println(false);
-                        oos.writeBoolean(false);
+                        userInput = "";
+                    }
+
+                    if (userInput.contains("AddConversation*")) {
+                        usersToAdd = new ArrayList<>();
+                    }
+
+                    if (userInput.contains("AddUserToConversation*")) {
+                        addUserToConversation(userInput);
+                        oos.writeInt(usersToAdd.size());
                         oos.flush();
-                        System.out.println("User not found");
+                        for (User u : usersToAdd) {
+                            oos.writeObject(u);
+                            oos.flush();
+                        }
                     }
-                    userInput = "";
-                }
 
-                if (userInput.contains("SignUp*")) {
-
-                    if (SignUp(userInput)) {
-//                        output.println(true);
-                        oos.writeBoolean(true);
-                    } else {
-//                        output.println(false);
-                        oos.writeBoolean(false);
+                    if (userInput.contains("SearchUser*")) {
+                        oos.writeObject(SearchUser(userInput));
                     }
-                    oos.flush();
-                    userInput = "";
-                }
 
-                if (userInput.contains("AddConversation*")) {
-                    usersToAdd = new ArrayList<>();
-                }
-
-                if (userInput.contains("AddUserToConversation*")) {
-                    addUserToConversation(userInput);
-                    oos.writeInt(usersToAdd.size());
-                    oos.flush();
-                    for (User u : usersToAdd) {
-                        oos.writeObject(u);
+                    if (userInput.contains("CreateConversation*")) {
+                        if (createConversation(userInput)) {
+                            System.out.println(true);
+                            oos.writeBoolean(true);
+                        } else {
+                            System.out.println(false);
+                            oos.writeBoolean(false);
+                        }
                         oos.flush();
                     }
-                }
 
-                if (userInput.contains("SearchUser*")) {
-                    oos.writeObject(SearchUser(userInput));
-                }
+                    if (userInput.contains("DeleteConversation*")) {
 
-                if (userInput.contains("CreateConversation*")) {
-                    if (createConversation(userInput)) {
-                        System.out.println(true);
-//                        output.println(true);
+                    }
+
+                    if (userInput.contains("EditMessage*")) {
+                        editMessage(userInput);
+                        oos.writeInt(messagesArr.size());
+                        for (String line : messagesArr) {
+                            oos.writeObject(line);
+                        }
+                    }
+
+                    if (userInput.contains("EditSpecificMessage*")) {
+                        editSpecificMessage(userInput);
+                        oos.writeInt(messagesArr.size());
+                        for (String line : messagesArr) {
+                            oos.writeObject(line);
+                        }
+                    }
+
+                    if (userInput.contains("DeleteMessage*")) {
+                        deleteMessage(userInput);
+                    }
+
+                    if (userInput.contains("Settings*")) {
+                        oos.writeObject(currentUser);
+                        oos.flush();
+                    }
+
+                    if (userInput.contains("SaveSettings*")) {
+                        saveSettings(userInput);
                         oos.writeBoolean(true);
-                    } else {
-                        System.out.println(false);
-//                        output.println(false);
-                        oos.writeBoolean(false);
+                    }
+
+                    if (userInput.contains("DeleteAccount*")) {
+                        boolean successfulDelete = deleteAccount();
+                        oos.writeBoolean(successfulDelete);
                     }
                     oos.flush();
-//                    oos.writeObject(userConversations);
                 }
-
-                if (userInput.contains("DeleteConversation*")) {
-
-                }
-
-                if (userInput.contains("Message*")) {
-
-                }
-
-                if (userInput.contains("EditMessage*")) {
-                    editMessage(userInput);
-                    oos.writeInt(messagesArr.size());
-                    for (String line : messagesArr) {
-                        oos.writeObject(line);
-                    }
-                }
-
-                if (userInput.contains("EditSpecificMessage*")) {
-                    editSpecificMessage(userInput);
-                    oos.writeInt(messagesArr.size());
-                    for (String line : messagesArr) {
-                        oos.writeObject(line);
-                    }
-                }
-
-                if (userInput.contains("DeleteMessage*")) {
-                    deleteMessage(userInput);
-                }
-
-                if (userInput.contains("Settings*")) {
-                    oos.writeObject(currentUser);
-                    oos.flush();
-                }
-
-                if (userInput.contains("SaveSettings*")) {
-                    saveSettings(userInput);
-                    oos.writeBoolean(true);
-                }
-
-                if (userInput.contains("DeleteAccount*")) {
-                    boolean successfulDelete = deleteAccount();
-                    oos.writeBoolean(successfulDelete);
-                }
-                oos.flush();
             }
         } catch(IOException e) {
             System.out.println("Oops: " + e.getMessage());
@@ -180,7 +166,7 @@ public class UserHandler implements Runnable {
     }
 
     public boolean LogIn(String logIn) {
-        //LogIn*MichaelCon*password123
+        //LogIn*username*password
         String[] checkUser = logIn.split("\\*");
         ReadUsers();
         for (User u : userArrayList) {
@@ -209,7 +195,7 @@ public class UserHandler implements Runnable {
                 }
             }
 
-            //create a textfile for the User
+            //Create a textfile for the User
             String fileName = checkUser[2] + ".txt";
             File file = new File(fileName);
 
@@ -250,15 +236,15 @@ public class UserHandler implements Runnable {
                 }
             }
 
-        } finally {
-//            System.out.println("Error in Sign Up");
+        } catch (Exception e) {
+            return false;
         }
         System.out.println("Error in Sign Up");
         return false;
     }
 
     public ArrayList<User> SearchUser(String userSearch) {
-        //SearchUser*Name
+        //SearchUser*Username
         String[] checkUser = userSearch.split("\\*");
 
         ArrayList<User> result = new ArrayList<>();
@@ -292,14 +278,10 @@ public class UserHandler implements Runnable {
         String nameOfConversation = input[1];
         String fileName = nameOfConversation + ".txt";
         File file = new File(fileName);
-//        if (file.exists()) {
-//            return false;
-//        }
         try {
             file.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
-            //failed
+            return false;
         }
         Conversation newConversation = new Conversation(nameOfConversation, usersToAdd, file);
         for (User u : usersToAdd) {
@@ -385,7 +367,8 @@ public class UserHandler implements Runnable {
                 line = br.readLine();
             }
         } catch (IOException e) {
-            //do something?
+            System.out.println("Error");
+            return;
         }
     }
 
@@ -455,20 +438,7 @@ public class UserHandler implements Runnable {
         System.out.println(passwordField);
         currentUser.setName(nameField);
         currentUser.setPassword(passwordField);
-//        for (int i = 0; i < userArrayList.size(); i++) {
-//            if (userArrayList.get(i).getUsername().equals(currentUser.getUsername())) {
-//                userArrayList.get(i).setName(nameField);
-//                currentUser.setName(nameField);
-//                userArrayList.get(i).setPassword(passwordField);
-//                currentUser.setPassword(passwordField);
-//                break;
-//            }
-//        }
         writeUsersToFile();
-        for (User u : userArrayList) {
-            System.out.println(u.getName());
-            System.out.println(u.getPassword());
-        }
     }
 
     private ArrayList<Conversation> readOtherUserConversations(User otherUser) {
