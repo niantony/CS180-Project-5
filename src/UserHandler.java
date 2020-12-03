@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class UserHandler implements Runnable {
     private Socket socket;
-    public ArrayList<User> userArrayList = new ArrayList<User>(); //Arraylist containing all of the users in File
-    public File usersFile = new File("UsersFile.txt"); //Text file containing Users
-    private ArrayList<User> usersToAdd; //Users to add in new conversations
+    public ArrayList<User> userArrayList = new ArrayList<User>();
+    public File usersFile = new File("UsersFile.txt");
+    private ArrayList<User> usersToAdd;
     private ArrayList<Conversation> userConversations;
-    private User currentUser; // the Current User of the thread
+    private User currentUser;
     private ArrayList<String> messagesArr = new ArrayList<>();
     private File messages;
 
@@ -19,12 +19,10 @@ public class UserHandler implements Runnable {
     public void run() {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//          PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
             while (true) {
                 String userInput = input.readLine();
-
                 if (userInput != null) {
                     System.out.println(userInput);
 
@@ -82,12 +80,7 @@ public class UserHandler implements Runnable {
                         oos.flush();
                     }
 
-                    if (userInput.contains("deleteConversation*")) {
-                        deleteConversation(userInput);
-                        oos.writeBoolean(true);
-                    }
-
-                    if (userInput.contains("Message*")) {
+                    if (userInput.contains("DeleteConversation*")) {
 
                     }
 
@@ -125,10 +118,8 @@ public class UserHandler implements Runnable {
                         boolean successfulDelete = deleteAccount();
                         oos.writeBoolean(successfulDelete);
                     }
-
+                    oos.flush();
                 }
-
-                oos.flush();
             }
         } catch(IOException e) {
             System.out.println("Oops: " + e.getMessage());
@@ -172,6 +163,7 @@ public class UserHandler implements Runnable {
         }
     }
 
+
     public boolean logIn(String logIn) {
         //LogIn*MichaelCon*password123
         String[] checkUser = logIn.split("\\*");
@@ -202,7 +194,7 @@ public class UserHandler implements Runnable {
                 }
             }
 
-            //create a textfile for the User
+            //Create a textfile for the User
             String fileName = checkUser[2] + ".txt";
             File file = new File(fileName);
 
@@ -243,8 +235,8 @@ public class UserHandler implements Runnable {
                 }
             }
 
-        } finally {
-//            System.out.println("Error in Sign Up");
+        } catch (Exception e) {
+            return false;
         }
         System.out.println("Error in Sign Up");
         return false;
@@ -286,12 +278,10 @@ public class UserHandler implements Runnable {
         String nameOfConversation = input[1];
         String fileName = nameOfConversation + ".txt";
         File file = new File(fileName);
-
         try {
             file.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
-            //failed
+            return false;
         }
         Conversation newConversation = new Conversation(nameOfConversation, usersToAdd, file);
         for (User u : usersToAdd) {
@@ -377,7 +367,8 @@ public class UserHandler implements Runnable {
                 line = br.readLine();
             }
         } catch (IOException e) {
-            //do something?
+            System.out.println("Error");
+            return;
         }
     }
 
@@ -447,12 +438,7 @@ public class UserHandler implements Runnable {
         System.out.println(passwordField);
         currentUser.setName(nameField);
         currentUser.setPassword(passwordField);
-
         writeUsersToFile();
-        for (User u : userArrayList) {
-            System.out.println(u.getName());
-            System.out.println(u.getPassword());
-        }
     }
 
     private ArrayList<Conversation> readOtherUserConversations(User otherUser) {
@@ -485,23 +471,4 @@ public class UserHandler implements Runnable {
             }
         }
     }
-
-    private void deleteConversation(String userInfo) {
-        //File userConversationF = user.getConversations();
-        String[] checkUser = userInfo.split("\\*");
-        String convNameTodelete = checkUser[1];;
-        for (int i = 0; i < userConversations.size(); i++) {
-            if (userConversations.get(i).getName().equals(convNameTodelete)) {
-                userConversations.remove(i);
-            }        }
-
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(currentUser.getConversations()))) {
-            for (Conversation c : userConversations) {
-                out.writeObject(c);
-                out.flush();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }    
 }
