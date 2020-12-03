@@ -55,7 +55,7 @@ public class MainGui extends JComponent implements Runnable {
     private boolean successfulLogin = true;
     private boolean successfulAdditionToFile;
 
-    //settings
+    //settings 
     private JFrame settingsFrame;
     private JButton homeButton;
     private JButton saveButton;
@@ -67,6 +67,7 @@ public class MainGui extends JComponent implements Runnable {
     private JLabel nameLabel;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
+    JButton deleteConvButton;
 
     public static Socket socket;
 //    public static BufferedReader bfr;
@@ -122,6 +123,17 @@ public class MainGui extends JComponent implements Runnable {
                     messageFrame.dispose();
                     displayMessages();
                 }
+            } else if (e.getSource() == deleteButton) {
+                deleteAccount();
+                settingsFrame.setVisible(false);
+            } else if (e.getSource() == logoutButton) {
+                logoutButton.addActionListener(a -> System.exit(0));
+            } else if (e.getSource() == saveButton) {
+                saveSettings();
+            } else if (e.getSource() == homeButton) {
+                //messageFrame.setVisible(true);
+                mainFrame.setVisible(true);
+                settingsFrame.setVisible(false);
             } else if (e.getSource() == backButton) {
                 messageFrame.setVisible(false);
                 mainFrame.setVisible(true);
@@ -136,6 +148,7 @@ public class MainGui extends JComponent implements Runnable {
             } else {
                 int index = Integer.parseInt(e.getActionCommand());
                 conversationDisplayed = conversations.get(index);
+                mainFrame.setVisible(false);
                 displayMessages();
             }
         }
@@ -429,11 +442,22 @@ public class MainGui extends JComponent implements Runnable {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 1.0;
         constraints.anchor = GridBagConstraints.NORTH;
+        deleteConvButton = new JButton("Delete");
         for (int i = 0; i < conversations.size(); i++) {
             JButton button = new JButton(conversations.get(i).getName());
             button.setActionCommand(String.valueOf(i));
             button.addActionListener(actionListener);
+            constraints.gridwidth = 1;
+            constraints.gridx = 0;
+            constraints.ipadx = 300;
             conversationPanel.add(button, constraints);
+            deleteConvButton = new JButton("Delete");
+            deleteConvButton.setActionCommand(String.valueOf(i));
+            deleteConvButton.addActionListener(deleteConversation);
+            constraints.gridwidth = 1;
+            constraints.gridx = 2;
+            constraints.ipadx = 0;
+            conversationPanel.add(deleteConvButton, constraints);
         }
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         content.add(scrollPane, BorderLayout.CENTER);
@@ -755,6 +779,31 @@ public class MainGui extends JComponent implements Runnable {
             e.printStackTrace();
         }
         readConversationsFromFile();
+    }
+
+    /**
+     * Delete conversation for the current user
+     */
+    private void deleteConversation() {
+        String convNameTodelete = conversationDisplayed.getName();
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("deleteConversation*");
+        sb.append(convNameTodelete);
+
+        outputToServer.println(sb.toString());
+ 
+        boolean success = false;
+        try {
+            success = obj.readBoolean();
+            System.out.println("deleteConversation success");
+            if (!success) {
+                JOptionPane.showMessageDialog(null, "Error in deleting Conversation", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to delete conversation");
+            e.printStackTrace();
+        }
     }
 
     /**
