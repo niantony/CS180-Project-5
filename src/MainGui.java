@@ -116,16 +116,22 @@ public class MainGui extends JComponent implements Runnable {
                 settings();
                 mainFrame.setVisible(false);
             } else if (e.getSource() == sendButton) {
+
                 if (!textField.getText().isEmpty()) {
                     String message = textField.getText();
                     textField.setText(null);
                     addMessage(message);
                     messageFrame.dispose();
                     displayMessages();
+                } else {
+                    messageFrame.dispose();
+                    displayMessages();
                 }
-            } else if (e.getSource() == deleteButton) {
+
+            } else if (e.getSource() == deleteAccountButton) {
                 deleteAccount();
                 settingsFrame.setVisible(false);
+
             } else if (e.getSource() == logoutButton) {
                 logoutButton.addActionListener(a -> System.exit(0));
             } else if (e.getSource() == saveButton) {
@@ -308,11 +314,6 @@ public class MainGui extends JComponent implements Runnable {
             successfulLogin = true;
             conversations = new ArrayList<>();
             users = new ArrayList<>();
-//            try {
-//                user = (User) obj.readObject();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
             readUsers();
             for (User u : users) {
                 if (u.getUsername().equals(username)) {
@@ -433,7 +434,6 @@ public class MainGui extends JComponent implements Runnable {
         content.setLayout(new BorderLayout());
 
         readConversationsFromFile();
-//        readUsers();
         JPanel conversationPanel = new JPanel(new GridBagLayout());
         JScrollPane scrollPane = new JScrollPane(conversationPanel);
         GridBagConstraints constraints = new GridBagConstraints();
@@ -453,7 +453,7 @@ public class MainGui extends JComponent implements Runnable {
             conversationPanel.add(button, constraints);
             deleteConvButton = new JButton("Delete");
             deleteConvButton.setActionCommand(String.valueOf(i));
-            deleteConvButton.addActionListener(deleteConversation);
+            deleteConvButton.addActionListener(actionListener);
             constraints.gridwidth = 1;
             constraints.gridx = 2;
             constraints.ipadx = 0;
@@ -641,7 +641,7 @@ public class MainGui extends JComponent implements Runnable {
             //do something?
         }
         content.add(scrollPane, BorderLayout.CENTER);
-//        JPanel textFieldPanel = new JPanel(new BorderLayout());
+//      JPanel textFieldPanel = new JPanel(new BorderLayout());
         JPanel textFieldPanel = new JPanel();
         textField = new JTextField(30);
         textField.addActionListener(actionListener);
@@ -724,22 +724,14 @@ public class MainGui extends JComponent implements Runnable {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         content.add(scrollPane, BorderLayout.NORTH);
 
-        //messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
-        //JScrollPane scrollPane = new JScrollPane(messagePanel);
         content.add(scrollPane, BorderLayout.CENTER);
-        //JPanel textFieldPanel = new JPanel(new BorderLayout());
         JPanel textFieldPanel = new JPanel();
 
         editMessBackButton = new JButton("Back");
         editMessBackButton.addActionListener(actionListener);
 
-        //JPanel homeEditPanel = new JPanel(new BorderLayout());
         textFieldPanel.add(editMessBackButton);
-        //textFieldPanel.add(editMessagesButton);
-        //textFieldPanel.add(textField);
-        //textFieldPanel.add(sendButton);
         content.add(textFieldPanel, BorderLayout.SOUTH);
-        //content.add(homeEditPanel, BorderLayout.WEST);
 
         editMessageFrame.setSize(600, 400);
         editMessageFrame.setLocationRelativeTo(null);
@@ -902,10 +894,7 @@ public class MainGui extends JComponent implements Runnable {
         conversationNameField = new JTextField();
         conversationNameField.addActionListener(actionListener);
         fieldsToFill.add(conversationNameField);
-//        if (!usersToAdd.contains(user)) {
-//            usersToAdd.add(user);
-//        }
-//        usersToAdd.add(otherUser);
+
         outputToServer.println("AddUserToConversation*" + otherUser.getUsername());
         try {
             usersToAdd = new ArrayList<>();
@@ -943,18 +932,15 @@ public class MainGui extends JComponent implements Runnable {
         outputToServer.println("CreateConversation*" + nameOfConversation);
         boolean successfulAddition = false;
         try {
-//            successfulAddition = Boolean.parseBoolean(bfr.readLine());
+
             successfulAddition = obj.readBoolean();
             System.out.println(successfulAddition);
-//            conversations = (ArrayList<Conversation>) obj.readObject();
+
         } catch (IOException e) {
             System.out.println("Failed to add conversation");
             e.printStackTrace();
         }
-//        catch (ClassNotFoundException e) {
-//            System.out.println("Failed to add conversation");
-//            e.printStackTrace();
-//        }
+
         if (!successfulAddition) {
             JOptionPane.showMessageDialog(null, "Invalid conversation name", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
