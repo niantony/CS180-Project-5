@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * <p>
  * Main GUI that interacts with user
  */
-public class MainGui extends JComponent implements Runnable {
+public class ClientGui extends JComponent implements Runnable {
     private ArrayList<Conversation> conversations;
     private ArrayList<User> users;
     private ArrayList<User> userMatches;
@@ -197,7 +197,7 @@ public class MainGui extends JComponent implements Runnable {
         }
     };
 
-    public MainGui() {
+    public ClientGui() {
         conversations = new ArrayList<>();
         users = new ArrayList<>();
     }
@@ -212,7 +212,7 @@ public class MainGui extends JComponent implements Runnable {
             JOptionPane.showMessageDialog(null, "Error connecting to Server", "Connection Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        SwingUtilities.invokeLater(new MainGui());
+        SwingUtilities.invokeLater(new ClientGui());
     }
 
     public void run() {
