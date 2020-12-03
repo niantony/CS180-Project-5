@@ -9,6 +9,7 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -1640,56 +1641,56 @@ public class RunLocalTest {
             Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
-
-        @Test(timeout = 1000)
-        public void userHandlerDeleteConversationMethodTest() {
-            Class<?> clazz;
-            String className = "UserHandler";
-            Method method;
-            int modifiers;
-            Class<?> actualReturnType;
-            int expectedLength = 0;
-            Class<?>[] exceptions;
-
-            // Set the method that you want to test
-            String methodName = "deleteConversation";
-
-            // Set the return type of the method you want to test
-            // Use the type + .class
-            // For example, String.class or int.class
-            Class<?> expectedReturnType = void.class;
-
-
-            // Set the class being tested
-            clazz = UserHandler.class;
-
-            // Attempt to access the class method
-            try {
-                method = clazz.getDeclaredMethod(methodName, String.class);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
-                        " has one parameter with type String!");
-
-                return;
-            } //end try catch
-
-            // Perform tests
-
-            modifiers = method.getModifiers();
-
-            actualReturnType = method.getReturnType();
-
-            exceptions = method.getExceptionTypes();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
-
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
-
-        }
+// Delete Conversation
+//        @Test(timeout = 1000)
+//        public void userHandlerDeleteConversationMethodTest() {
+//            Class<?> clazz;
+//            String className = "UserHandler";
+//            Method method;
+//            int modifiers;
+//            Class<?> actualReturnType;
+//            int expectedLength = 0;
+//            Class<?>[] exceptions;
+//
+//            // Set the method that you want to test
+//            String methodName = "deleteConversation";
+//
+//            // Set the return type of the method you want to test
+//            // Use the type + .class
+//            // For example, String.class or int.class
+//            Class<?> expectedReturnType = void.class;
+//
+//
+//            // Set the class being tested
+//            clazz = UserHandler.class;
+//
+//            // Attempt to access the class method
+//            try {
+//                method = clazz.getDeclaredMethod(methodName, String.class);
+//            } catch (NoSuchMethodException e) {
+//                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+//                        " has one parameter with type String!");
+//
+//                return;
+//            } //end try catch
+//
+//            // Perform tests
+//
+//            modifiers = method.getModifiers();
+//
+//            actualReturnType = method.getReturnType();
+//
+//            exceptions = method.getExceptionTypes();
+//
+//            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+//
+//            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+//
+//            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+//
+//            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+//
+//        }
 
         // START OF CLIENTGUI CLASS TESTS TODO
         @Test(timeout = 1_000)
@@ -1746,5 +1747,954 @@ public class RunLocalTest {
             Assert.assertEquals("Ensure that `" + className + "`'s parameterized constructor has an empty `throws` clause!", expectedLength, exceptions.length);
         }
 
+        @Test(timeout = 1000)
+        public void clientGuiLogInMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "logIn";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiDisplaySignUpMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "displaySignUp";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiSignUpMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "signUp";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiMainScreenMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "mainScreen";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiSettingsMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "settings";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiDeleteAccountMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "deleteAccount";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiSaveSettingsMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "saveSettings";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiReadConversationsFromFileMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "readConversationsFromFile";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiReadUsersMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "readUsers";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiDisplayConversationMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "displayConversation";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiDisplayMessagesMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "displayMessages";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiEditMessagesMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "editMessages";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiDeleteMessageMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "deleteMessage";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName, int.class);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has one parameter with type Int!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiEditSpecificMessageMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "editSpecificMessage";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName, int.class);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has one parameter with type Int!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiAddMessageMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "addMessage";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName, String.class);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has one parameter with type String!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiAddConversationMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "addConversation";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiDisplaySearchMatchesMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "displaySearchMatches";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName, String.class);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has one parameter with type String!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiFillConversationFieldsMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "fillConversationFields";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = void.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName, User.class);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has one parameter with type User!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
+
+        @Test(timeout = 1000)
+        public void clientGuiAddConversationToFileMethodTest() {
+            Class<?> clazz;
+            String className = "ClientGui";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+            // Set the method that you want to test
+            String methodName = "addConversationToFile";
+
+            // Set the return type of the method you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedReturnType = boolean.class;
+
+
+            // Set the class being tested
+            clazz = ClientGui.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            exceptions = method.getExceptionTypes();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+
+        }
     }
 }
