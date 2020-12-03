@@ -1,8 +1,6 @@
-import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class UserHandler implements Runnable {
     private Socket socket;
@@ -32,7 +30,7 @@ public class UserHandler implements Runnable {
 
                     if (userInput.contains("LogIn*")) {
 
-                        if (LogIn(userInput)) {
+                        if (logIn(userInput)) {
                             readConversations();
                             oos.writeBoolean(true);
                             oos.flush();
@@ -46,7 +44,7 @@ public class UserHandler implements Runnable {
 
                     if (userInput.contains("SignUp*")) {
 
-                        if (SignUp(userInput)) {
+                        if (signUp(userInput)) {
                             oos.writeBoolean(true);
                         } else {
                             oos.writeBoolean(false);
@@ -70,7 +68,7 @@ public class UserHandler implements Runnable {
                     }
 
                     if (userInput.contains("SearchUser*")) {
-                        oos.writeObject(SearchUser(userInput));
+                        oos.writeObject(searchUser(userInput));
                     }
 
                     if (userInput.contains("CreateConversation*")) {
@@ -144,7 +142,7 @@ public class UserHandler implements Runnable {
     }
 
     //Reads all of the users from usersFile into the userArrayList
-    public void ReadUsers() {
+    public void readUsers() {
         userArrayList = new ArrayList<>();
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(usersFile))) {
             User u = (User) in.readObject();
@@ -174,15 +172,15 @@ public class UserHandler implements Runnable {
         }
     }
 
-    public boolean LogIn(String logIn) {
+    public boolean logIn(String logIn) {
         //LogIn*MichaelCon*password123
         String[] checkUser = logIn.split("\\*");
-        ReadUsers();
+        readUsers();
         for (User u : userArrayList) {
             if (u.getUsername().equals(checkUser[1]) && u.getPassword().equals(checkUser[2])) {
                 currentUser = u;
                 readConversations();
-                ReadUsers();
+                readUsers();
                 System.out.println("Correct login");
                 return true;
             }
@@ -190,12 +188,12 @@ public class UserHandler implements Runnable {
         return false;
     }
 
-    public boolean SignUp(String signUp) {
+    public boolean signUp(String signUp) {
         //SignUp*MichaelCon*Username*password123
         try {
 
             String[] checkUser = signUp.split("\\*");
-            ReadUsers();
+            readUsers();
 
             //Check if username is unique
             for (User u : userArrayList) {
@@ -253,12 +251,12 @@ public class UserHandler implements Runnable {
     }
 
     //Method that searches for users based on the user input
-    public ArrayList<User> SearchUser(String userSearch) {
+    public ArrayList<User> searchUser(String userSearch) {
         //SearchUser*Name
         String[] checkUser = userSearch.split("\\*");
 
         ArrayList<User> result = new ArrayList<>();
-        ReadUsers();
+        readUsers();
 
         for (User u : userArrayList) {
             if (u.getUsername().toLowerCase().contains(checkUser[1].toLowerCase())) {
@@ -269,7 +267,7 @@ public class UserHandler implements Runnable {
     }
 
     public void addUserToConversation(String userInput) {
-        ReadUsers();
+        readUsers();
         String[] input = userInput.split("\\*");
         String username = input[1];
         if (!usersToAdd.contains(currentUser)) {
@@ -418,7 +416,7 @@ public class UserHandler implements Runnable {
     }
 
     private boolean deleteAccount() {
-        ReadUsers();
+        readUsers();
         boolean success = false;
         File file = currentUser.getConversations();
         try {
@@ -437,7 +435,7 @@ public class UserHandler implements Runnable {
         }
         currentUser = null;
         writeUsersToFile();
-        ReadUsers();
+        readUsers();
         return success;
     }
 
