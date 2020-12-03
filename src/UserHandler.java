@@ -21,110 +21,115 @@ public class UserHandler implements Runnable {
     public void run() {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+//          PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
             while (true) {
                 String userInput = input.readLine();
                 System.out.println(userInput);
 
-                if (userInput.contains("LogIn*")) {
+                if (!userInput.isEmpty()) {
 
-                    if (LogIn(userInput)) {
-                        readConversations();
-                        oos.writeBoolean(true);
+                    if (userInput.contains("LogIn*")) {
+
+                        if (LogIn(userInput)) {
+                            readConversations();
+                            oos.writeBoolean(true);
+                            oos.flush();
+                        } else {
+                            oos.writeBoolean(false);
+                            oos.flush();
+                            System.out.println("User not found");
+                        }
+                        userInput = "";
+                    }
+
+                    if (userInput.contains("SignUp*")) {
+
+                        if (SignUp(userInput)) {
+                            oos.writeBoolean(true);
+                        } else {
+                            oos.writeBoolean(false);
+                        }
                         oos.flush();
-                    } else {
-                        oos.writeBoolean(false);
+                        userInput = "";
+                    }
+
+                    if (userInput.contains("AddConversation*")) {
+                        usersToAdd = new ArrayList<>();
+                    }
+
+                    if (userInput.contains("AddUserToConversation*")) {
+                        addUserToConversation(userInput);
+                        oos.writeInt(usersToAdd.size());
                         oos.flush();
-                        System.out.println("User not found");
+                        for (User u : usersToAdd) {
+                            oos.writeObject(u);
+                            oos.flush();
+                        }
                     }
-                    userInput = "";
-                }
 
-                if (userInput.contains("SignUp*")) {
-
-                    if (SignUp(userInput)) {
-                        oos.writeBoolean(true);
-                    } else {
-                        oos.writeBoolean(false);
+                    if (userInput.contains("SearchUser*")) {
+                        oos.writeObject(SearchUser(userInput));
                     }
-                    oos.flush();
-                    userInput = "";
-                }
 
-                if (userInput.contains("AddConversation*")) {
-                    usersToAdd = new ArrayList<>();
-                }
-
-                if (userInput.contains("AddUserToConversation*")) {
-                    addUserToConversation(userInput);
-                    oos.writeInt(usersToAdd.size());
-                    oos.flush();
-                    for (User u : usersToAdd) {
-                        oos.writeObject(u);
+                    if (userInput.contains("CreateConversation*")) {
+                        if (createConversation(userInput)) {
+                            System.out.println(true);
+                            oos.writeBoolean(true);
+                        } else {
+                            System.out.println(false);
+                            oos.writeBoolean(false);
+                        }
                         oos.flush();
                     }
-                }
 
-                if (userInput.contains("SearchUser*")) {
-                    oos.writeObject(SearchUser(userInput));
-                }
-
-                if (userInput.contains("CreateConversation*")) {
-                    if (createConversation(userInput)) {
-                        System.out.println(true);
+                    if (userInput.contains("deleteConversation*")) {
+                        deleteConversation(userInput);
                         oos.writeBoolean(true);
-                    } else {
-                        System.out.println(false);
-                        oos.writeBoolean(false);
                     }
-                    oos.flush();
-                }
 
-                if (userInput.contains("deleteConversation*")) {
-                   deleteConversation(userInput);
-                   oos.writeBoolean(true);
-                }
+                    if (userInput.contains("Message*")) {
 
-                if (userInput.contains("Message*")) {
-
-                }
-
-                if (userInput.contains("EditMessage*")) {
-                    editMessage(userInput);
-                    oos.writeInt(messagesArr.size());
-                    for (String line : messagesArr) {
-                        oos.writeObject(line);
                     }
-                }
 
-                if (userInput.contains("EditSpecificMessage*")) {
-                    editSpecificMessage(userInput);
-                    oos.writeInt(messagesArr.size());
-                    for (String line : messagesArr) {
-                        oos.writeObject(line);
+                    if (userInput.contains("EditMessage*")) {
+                        editMessage(userInput);
+                        oos.writeInt(messagesArr.size());
+                        for (String line : messagesArr) {
+                            oos.writeObject(line);
+                        }
                     }
+
+                    if (userInput.contains("EditSpecificMessage*")) {
+                        editSpecificMessage(userInput);
+                        oos.writeInt(messagesArr.size());
+                        for (String line : messagesArr) {
+                            oos.writeObject(line);
+                        }
+                    }
+
+                    if (userInput.contains("DeleteMessage*")) {
+                        deleteMessage(userInput);
+                    }
+
+                    if (userInput.contains("Settings*")) {
+                        oos.writeObject(currentUser);
+                        oos.flush();
+                    }
+
+                    if (userInput.contains("SaveSettings*")) {
+                        saveSettings(userInput);
+                        oos.writeBoolean(true);
+                    }
+
+                    if (userInput.contains("DeleteAccount*")) {
+                        boolean successfulDelete = deleteAccount();
+                        oos.writeBoolean(successfulDelete);
+                    }
+
                 }
 
-                if (userInput.contains("DeleteMessage*")) {
-                    deleteMessage(userInput);
-                }
-
-                if (userInput.contains("Settings*")) {
-                    oos.writeObject(currentUser);
-                    oos.flush();
-                }
-
-                if (userInput.contains("SaveSettings*")) {
-                    saveSettings(userInput);
-                    oos.writeBoolean(true);
-                }
-
-                if (userInput.contains("DeleteAccount*")) {
-                    boolean successfulDelete = deleteAccount();
-                    oos.writeBoolean(successfulDelete);
-                }
                 oos.flush();
             }
         } catch(IOException e) {

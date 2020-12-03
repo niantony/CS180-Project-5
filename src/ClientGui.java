@@ -293,6 +293,11 @@ public class ClientGui extends JComponent implements Runnable {
         String password = passwordField.getText();
         boolean success = false;
 
+        if (username.isEmpty() || password.isEmpty()) {
+            successfulLogin = false;
+            return;
+        }
+
         readUsers();
         StringBuilder sb = new StringBuilder();
         sb.append("LogIn*");
@@ -301,7 +306,6 @@ public class ClientGui extends JComponent implements Runnable {
 
         outputToServer.println(sb.toString());
         try {
-//            success = Boolean.parseBoolean(bfr.readLine());
             success = obj.readBoolean();
         } catch (IOException e) {
             System.out.println("no response");
