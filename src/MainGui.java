@@ -536,8 +536,14 @@ public class MainGui extends JComponent implements Runnable {
         String fullName = nameField.getText();
         String newPassword = passwordField.getText();
 
+        if (fullName == null || fullName.equals("") || newPassword == null || newPassword.equals("")) {
+            JOptionPane.showMessageDialog(null, "Please enter all the fields", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         StringBuilder sb = new StringBuilder();
-        sb.append("saveSettings*");
+        sb.append("SaveSettings*");
         sb.append(fullName + "*");
         sb.append(newPassword);
 
