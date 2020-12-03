@@ -26,9 +26,9 @@ public class UserHandler implements Runnable {
 
             while (true) {
                 String userInput = input.readLine();
-                System.out.println(userInput);
 
-                if (!userInput.isEmpty()) {
+                if (userInput != null) {
+                    System.out.println(userInput);
 
                     if (userInput.contains("LogIn*")) {
 
