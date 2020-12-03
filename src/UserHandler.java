@@ -450,21 +450,25 @@ public class UserHandler implements Runnable {
     private void saveSettings(String userInfo) {
         String[] checkUser = userInfo.split("\\*");
         String nameField = checkUser[1];
+        System.out.println(nameField);
         String passwordField = checkUser[2];
-        for (int i = 0; i < userArrayList.size(); i++) {
-            if (userArrayList.get(i).getUsername().equals(currentUser.getUsername())) {
-                if (nameField != null && !("".equals(nameField))) {
-                    userArrayList.get(i).setName(nameField);
-                    currentUser.setName(nameField);
-                }
-                if (passwordField != null && !("".equals(passwordField))) {
-                    userArrayList.get(i).setPassword(passwordField);
-                    currentUser.setPassword(passwordField);
-                }
-                break;
-            }
-        }
+        System.out.println(passwordField);
+        currentUser.setName(nameField);
+        currentUser.setPassword(passwordField);
+//        for (int i = 0; i < userArrayList.size(); i++) {
+//            if (userArrayList.get(i).getUsername().equals(currentUser.getUsername())) {
+//                userArrayList.get(i).setName(nameField);
+//                currentUser.setName(nameField);
+//                userArrayList.get(i).setPassword(passwordField);
+//                currentUser.setPassword(passwordField);
+//                break;
+//            }
+//        }
         writeUsersToFile();
+        for (User u : userArrayList) {
+            System.out.println(u.getName());
+            System.out.println(u.getPassword());
+        }
     }
 
     private ArrayList<Conversation> readOtherUserConversations(User otherUser) {
