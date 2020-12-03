@@ -94,8 +94,9 @@ public class UserHandler implements Runnable {
 //                    oos.writeObject(userConversations);
                 }
 
-                if (userInput.contains("DeleteConversation*")) {
-
+                if (userInput.contains("deleteConversation*")) {
+                   deleteConversation(userInput);
+                   oos.writeBoolean(true);
                 }
 
                 if (userInput.contains("Message*")) {
@@ -501,4 +502,22 @@ public class UserHandler implements Runnable {
             }
         }
     }
+    private void deleteConversation(String userInfo) {
+        //File userConversationF = user.getConversations();
+        String[] checkUser = userInfo.split("\\*");
+        String convNameTodelete = checkUser[1];;
+        for (int i = 0; i < userConversations.size(); i++) {
+            if (userConversations.get(i).getName().equals(convNameTodelete)) {
+                userConversations.remove(i);
+            }        }
+
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(currentUser.getConversations()))) {
+            for (Conversation c : userConversations) {
+                out.writeObject(c);
+                out.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }    
 }
