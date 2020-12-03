@@ -1,8 +1,6 @@
-import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class UserHandler implements Runnable {
     private Socket socket;
@@ -21,7 +19,6 @@ public class UserHandler implements Runnable {
     public void run() {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
             while (true) {
