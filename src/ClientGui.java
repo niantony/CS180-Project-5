@@ -959,5 +959,6 @@ public class ClientGui extends JComponent implements Runnable {
         mainScreen();
         mainFrame.setVisible(true);
         return true;
+        
     }
 }
