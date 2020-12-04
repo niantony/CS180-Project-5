@@ -1,8 +1,10 @@
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class UserHandler implements Runnable {
+
     private Socket socket;
     public ArrayList<User> userArrayList = new ArrayList<User>();
     public File usersFile = new File("UsersFile.txt");
@@ -81,7 +83,9 @@ public class UserHandler implements Runnable {
                     }
 
                     if (userInput.contains("DeleteConversation*")) {
-
+                        deleteConversation(userInput);
+                        oos.writeBoolean(true);
+                        oos.flush();
                     }
 
                     if (userInput.contains("EditMessage*")) {
@@ -121,12 +125,12 @@ public class UserHandler implements Runnable {
                     oos.flush();
                 }
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("Oops: " + e.getMessage());
         } finally {
             try {
                 socket.close();
-            } catch(IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -162,7 +166,6 @@ public class UserHandler implements Runnable {
             e.printStackTrace();
         }
     }
-
 
     public boolean logIn(String logIn) {
         //LogIn*MichaelCon*password123
@@ -473,6 +476,26 @@ public class UserHandler implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void deleteConversation(String userInfo) {
+
+        String[] checkUser = userInfo.split("\\*");
+        String convNameTodelete = checkUser[1];;
+        for (int i = 0; i < userConversations.size(); i++) {
+            if (userConversations.get(i).getName().equals(convNameTodelete)) {
+                userConversations.remove(i);
+            }
+        }
+
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(currentUser.getConversations()))) {
+            for (Conversation c : userConversations) {
+                out.writeObject(c);
+                out.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
