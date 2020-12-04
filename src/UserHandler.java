@@ -169,7 +169,7 @@ public class UserHandler implements Runnable {
                 u = (User) in.readObject();
             }
         } catch (EOFException | FileNotFoundException e) {
-            e.printStackTrace();
+            //end of file
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
             e.printStackTrace();
         }
