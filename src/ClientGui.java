@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * CS 180 Project 5 -- ClientGui.java
@@ -589,6 +591,21 @@ public class ClientGui extends JComponent implements Runnable {
      */
     private void readConversationsFromFile() {
         conversations = new ArrayList<>();
+        
+        String userName = user.getUsername();
+        outputToServer.println("ReadConversationsFromFile*" + userName);
+ 
+        try {
+            conversations  = (ArrayList<Conversation>)obj.readObject();
+            System.out.println("successfully readConversationsFromFile");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Failed to add conversation. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Failed to add conversation. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    
+        /*
+        conversations = new ArrayList<>();
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(user.getConversations()))) {
             Conversation c = (Conversation) in.readObject();
             while (c != null) {
@@ -600,12 +617,27 @@ public class ClientGui extends JComponent implements Runnable {
         } catch (IOException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Error reading conversations from file. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        */
     }
 
     /**
      * Reads users from file into Arraylist
      */
     private void readUsers() {
+        users = new ArrayList<>();
+        
+        outputToServer.println("ReadUsers*");
+ 
+        try {
+            users  = (ArrayList<User>)obj.readObject();
+            System.out.println("successfully readUsers");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Failed to readUsers. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Failed to readUsers. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }        
+        
+        /*
         users = new ArrayList<>();
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(usersFile))) {
             User u = (User) in.readObject();
@@ -618,6 +650,7 @@ public class ClientGui extends JComponent implements Runnable {
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Error reading users from file. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        */
     }
     
     private void displayConversation() {
