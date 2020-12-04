@@ -9,10 +9,13 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
         try(ServerSocket serverSocket = new ServerSocket(8080)) {
+            System.out.println("Server is running on port 8080");
             while (true) {
                 //Server socket for the Server, wait to accept a connection
+                System.out.println("Waiting for client connection...");
                 Socket socket = serverSocket.accept();
-                System.out.println("Connected to server");
+                System.out.println("A client connected to the server from address " +
+                        socket.getLocalAddress() + " and port " + socket.getLocalPort());
                 //Starts a thread for the new user, multi-threaded
                 Thread t = new Thread(new UserHandler(socket));
                 t.start();

@@ -230,6 +230,8 @@ public class ClientGui extends JComponent implements Runnable {
             socket = new Socket("localhost", 8080);
             outputToServer = new PrintWriter(socket.getOutputStream(), true);
             obj = new ObjectInputStream(socket.getInputStream());
+            System.out.println("You connected to the server from address " +
+                    socket.getLocalAddress() + " and port " + socket.getLocalPort());
         } catch (IOException i) {
             JOptionPane.showMessageDialog(null, "Error connecting to Server", "Connection Error", JOptionPane.ERROR_MESSAGE);
             return;
