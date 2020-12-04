@@ -191,7 +191,6 @@ public class ClientGui extends JComponent implements Runnable {
     ActionListener update = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-//            messageFrame.dispose();
             displayMessages();
         }
     };
@@ -477,7 +476,6 @@ public class ClientGui extends JComponent implements Runnable {
         usernameLabel = new JLabel("Username: ");
         JLabel usernameField = new JLabel(user.getUsername(), 10);
         passwordLabel = new JLabel("Password: ");
-        //passwordField = new JPasswordField(user.getPassword(), 10);
         passwordField = new JPasswordField("", 10);
 
         infoPanel.add(usernameLabel);

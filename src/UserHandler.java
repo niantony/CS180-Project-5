@@ -433,9 +433,13 @@ public class UserHandler implements Runnable {
     private void saveSettings(String userInfo) {
         String[] checkUser = userInfo.split("\\*");
         String nameField = checkUser[1];
-        System.out.println(nameField);
         String passwordField = checkUser[2];
-        System.out.println(passwordField);
+        for (User u : userArrayList) {
+            if (u.getUsername().equals(currentUser.getUsername())) {
+                u.setName(nameField);
+                u.setPassword(passwordField);
+            }
+        }
         currentUser.setName(nameField);
         currentUser.setPassword(passwordField);
         writeUsersToFile();
