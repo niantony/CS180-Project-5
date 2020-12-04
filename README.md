@@ -1,6 +1,7 @@
 # CS180-Project-5
 
 This is a social network messaging application that allows multiple users to chat with eachother.
+In order to start the program, first `Server.java` and next start `ClientGui.java`.
 
 1) Users can create, edit, and delete accounts for themselves.
 2) Users can create, edit, and delete messages sent to both individuals and groups.
