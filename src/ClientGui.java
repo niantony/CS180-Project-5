@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
  * Main GUI that interacts with user
  */
 public class ClientGui extends JComponent implements Runnable {
+
     private ArrayList<Conversation> conversations;
     private ArrayList<User> users;
     private ArrayList<User> userMatches;
@@ -67,11 +69,12 @@ public class ClientGui extends JComponent implements Runnable {
     private JLabel nameLabel;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
-
+    
+    JButton deleteConvButton;
     public static Socket socket;
     public static PrintWriter outputToServer;
     public static ObjectInputStream obj;
-
+    
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -92,18 +95,18 @@ public class ClientGui extends JComponent implements Runnable {
                 if (!successfulAdditionToFile) {
                     addConversationFields.setVisible(true);
                 }
-
+                
             } else if (e.getSource() == loginButton) {
                 //send message to server login*username*password
                 loginFrame.setVisible(false);
                 logIn();
-
+                
                 if (successfulLogin) {
                     mainScreen();
                 } else {
                     loginFrame.setVisible(true);
                 }
-
+                
             } else if (e.getSource() == addOtherUsers) {
                 addConversationFields.setVisible(false);
                 addConversation();
@@ -120,6 +123,17 @@ public class ClientGui extends JComponent implements Runnable {
                     addMessage(message);
                     displayMessages();
                 }
+            } else if (e.getSource() == deleteAccountButton) {
+                deleteAccount();
+                settingsFrame.setVisible(false);
+            } else if (e.getSource() == logoutButton) {
+                logoutButton.addActionListener(a -> System.exit(0));
+            } else if (e.getSource() == saveButton) {
+                saveSettings();
+            } else if (e.getSource() == homeButton) {
+                //messageFrame.setVisible(true);
+                mainFrame.setVisible(true);
+                settingsFrame.setVisible(false);
             } else if (e.getSource() == backButton) {
                 messageFrame.setVisible(false);
                 mainFrame.setVisible(true);
@@ -141,7 +155,7 @@ public class ClientGui extends JComponent implements Runnable {
             }
         }
     };
-
+    
     ActionListener settingsAL = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -150,7 +164,8 @@ public class ClientGui extends JComponent implements Runnable {
                 deleteAccount();
             } else if (e.getSource() == homeButton) {
                 settingsFrame.setVisible(false);
-                mainScreen();
+                //mainScreen();
+                mainFrame.setVisible(true);
             } else if (e.getSource() == saveButton) {
                 saveSettings();
             } else if (e.getSource() == logoutButton) {
@@ -160,7 +175,7 @@ public class ClientGui extends JComponent implements Runnable {
             }
         }
     };
-
+    
     ActionListener deleteMessageAL = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -169,7 +184,17 @@ public class ClientGui extends JComponent implements Runnable {
             editMessages();
         }
     };
-
+    
+    ActionListener deleteConversation = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = Integer.parseInt(e.getActionCommand());
+            conversationDisplayed = conversations.get(index);
+            deleteConversation();
+            mainScreen();
+        }
+    };
+    
     ActionListener editSpecificMessageAL = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -178,7 +203,7 @@ public class ClientGui extends JComponent implements Runnable {
             editMessages();
         }
     };
-
+    
     ActionListener addUserToConversation = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -187,19 +212,19 @@ public class ClientGui extends JComponent implements Runnable {
             fillConversationFields(userToBeAdded);
         }
     };
-
+    
     ActionListener update = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             displayMessages();
         }
     };
-
+    
     public ClientGui() {
         conversations = new ArrayList<>();
         users = new ArrayList<>();
     }
-
+    
     public static void main(String[] args) {
         try {
             socket = new Socket("localhost", 8080);
@@ -211,85 +236,85 @@ public class ClientGui extends JComponent implements Runnable {
         }
         SwingUtilities.invokeLater(new ClientGui());
     }
-
+    
     public void run() {
         /**
          * Main Login Screen
          */
-
+        
         loginFrame = new JFrame("Login");
         Container loginContent = loginFrame.getContentPane();
         loginContent.setLayout(null);
-
+        
         JLabel userName = new JLabel("Username");
         userName.setFont(new Font("Arial", Font.PLAIN, 20));
         userName.setSize(100, 30);
         userName.setLocation(300, 195);
         loginContent.add(userName);
-
+        
         usernameField = new JTextField();
         usernameField.setFont(new Font("Arial", Font.PLAIN, 15));
         usernameField.setSize(190, 20);
         usernameField.setLocation(400, 200);
         loginContent.add(usernameField);
-
+        
         JLabel passWord = new JLabel("Password ");
         passWord.setFont(new Font("Arial", Font.PLAIN, 20));
         passWord.setSize(100, 30);
         passWord.setLocation(300, 265);
         loginContent.add(passWord);
-
+        
         passwordField = new JPasswordField();
         passwordField.setFont(new Font("Arial", Font.PLAIN, 15));
         passwordField.setSize(190, 20);
         passwordField.setLocation(400, 270); //285
         loginContent.add(passwordField);
-
+        
         loginButton = new JButton("Login");
         loginButton.setFont(new Font("Arial", Font.PLAIN, 15));
         loginButton.setSize(100, 20);
         loginButton.setLocation(360, 320);
         loginButton.addActionListener(actionListener);
         loginContent.add(loginButton);
-
+        
         signUpButton = new JButton("Sign Up");
         signUpButton.setFont(new Font("Arial", Font.PLAIN, 15));
         signUpButton.setSize(100, 20);
         signUpButton.setLocation(360, 360);
         signUpButton.addActionListener(actionListener);
         loginContent.add(signUpButton);
-
+        
         loginFrame.setSize(900, 600);
         loginFrame.setResizable(false);
         loginFrame.setLocationRelativeTo(null);
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setVisible(true);
     }
-
+    
     private void logIn() {
         String username = usernameField.getText();
         String password = passwordField.getText();
         boolean success = false;
-
+        
         if (username.isEmpty() || password.isEmpty()) {
             successfulLogin = false;
             JOptionPane.showMessageDialog(null, "Please enter all of the fields", "Login Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
         readUsers();
         StringBuilder sb = new StringBuilder();
         sb.append("LogIn*");
         sb.append(username + "*");
         sb.append(password);
-
+        
         outputToServer.println(sb.toString());
         try {
             success = obj.readBoolean();
         } catch (IOException e) {
             System.out.println("no response");
         }
-
+        
         if (!success) {
             JOptionPane.showMessageDialog(null, "Wrong username or password", "Login Error", JOptionPane.ERROR_MESSAGE);
             successfulLogin = false;
@@ -306,71 +331,71 @@ public class ClientGui extends JComponent implements Runnable {
             readConversationsFromFile();
         }
     }
-
+    
     private void displaySignUp() {
         signUpFrame = new JFrame("Sign Up");
         Container signUpContent = signUpFrame.getContentPane();
-
+        
         signUpContent.setLayout(null);
         JLabel fullNameLabel = new JLabel("Full Name ");
         fullNameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         fullNameLabel.setSize(100, 20);
         fullNameLabel.setLocation(300, 170);
         signUpContent.add(fullNameLabel);
-
+        
         createNameField = new JTextField();
         createNameField.addActionListener(actionListener);
         createNameField.setFont(new Font("Arial", Font.PLAIN, 15));
         createNameField.setSize(190, 20);
         createNameField.setLocation(400, 170);
         signUpContent.add(createNameField, BorderLayout.CENTER);
-
+        
         JLabel userName = new JLabel("Username");
         userName.setFont(new Font("Arial", Font.PLAIN, 20));
         userName.setSize(100, 20);
         userName.setLocation(300, 200); //350
         signUpContent.add(userName, BorderLayout.CENTER);
-
+        
         createUsernameField = new JTextField();
         createUsernameField.addActionListener(actionListener);
         createUsernameField.setFont(new Font("Arial", Font.PLAIN, 15));
         createUsernameField.setSize(190, 20);
         createUsernameField.setLocation(400, 200);
         signUpContent.add(createUsernameField, BorderLayout.CENTER);
-
+        
         JLabel passWord = new JLabel("Password ");
         passWord.setFont(new Font("Arial", Font.PLAIN, 20));
         passWord.setSize(100, 20);
         passWord.setLocation(300, 230);
         signUpContent.add(passWord);
-
+        
         createPasswordField = new JPasswordField();
         createPasswordField.addActionListener(actionListener);
         createPasswordField.setFont(new Font("Arial", Font.PLAIN, 15));
         createPasswordField.setSize(190, 20);
         createPasswordField.setLocation(400, 230);
         signUpContent.add(createPasswordField);
-
+        
         signUpPageButton = new JButton("Sign Up");
         signUpPageButton.setFont(new Font("Arial", Font.PLAIN, 15));
         signUpPageButton.setSize(100, 20);
         signUpPageButton.setLocation(360, 320);
         signUpPageButton.addActionListener(actionListener);
         signUpContent.add(signUpPageButton);
-
+        
         signupToLogin = new JButton("Login"); //Sruthi
         signupToLogin.setFont(new Font("Arial", Font.PLAIN, 15));
         signupToLogin.setSize(100, 20);
         signupToLogin.setLocation(360, 350);
         signupToLogin.addActionListener(actionListener);
         signUpContent.add(signupToLogin);
-
+        
         signUpFrame.setSize(900, 600);
         signUpFrame.setLocationRelativeTo(null);
         signUpFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         signUpFrame.setVisible(true);
     }
-
+    
     private void signUp() {
         readUsers();
         String username = createUsernameField.getText();
@@ -388,10 +413,10 @@ public class ClientGui extends JComponent implements Runnable {
             sb.append(name + "*");
             sb.append(username + "*");
             sb.append(password);
-
+            
             outputToServer.println(sb.toString());
             readUsers();
-
+            
             try {
                 if (obj.readBoolean()) {
                     signUpFrame.setVisible(false);
@@ -414,7 +439,7 @@ public class ClientGui extends JComponent implements Runnable {
         mainFrame = new JFrame("Messages");
         Container content = mainFrame.getContentPane();
         content.setLayout(new BorderLayout());
-
+        
         readConversationsFromFile();
         readUsers();
         JPanel conversationPanel = new JPanel(new GridBagLayout());
@@ -425,15 +450,26 @@ public class ClientGui extends JComponent implements Runnable {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 1.0;
         constraints.anchor = GridBagConstraints.NORTH;
+        deleteConvButton = new JButton("Delete");
         for (int i = 0; i < conversations.size(); i++) {
             JButton button = new JButton(conversations.get(i).getName());
             button.setActionCommand(String.valueOf(i));
             button.addActionListener(actionListener);
+            constraints.gridwidth = 1;
+            constraints.gridx = 0;
+            constraints.ipadx = 300;
             conversationPanel.add(button, constraints);
+            deleteConvButton = new JButton("Delete");
+            deleteConvButton.setActionCommand(String.valueOf(i));
+            deleteConvButton.addActionListener(deleteConversation);
+            constraints.gridwidth = 1;
+            constraints.gridx = 2;
+            constraints.ipadx = 0;
+            conversationPanel.add(deleteConvButton, constraints);
         }
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         content.add(scrollPane, BorderLayout.CENTER);
-
+        
         JPanel bottomPanel = new JPanel(new BorderLayout());
         settingsButton = new JButton("Settings");
         settingsButton.addActionListener(actionListener);
@@ -444,16 +480,16 @@ public class ClientGui extends JComponent implements Runnable {
         bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         bottomPanel.setBackground(Color.white);
         content.add(bottomPanel, BorderLayout.SOUTH);
-
+        
         mainFrame.setSize(600, 400);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setVisible(true);
     }
-
+    
     private void settings() {
         outputToServer.println("Settings*");
-
+        
         try {
             user = (User) obj.readObject();
             System.out.println(user.getName());
@@ -476,8 +512,9 @@ public class ClientGui extends JComponent implements Runnable {
         usernameLabel = new JLabel("Username: ");
         JLabel usernameField = new JLabel(user.getUsername(), 10);
         passwordLabel = new JLabel("Password: ");
+        //passwordField = new JPasswordField(user.getPassword(), 10);
         passwordField = new JPasswordField("", 10);
-
+        
         infoPanel.add(usernameLabel);
         infoPanel.add(usernameField);
         infoPanel.add(nameLabel);
@@ -501,13 +538,13 @@ public class ClientGui extends JComponent implements Runnable {
         buttonsPanel.add(logoutButton);
         buttonsPanel.add(deleteAccountButton);
         content.add(buttonsPanel, BorderLayout.SOUTH);
-
+        
         settingsFrame.setSize(600, 400);
         settingsFrame.setLocationRelativeTo(null);
         settingsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         settingsFrame.setVisible(true);
     }
-
+    
     private void deleteAccount() {
         outputToServer.println("DeleteAccount*");
         boolean success = false;
@@ -525,24 +562,24 @@ public class ClientGui extends JComponent implements Runnable {
         user = null;
         System.exit(0);
     }
-
+    
     private void saveSettings() {
         String fullName = nameField.getText();
         String newPassword = passwordField.getText();
-
+        
         if (fullName == null || fullName.equals("") || newPassword == null || newPassword.equals("")) {
             JOptionPane.showMessageDialog(null, "Please enter all the fields", "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
         StringBuilder sb = new StringBuilder();
         sb.append("SaveSettings*");
         sb.append(fullName + "*");
         sb.append(newPassword);
-
+        
         outputToServer.println(sb.toString());
-
+        
         JOptionPane.showMessageDialog(null, "New information saved to account.", "SavedSettings",
                 JOptionPane.INFORMATION_MESSAGE);
     }
@@ -582,7 +619,7 @@ public class ClientGui extends JComponent implements Runnable {
             JOptionPane.showMessageDialog(null, "Error reading users from file. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     private void displayConversation() {
         messageFrame = new JFrame(conversationDisplayed.getName());
         messageContent = messageFrame.getContentPane();
@@ -639,13 +676,13 @@ public class ClientGui extends JComponent implements Runnable {
             JOptionPane.showMessageDialog(null, "Error displaying messages. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     private void editMessages() {
         editMessageFrame = new JFrame(conversationDisplayed.getName());
-
+        
         Container content = editMessageFrame.getContentPane();
         content.setLayout(new BorderLayout());
-
+        
         JPanel messagePanel = new JPanel(new GridBagLayout());
         JScrollPane scrollPane = new JScrollPane(messagePanel);
         GridBagConstraints constraints = new GridBagConstraints();
@@ -654,7 +691,7 @@ public class ClientGui extends JComponent implements Runnable {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 1.0;
         constraints.anchor = GridBagConstraints.NORTH;
-
+        
         outputToServer.println("EditMessage*" + conversationDisplayed.getName());
         try {
             int size = obj.readInt();
@@ -700,29 +737,29 @@ public class ClientGui extends JComponent implements Runnable {
         }
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         content.add(scrollPane, BorderLayout.NORTH);
-
+        
         content.add(scrollPane, BorderLayout.CENTER);
         JPanel textFieldPanel = new JPanel();
-
+        
         editMessBackButton = new JButton("Back");
         editMessBackButton.addActionListener(actionListener);
-
+        
         textFieldPanel.add(editMessBackButton);
         content.add(textFieldPanel, BorderLayout.SOUTH);
-
+        
         editMessageFrame.setSize(600, 400);
         editMessageFrame.setLocationRelativeTo(null);
         editMessageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         editMessageFrame.setVisible(true);
     }
-
+    
     private void deleteMessage(int index) {
         editMessageFrame.setVisible(false);
         outputToServer.println("DeleteMessage*" + String.valueOf(index));
         messagesArr.remove(index);
         readConversationsFromFile();
     }
-
+    
     private void editSpecificMessage(int index) {
         editMessageFrame.setVisible(false);
         String editedMessage = JOptionPane.showInputDialog("Enter the new edited message:");
@@ -748,6 +785,31 @@ public class ClientGui extends JComponent implements Runnable {
             JOptionPane.showMessageDialog(null, "Failed to edit conversation. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         readConversationsFromFile();
+    }
+
+    /**
+     * Delete conversation for the current user
+     */
+    private void deleteConversation() {
+        String convNameTodelete = conversationDisplayed.getName();
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("DeleteConversation*");
+        sb.append(convNameTodelete);
+        
+        outputToServer.println(sb.toString());
+        
+        boolean success = false;
+        try {
+            success = obj.readBoolean();
+            System.out.println("deleteConversation success");
+            if (!success) {
+                JOptionPane.showMessageDialog(null, "Error in deleting Conversation", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to delete conversation");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -796,13 +858,13 @@ public class ClientGui extends JComponent implements Runnable {
      * @param name name being searched
      */
     private void displaySearchMatches(String name) {
-
+        
         usersPanel.removeAll();
         name = name.toLowerCase().trim();
         userMatches = new ArrayList<>();
-
+        
         outputToServer.println("SearchUser*" + name);
-
+        
         try {
             userMatches = (ArrayList<User>) obj.readObject();
         } catch (IOException i) {
@@ -810,34 +872,34 @@ public class ClientGui extends JComponent implements Runnable {
         } catch (ClassNotFoundException c) {
             System.out.println("Class not found whilst searching for a user");
         }
-
+        
         for (int i = 0; i < userMatches.size(); i++) {
             JButton userButton = new JButton(userMatches.get(i).getName());
             userButton.setActionCommand(String.valueOf(i));
             userButton.addActionListener(addUserToConversation);
             usersPanel.add(userButton);
         }
-
+        
         usersPanel.revalidate();
         usersPanel.repaint();
         addConversationFrame.setVisible(true);
     }
-
+    
     private void fillConversationFields(User otherUser) {
         addConversationFields = new JFrame("Add new conversation");
         Container content = addConversationFields.getContentPane();
         content.setLayout(new BorderLayout());
-
+        
         JPanel fieldsToFill = new JPanel(new GridLayout(3, 2));
         JPanel fillFieldButtons = new JPanel(new GridLayout(1, 2));
         submitFields = new JButton("Create Conversation");
         submitFields.addActionListener(actionListener);
-
+        
         addOtherUsers = new JButton("Add More Users");
         addOtherUsers.addActionListener(actionListener);
         fillFieldButtons.add(addOtherUsers);
         fillFieldButtons.add(submitFields);
-
+        
         content.add(fillFieldButtons, BorderLayout.SOUTH);
         JLabel nameLabel = new JLabel("Name of Conversation: ");
         nameLabel.setSize(10, 10);
@@ -875,7 +937,7 @@ public class ClientGui extends JComponent implements Runnable {
         addConversationFields.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addConversationFields.setVisible(true);
     }
-
+    
     private boolean addConversationToFile() {
         readConversationsFromFile();
         String nameOfConversation = conversationNameField.getText();
