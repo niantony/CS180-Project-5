@@ -94,6 +94,293 @@ public class RunLocalTest {
         }
 
         @Test(timeout = 1_000)
+        public void streamOutFieldDeclarationTest() {
+            Class<?> clazz;
+            String className = "User";
+            Field testField;
+            int modifiers;
+            Class<?> type;
+
+            // Set the field that you want to test
+            String fieldName = "streamOut";
+
+            // Set the type of the field you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedType = PrintStream.class;
+
+            // Set the class being tested
+            clazz = User.class;
+
+            // Attempt to access the class field
+            try {
+                testField = clazz.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = testField.getModifiers();
+
+            type = testField.getType();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+        }
+
+        @Test(timeout = 1_000)
+        public void streamInFieldDeclarationTest() {
+            Class<?> clazz;
+            String className = "User";
+            Field testField;
+            int modifiers;
+            Class<?> type;
+
+            // Set the field that you want to test
+            String fieldName = "streamIn";
+
+            // Set the type of the field you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedType = InputStream.class;
+
+            // Set the class being tested
+            clazz = User.class;
+
+            // Attempt to access the class field
+            try {
+                testField = clazz.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = testField.getModifiers();
+
+            type = testField.getType();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+        }
+
+        @Test(timeout = 1_000)
+        public void socketFieldDeclarationTest() {
+            Class<?> clazz;
+            String className = "User";
+            Field testField;
+            int modifiers;
+            Class<?> type;
+
+            // Set the field that you want to test
+            String fieldName = "client";
+
+            // Set the type of the field you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedType = Socket.class;
+
+            // Set the class being tested
+            clazz = User.class;
+
+            // Attempt to access the class field
+            try {
+                testField = clazz.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = testField.getModifiers();
+
+            type = testField.getType();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+        }
+
+        @Test(timeout = 1_000)
+        public void nameFieldDeclarationTest() {
+            Class<?> clazz;
+            String className = "User";
+            Field testField;
+            int modifiers;
+            Class<?> type;
+
+            // Set the field that you want to test
+            String fieldName = "name";
+
+            // Set the type of the field you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedType = String.class;
+
+            // Set the class being tested
+            clazz = User.class;
+
+            // Attempt to access the class field
+            try {
+                testField = clazz.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = testField.getModifiers();
+
+            type = testField.getType();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+        }
+
+        @Test(timeout = 1_000)
+        public void usernameFieldDeclarationTest() {
+            Class<?> clazz;
+            String className = "User";
+            Field testField;
+            int modifiers;
+            Class<?> type;
+
+            // Set the field that you want to test
+            String fieldName = "username";
+
+            // Set the type of the field you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedType = String.class;
+
+            // Set the class being tested
+            clazz = User.class;
+
+            // Attempt to access the class field
+            try {
+                testField = clazz.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = testField.getModifiers();
+
+            type = testField.getType();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+        }
+
+        @Test(timeout = 1_000)
+        public void passwordFieldDeclarationTest() {
+            Class<?> clazz;
+            String className = "User";
+            Field testField;
+            int modifiers;
+            Class<?> type;
+
+            // Set the field that you want to test
+            String fieldName = "password";
+
+            // Set the type of the field you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedType = String.class;
+
+            // Set the class being tested
+            clazz = User.class;
+
+            // Attempt to access the class field
+            try {
+                testField = clazz.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = testField.getModifiers();
+
+            type = testField.getType();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+        }
+
+        @Test(timeout = 1_000)
+        public void conversationsFieldDeclarationTest() {
+            Class<?> clazz;
+            String className = "User";
+            Field testField;
+            int modifiers;
+            Class<?> type;
+
+            // Set the field that you want to test
+            String fieldName = "conversations";
+
+            // Set the type of the field you want to test
+            // Use the type + .class
+            // For example, String.class or int.class
+            Class<?> expectedType = File.class;
+
+            // Set the class being tested
+            clazz = User.class;
+
+            // Attempt to access the class field
+            try {
+                testField = clazz.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+
+                return;
+            } //end try catch
+
+            // Perform tests
+
+            modifiers = testField.getModifiers();
+
+            type = testField.getType();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+        }
+
+        @Test(timeout = 1_000)
         public void userParameterizedConstructorDeclarationTest() {
             Class<?> clazz;
             String className = "User";
