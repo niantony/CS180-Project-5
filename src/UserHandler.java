@@ -14,23 +14,10 @@ public class UserHandler implements Runnable {
     private ArrayList<String> messagesArr = new ArrayList<>();
     private File messages;
 
-    /*
-    The constructor sets the socket value
-     */
     public UserHandler(Socket socket) {
         this.socket = socket;
     }
 
-    /*
-    opens input stream, output stream to client, flush send header
-    Reads the object/input from the client and hadles event processing accordingly
-    Events:
-    logIn:
-    Verifies if login user is valid. 
-    if valid, then reads the current user's conversation file, 
-    adds to userConversations arraylist and returns true
-    if login user is not valid then returns false
-     */
     public void run() {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -42,6 +29,7 @@ public class UserHandler implements Runnable {
                     System.out.println(userInput);
 
                     if (userInput.contains("LogIn*")) {
+
                         if (logIn(userInput)) {
                             readConversations();
                             oos.writeBoolean(true);
@@ -134,17 +122,6 @@ public class UserHandler implements Runnable {
                         boolean successfulDelete = deleteAccount();
                         oos.writeBoolean(successfulDelete);
                     }
-                    
-                    if (userInput.contains("ReadConversationsFromFile*")) {
-                        readConversations(userInput);
-                        oos.writeObject(userConversations);                       
-                    }
-                    
-                    if (userInput.contains("ReadUsers*")) {
-                        readUsers();
-                        oos.writeObject(userArrayList);                       
-                    }                    
-                    
                     oos.flush();
                 }
             }
@@ -175,7 +152,6 @@ public class UserHandler implements Runnable {
         }
     }
 
-    //reads the current user's conversation file and adds to userConversations arraylist 
     private void readConversations() {
         userConversations = new ArrayList<>();
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(currentUser.getConversations()))) {
@@ -191,36 +167,6 @@ public class UserHandler implements Runnable {
         }
     }
 
-    private void readConversations(String userInput) {
-        String[] input = userInput.split("\\*");
-        
-        for (User u : userArrayList) {
-            if (u.getUsername().equals(input[1])) {
-                currentUser = u;
-                break;
-            }
-        }
-        
-        userConversations = new ArrayList<>();
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(currentUser.getConversations()))) {
-            Conversation c = (Conversation) in.readObject();
-            while (c != null) {
-                userConversations.add(c);
-                c = (Conversation) in.readObject();
-            }
-        } catch (EOFException | NullPointerException e) {
-            //end of file
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    /*
-    reades input value, 
-    Reads all of the users from usersFile into the userArrayList
-    loops through arraylist to validate that user and password are correct 
-    if the user is valid user then it sets the currentUser
-     */
     public boolean logIn(String logIn) {
         //LogIn*MichaelCon*password123
         String[] checkUser = logIn.split("\\*");
@@ -228,8 +174,8 @@ public class UserHandler implements Runnable {
         for (User u : userArrayList) {
             if (u.getUsername().equals(checkUser[1]) && u.getPassword().equals(checkUser[2])) {
                 currentUser = u;
-                //readConversations();
-                //readUsers();
+                readConversations();
+                readUsers();
                 System.out.println("Correct login");
                 return true;
             }
