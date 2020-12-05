@@ -476,6 +476,7 @@ public class ClientGui extends JComponent implements Runnable {
     private void mainScreen() {
         mainFrame = new JFrame("Messages");
         Container content = mainFrame.getContentPane();
+        
         content.setLayout(new BorderLayout());
 
         conversationPanel = new JPanel(new GridBagLayout());
@@ -500,8 +501,8 @@ public class ClientGui extends JComponent implements Runnable {
         content.add(bottomPanel, BorderLayout.SOUTH);
         
         mainFrame.getContentPane().setBackground(Color.decode("#B9E0DE")); // set background color
-        mainUpFrame.pack();
-
+        mainFrame.pack();
+        
         mainFrame.setSize(600, 400);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -517,6 +518,8 @@ public class ClientGui extends JComponent implements Runnable {
         readConversationsFromFile();
 
         conversationPanel.setLayout(new GridBagLayout());
+        conversationPanel.setBackground(Color.decode("#B9E0DE")); // set background color
+        //conversationPanel.pack();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = GridBagConstraints.RELATIVE;
@@ -565,6 +568,7 @@ public class ClientGui extends JComponent implements Runnable {
         // Contains all the information fields to view and edit.
         // Includes the user's "Name", "Username", and "Password"
         JPanel infoPanel = new JPanel();
+        infoPanel.setBackground(Color.decode("#B9E0DE"));
         nameLabel = new JLabel("Name: ");
         nameField = new JTextField(user.getName(), 10);
         usernameLabel = new JLabel("Username: ");
@@ -705,6 +709,10 @@ public class ClientGui extends JComponent implements Runnable {
         textFieldPanel.add(textField);
         textFieldPanel.add(sendButton);
         messageContent.add(textFieldPanel, BorderLayout.SOUTH);
+        
+        messageFrame.getContentPane().setBackground(Color.decode("#B9E0DE")); // set background color
+        messageFrame.pack();
+        
         messageFrame.setSize(800, 400);
         messageFrame.setLocationRelativeTo(null);
         messageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -723,6 +731,10 @@ public class ClientGui extends JComponent implements Runnable {
 
         messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
         messages = conversationDisplayed.getMessages();
+        
+        messagePanel.setBackground(Color.decode("#B9E0DE")); // set background color
+        //messageFrame.pack();
+        
         String user;
         String message;
         try (BufferedReader br = new BufferedReader(new FileReader(messages))) {
@@ -748,6 +760,7 @@ public class ClientGui extends JComponent implements Runnable {
         content.setLayout(new BorderLayout());
         
         JPanel messagePanel = new JPanel(new GridBagLayout());
+        messagePanel.setBackground(Color.decode("#B9E0DE"));
         JScrollPane scrollPane = new JScrollPane(messagePanel);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
@@ -775,6 +788,7 @@ public class ClientGui extends JComponent implements Runnable {
             constraints.ipadx = 300;
             String formattedMessage = output[0] + ": " + output[1];
             messagePanel.add(new JLabel(formattedMessage), constraints);
+            messagePanel.setBackground(Color.decode("#B9E0DE"));
             boolean editable = Boolean.parseBoolean(output[2]);
             String index = output[3];
             if (editable) {
@@ -785,6 +799,7 @@ public class ClientGui extends JComponent implements Runnable {
                 editSpecificMsgButton.setActionCommand(index);
                 editSpecificMsgButton.addActionListener(editSpecificMessageAL);
                 JPanel editButtons = new JPanel();
+                editButtons.setBackground(Color.decode("#B9E0DE"));
                 editButtons.add(deleteMessageButton);
                 editButtons.add(editSpecificMsgButton);
                 constraints.gridwidth = 1;
@@ -792,7 +807,7 @@ public class ClientGui extends JComponent implements Runnable {
                 constraints.ipadx = 0;
                 messagePanel.add(editButtons, constraints);
             } else {
-                JLabel noDeleteMessage = new JLabel("Cannot Delete");
+                JLabel noDeleteMessage = new JLabel("Cannot Delete");                
                 constraints.gridwidth = 1;
                 constraints.gridx = 2;
                 constraints.ipadx = 0;
