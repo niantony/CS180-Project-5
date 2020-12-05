@@ -425,6 +425,9 @@ public class ClientGui extends JComponent implements Runnable {
         signupToLogin.addActionListener(actionListener);
         signUpContent.add(signupToLogin);
         
+        signUpFrame.getContentPane().setBackground(Color.decode("#B9E0DE")); // set background color
+        signUpFrame.pack();
+        
         signUpFrame.setSize(900, 600);
         signUpFrame.setLocationRelativeTo(null);
         signUpFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -495,6 +498,9 @@ public class ClientGui extends JComponent implements Runnable {
         bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         bottomPanel.setBackground(Color.white);
         content.add(bottomPanel, BorderLayout.SOUTH);
+        
+        mainFrame.getContentPane().setBackground(Color.decode("#B9E0DE")); // set background color
+        mainUpFrame.pack();
 
         mainFrame.setSize(600, 400);
         mainFrame.setLocationRelativeTo(null);
@@ -590,6 +596,9 @@ public class ClientGui extends JComponent implements Runnable {
         buttonsPanel.add(logoutButton);
         buttonsPanel.add(deleteAccountButton);
         content.add(buttonsPanel, BorderLayout.SOUTH);
+        
+        settingsFrame.getContentPane().setBackground(Color.decode("#B9E0DE")); // set background color
+        settingsFrame.pack();
         
         settingsFrame.setSize(600, 400);
         settingsFrame.setLocationRelativeTo(null);
@@ -802,6 +811,9 @@ public class ClientGui extends JComponent implements Runnable {
         textFieldPanel.add(editMessBackButton);
         content.add(textFieldPanel, BorderLayout.SOUTH);
         
+        editMessageFrame.getContentPane().setBackground(Color.decode("#B9E0DE")); // set background color
+        editMessageFrame.pack();
+        
         editMessageFrame.setSize(600, 400);
         editMessageFrame.setLocationRelativeTo(null);
         editMessageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -901,6 +913,10 @@ public class ClientGui extends JComponent implements Runnable {
         searchPanel.add(searchButton, BorderLayout.EAST);
         content.add(searchPanel, BorderLayout.NORTH);
         content.add(usersScrollPane, BorderLayout.CENTER);
+        
+        addConversationFrame.getContentPane().setBackground(Color.decode("#B9E0DE")); // set background color
+        addConversationFrame.pack();
+        
         addConversationFrame.setSize(600, 400);
         addConversationFrame.setLocationRelativeTo(null);
         addConversationFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
