@@ -58,6 +58,8 @@ public class ClientGui extends JComponent implements Runnable {
     private boolean successfulAdditionToFile;
     private Container messageContent;
     private Timer timer;
+    private Timer timerMain;
+    private JPanel conversationPanel;
 
     //settings
     private JFrame settingsFrame;
@@ -103,6 +105,11 @@ public class ClientGui extends JComponent implements Runnable {
                 
                 if (successfulLogin) {
                     mainScreen();
+
+                    timerMain = new Timer(100, updateMain);
+                    timerMain.setDelay(5000);
+                    timerMain.start();
+
                 } else {
                     loginFrame.setVisible(true);
                 }
@@ -132,10 +139,12 @@ public class ClientGui extends JComponent implements Runnable {
                 saveSettings();
             } else if (e.getSource() == homeButton) {
                 //messageFrame.setVisible(true);
+                mainPanel();
                 mainFrame.setVisible(true);
                 settingsFrame.setVisible(false);
             } else if (e.getSource() == backButton) {
                 messageFrame.setVisible(false);
+                mainPanel();
                 mainFrame.setVisible(true);
                 messageFrame.dispose();
             } else if (e.getSource() == editMessagesButton) {
@@ -149,6 +158,7 @@ public class ClientGui extends JComponent implements Runnable {
                 int index = Integer.parseInt(e.getActionCommand());
                 conversationDisplayed = conversations.get(index);
                 displayConversation();
+
                 timer = new Timer(100, update);
                 timer.setDelay(1900);
                 timer.start();
@@ -217,6 +227,14 @@ public class ClientGui extends JComponent implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             displayMessages();
+
+        }
+    };
+
+    ActionListener updateMain = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mainPanel();
         }
     };
     
@@ -441,11 +459,43 @@ public class ClientGui extends JComponent implements Runnable {
         mainFrame = new JFrame("Messages");
         Container content = mainFrame.getContentPane();
         content.setLayout(new BorderLayout());
-        
-        readConversationsFromFile();
-        readUsers();
-        JPanel conversationPanel = new JPanel(new GridBagLayout());
+
+        conversationPanel = new JPanel(new GridBagLayout());
+
+        mainPanel();
+
         JScrollPane scrollPane = new JScrollPane(conversationPanel);
+
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        content.add(scrollPane, BorderLayout.CENTER);
+
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        settingsButton = new JButton("Settings");
+        settingsButton.addActionListener(actionListener);
+        bottomPanel.add(settingsButton, BorderLayout.WEST);
+        addButton = new JButton("New Conversation");
+        addButton.addActionListener(actionListener);
+        bottomPanel.add(addButton, BorderLayout.EAST);
+        bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        bottomPanel.setBackground(Color.white);
+        content.add(bottomPanel, BorderLayout.SOUTH);
+
+        mainFrame.setSize(600, 400);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setVisible(true);
+    }
+
+    //Separate Method for the ConversationsPanel in the Main Screen
+    private void mainPanel() {
+        conversationPanel.removeAll();
+        conversationPanel.revalidate();
+        conversationPanel.repaint();
+
+        readConversationsFromFile();
+
+        conversationPanel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = GridBagConstraints.RELATIVE;
@@ -453,7 +503,9 @@ public class ClientGui extends JComponent implements Runnable {
         constraints.weightx = 1.0;
         constraints.anchor = GridBagConstraints.NORTH;
         deleteConvButton = new JButton("Delete");
+
         for (int i = 0; i < conversations.size(); i++) {
+            System.out.println(conversations.get(i).getName());
             JButton button = new JButton(conversations.get(i).getName());
             button.setActionCommand(String.valueOf(i));
             button.addActionListener(actionListener);
@@ -469,26 +521,9 @@ public class ClientGui extends JComponent implements Runnable {
             constraints.ipadx = 0;
             conversationPanel.add(deleteConvButton, constraints);
         }
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        content.add(scrollPane, BorderLayout.CENTER);
-        
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        settingsButton = new JButton("Settings");
-        settingsButton.addActionListener(actionListener);
-        bottomPanel.add(settingsButton, BorderLayout.WEST);
-        addButton = new JButton("New Conversation");
-        addButton.addActionListener(actionListener);
-        bottomPanel.add(addButton, BorderLayout.EAST);
-        bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        bottomPanel.setBackground(Color.white);
-        content.add(bottomPanel, BorderLayout.SOUTH);
-        
-        mainFrame.setSize(600, 400);
-        mainFrame.setLocationRelativeTo(null);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setVisible(true);
+
     }
-    
+
     private void settings() {
         outputToServer.println("Settings*");
         
@@ -628,6 +663,7 @@ public class ClientGui extends JComponent implements Runnable {
         messageContent.setLayout(new BorderLayout());
         messagePanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(messagePanel);
+
         messageContent.add(scrollPane, BorderLayout.CENTER);
         JPanel textFieldPanel = new JPanel();
         textField = new JTextField(30);
@@ -659,6 +695,7 @@ public class ClientGui extends JComponent implements Runnable {
         messagePanel.removeAll();
         messagePanel.revalidate();
         messagePanel.repaint();
+
         messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
         messages = conversationDisplayed.getMessages();
         String user;
