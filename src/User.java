@@ -6,9 +6,9 @@ public class User implements Serializable {
     private PrintStream streamOut;
     private InputStream streamIn;
     private Socket client;
-    private String name;
+    private String name; //Name of the user, does not need to be Unique
     private String username; //This will be used as the unique ID for each user
-    private String password;
+    private String password; //Password of the User
     private File conversations;  //all of the conversations this User participates in
 
     public User(Socket client, String name, String username, String password, File conversations) throws IOException {

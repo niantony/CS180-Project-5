@@ -7,12 +7,13 @@ public class UserHandler implements Runnable {
 
     private Socket socket;
     public ArrayList<User> userArrayList = new ArrayList<User>();
-    public File usersFile = new File("UsersFile.txt");
-    private ArrayList<User> usersToAdd;
-    private ArrayList<Conversation> userConversations;
-    private User currentUser;
+
+    public File usersFile = new File("UsersFile.txt"); //usersFile contains all of the users in the system
+    private ArrayList<User> usersToAdd; //Arraylist of users to add to a new conversation
+    private ArrayList<Conversation> userConversations; //All the conversations of the User
+    private User currentUser; // The currentUser of the Thread
     private ArrayList<String> messagesArr = new ArrayList<>();
-    private File messages;
+    private File messages; //TextFile containing the messages for the conversation
 
     public UserHandler(Socket socket) {
         this.socket = socket;
@@ -23,11 +24,18 @@ public class UserHandler implements Runnable {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
-            while (true) {
-                String userInput = input.readLine();
+            while (true) { //Endless loop, keeps the thread for the user open
+                String userInput = input.readLine(); //Input by the User to the server
+
                 if (userInput != null) {
                     System.out.println(userInput);
 
+                    /**
+                        The user sends commands to the server in the form of
+                        COMMAND*Input
+                        The COMMAND signifies the action that the user wants to do
+                        The server responds accordingly
+                    */
                     if (userInput.contains("LogIn*")) {
 
                         if (logIn(userInput)) {

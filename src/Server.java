@@ -3,6 +3,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * CS 180 Project 5 -- Server.java
+ * <p>
+ * Server, a new thread is started for every new user
+ */
 public class Server {
     private int port;
     public ArrayList<User> clients;

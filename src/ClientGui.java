@@ -244,6 +244,7 @@ public class ClientGui extends JComponent implements Runnable {
     
     public static void main(String[] args) {
         try {
+            //Create a socket for the user and sets the host to localhost and port 8080
             socket = new Socket("localhost", 8080);
             outputToServer = new PrintWriter(socket.getOutputStream(), true);
             obj = new ObjectInputStream(socket.getInputStream());
@@ -524,8 +525,8 @@ public class ClientGui extends JComponent implements Runnable {
     }
 
     private void settings() {
+        //Send the command 'Settings*' to the server
         outputToServer.println("Settings*");
-        
         try {
             user = (User) obj.readObject();
             System.out.println(user.getName());
@@ -582,6 +583,7 @@ public class ClientGui extends JComponent implements Runnable {
     }
     
     private void deleteAccount() {
+        //Send the command 'DeleteAccount*' to the server
         outputToServer.println("DeleteAccount*");
         boolean success = false;
         try {
