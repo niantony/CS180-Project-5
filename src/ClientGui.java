@@ -261,53 +261,68 @@ public class ClientGui extends JComponent implements Runnable {
         /**
          * Main Login Screen
          */
-        
+
         loginFrame = new JFrame("Login");
         Container loginContent = loginFrame.getContentPane();
         loginContent.setLayout(null);
-        
+
         JLabel userName = new JLabel("Username");
         userName.setFont(new Font("Arial", Font.PLAIN, 20));
         userName.setSize(100, 30);
-        userName.setLocation(300, 195);
+        userName.setLocation(300, 220);
         loginContent.add(userName);
-        
+
         usernameField = new JTextField();
         usernameField.setFont(new Font("Arial", Font.PLAIN, 15));
         usernameField.setSize(190, 20);
-        usernameField.setLocation(400, 200);
+        usernameField.setLocation(400, 227);
         loginContent.add(usernameField);
-        
+
         JLabel passWord = new JLabel("Password ");
         passWord.setFont(new Font("Arial", Font.PLAIN, 20));
         passWord.setSize(100, 30);
         passWord.setLocation(300, 265);
         loginContent.add(passWord);
-        
+
         passwordField = new JPasswordField();
         passwordField.setFont(new Font("Arial", Font.PLAIN, 15));
         passwordField.setSize(190, 20);
         passwordField.setLocation(400, 270); //285
         loginContent.add(passwordField);
-        
+
         loginButton = new JButton("Login");
         loginButton.setFont(new Font("Arial", Font.PLAIN, 15));
         loginButton.setSize(100, 20);
         loginButton.setLocation(360, 320);
         loginButton.addActionListener(actionListener);
         loginContent.add(loginButton);
-        
+
         signUpButton = new JButton("Sign Up");
         signUpButton.setFont(new Font("Arial", Font.PLAIN, 15));
         signUpButton.setSize(100, 20);
         signUpButton.setLocation(360, 360);
         signUpButton.addActionListener(actionListener);
         loginContent.add(signUpButton);
-        
+
+        loginFrame.getContentPane().setBackground(Color.decode("#B9E0DE")); // set background color
+        loginFrame.pack();
+
+        JLabel label1 = new JLabel();
+        label1.setText("Welcome!");
+        label1.setBounds(360, 75, 200, 50);
+        label1.setFont(new Font("Verdana", 1, 20));
+
+        JLabel label2 = new JLabel();
+        label2.setText("login in below or create an account");
+        label2.setBounds(300, 115, 300, 50);
+        label2.setFont(new Font("Verdana", 1, 15));
+
         loginFrame.setSize(900, 600);
         loginFrame.setResizable(false);
         loginFrame.setLocationRelativeTo(null);
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        loginFrame.add(label1);
+        loginFrame.add(label2);
         loginFrame.setVisible(true);
     }
     
