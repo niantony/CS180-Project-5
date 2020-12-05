@@ -107,7 +107,7 @@ public class ClientGui extends JComponent implements Runnable {
                     mainScreen();
 
                     timerMain = new Timer(100, updateMain);
-                    timerMain.setDelay(5000);
+                    timerMain.setDelay(1900);
                     timerMain.start();
 
                 } else {
@@ -201,7 +201,6 @@ public class ClientGui extends JComponent implements Runnable {
             int index = Integer.parseInt(e.getActionCommand());
             conversationDisplayed = conversations.get(index);
             deleteConversation();
-            mainScreen();
         }
     };
     
