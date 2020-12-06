@@ -35,7 +35,7 @@ public class ClientGui extends JComponent implements Runnable {
     private ArrayList<String> messagesArr = new ArrayList<>();  //arraylist of all of the messages on the edit screen
     private Conversation conversationDisplayed;  //the conversation being displayed
     private File messages;  //the file with the messages of the conversation displayed
-    private File usersFile = new File("UsersFile.txt");  //the file with all of the users in the server
+    private File usersFile;  //the file with all of the users in the server
     private JButton addButton;  //button to add a conversation
     private JButton settingsButton;  //button to open the settings screen
     private JButton signUpButton;  //button to sign up as a new user
@@ -162,7 +162,12 @@ public class ClientGui extends JComponent implements Runnable {
                 editMessageFrame.setVisible(false);
                 displayConversation();
             } else {
-                int index = Integer.parseInt(e.getActionCommand());
+                int index;
+                try {
+                    index = Integer.parseInt(e.getActionCommand());
+                } catch (NumberFormatException nfe) {
+                    return;
+                }
                 conversationDisplayed = conversations.get(index);
                 displayConversation();
 
@@ -298,6 +303,12 @@ public class ClientGui extends JComponent implements Runnable {
      * Method that starts gui and displays the login screen
      */
     public void run() {
+        try {
+            usersFile = (File) obj.readObject();
+        } catch (IOException | ClassNotFoundException exception) {
+            exception.printStackTrace();
+        }
+
         //Main Login Screen
         loginFrame = new JFrame("Login");
         Container loginContent = loginFrame.getContentPane();  //container for login screen
@@ -895,7 +906,7 @@ public class ClientGui extends JComponent implements Runnable {
                 constraints.ipadx = 0;
                 messagePanel.add(editButtons, constraints);
             } else {
-                JLabel noDeleteMessage = new JLabel("Cannot Delete");                
+                JLabel noDeleteMessage = new JLabel("Cannot Delete/Edit");
                 constraints.gridwidth = 1;
                 constraints.gridx = 2;
                 constraints.ipadx = 0;

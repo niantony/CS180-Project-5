@@ -46,6 +46,8 @@ public class UserHandler implements Runnable {
                                                                                                         // input
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());  //sends output to user
 
+            oos.writeObject(usersFile);
+
             while (true) { //Endless loop, keeps the thread for the user open
                 String userInput = input.readLine(); //Input by the User to the server
 
