@@ -18,9 +18,6 @@ import java.util.ArrayList;
  * @version December 6, 2020
  */
 public class Server {
-    private int port;  //port number
-    public ArrayList<User> clients;  //arraylist of clients
-
     public static void main(String[] args) throws IOException {
         try(ServerSocket serverSocket = new ServerSocket(8080)) {
             System.out.println("Server is running on port 8080");
@@ -36,10 +33,5 @@ public class Server {
                 t.start();
             }
         }
-    }
-
-    private Server(int port) {
-        this.port = port;
-        this.clients = new ArrayList<User>();
     }
 }
