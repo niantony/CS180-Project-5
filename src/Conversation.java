@@ -35,33 +35,16 @@ public class Conversation implements Serializable {
      * Returns the name of the conversation
      * @return the name of the conversation
      */
-    public String getName () {
+    public String getName() {
         return this.nameOfConversation;
     }
 
     /**
-     * Adds a new user to the conversation
-     * @param newUser user to add to the conversation
+     * Returns the participants in the conversation
+     * @return the participants in the conversation
      */
-    public void addParticipant (User newUser) {
-        this.conversationList.add(newUser);
-
-    }
-
-    /**
-     * User to remove from the conversation
-     * @param user user to remove
-     */
-    public void removeParticipant (User user) {
-        this.conversationList.remove(user);
-    }
-
-    /**
-     * Returns the number of participants in the conversation
-     * @return the number of participants in the conversation
-     */
-    public int numberOfParticipants () {
-        return this.conversationList.size();
+    public ArrayList<User> getParticipants() {
+        return this.conversationList;
     }
 
     /**
