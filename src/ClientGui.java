@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,75 +7,95 @@ import java.util.ArrayList;
 
 /**
  * CS 180 Project 5 -- ClientGui.java
- * <p>
- * Main GUI that interacts with user
+ *
+ * Main GUI that interacts with user -
+ * The program allows the user to create and delete conversations with one or multiple users in the server and create,
+ * edit, and delete messages during a conversation. It also allows the user to create, edit, and delete their accounts.
+ * All data/messages persists after the program closes through files.
+ *
+ * We referenced the documentation/tutorials for object output streams, object input streams, sockets, BoxLayout,
+ * and GridBagLayout. We also referenced Stack Overflow for advice on appending using object output streams, clearing
+ * a jpanel, and adding vertically to a panel using BoxLayout.
+ * We visited the office hours for Albert Yu to discuss a problem with our Object Output Stream not returning the right
+ * object.
+ *
+ * @author Antony Ni, G17
+ * @author Ishika Vachali, Online
+ * @author Michael Con, Online
+ * @author Sruthi Koukuntla, LC3
+ *
+ * @version December 6, 2020
  */
 public class ClientGui extends JComponent implements Runnable {
 
-    private ArrayList<Conversation> conversations;
-    private ArrayList<User> users;
-    private ArrayList<User> userMatches;
-    private ArrayList<User> usersToAdd;
-    private ArrayList<String> messagesArr = new ArrayList<>();
-    private Conversation conversationDisplayed;
-    private File messages;
-    private File usersFile = new File("UsersFile.txt");
-    private JButton addButton;
-    private JButton settingsButton;
-    private JButton signUpButton;
-    private JButton loginButton;
-    private JButton signUpPageButton;
-    private JButton signupToLogin;
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private JTextField createNameField;
-    private JTextField createUsernameField;
-    private JPasswordField createPasswordField;
-    private JFrame loginFrame;
-    private JFrame signUpFrame;
-    private JFrame mainFrame;
-    private JFrame messageFrame;
-    private JFrame editMessageFrame;
-    private JFrame addConversationFrame;
-    private JFrame addConversationFields;
-    private JTextField textField;
-    private JButton sendButton;
-    private JButton backButton;
-    private JButton editMessBackButton;
-    private JButton editMessagesButton;
-    private JButton deleteMessageButton;
-    private JButton editSpecificMsgButton;
-    private JPanel messagePanel;
-    private JPanel usersPanel;
-    private JTextField searchUsers;
-    private JButton searchButton;
-    private JButton submitFields;
-    private JButton addOtherUsers;
-    private JTextField conversationNameField;
-    private User user;
-    private boolean successfulLogin = true;
-    private boolean successfulAdditionToFile;
-    private Container messageContent;
-    private Timer timer;
-    private Timer timerMain;
-    private JPanel conversationPanel;
+    private ArrayList<Conversation> conversations;  //arraylist of all of the current user's conversations
+    private ArrayList<User> users;  //arraylist of all of the users on the server
+    private ArrayList<User> userMatches;  //arraylist of the users that matched the current user's search (adding conv)
+    private ArrayList<User> usersToAdd;  //arraylist of the users to add to a new conversation
+    private ArrayList<String> messagesArr = new ArrayList<>();  //arraylist of all of the messages on the edit screen
+    private Conversation conversationDisplayed;  //the conversation being displayed
+    private File messages;  //the file with the messages of the conversation displayed
+    private File usersFile = new File("UsersFile.txt");  //the file with all of the users in the server
+    private JButton addButton;  //button to add a conversation
+    private JButton settingsButton;  //button to open the settings screen
+    private JButton signUpButton;  //button to sign up as a new user
+    private JButton loginButton;  //button to log in
+    private JButton signUpPageButton;  //button on sign up page to submit information
+    private JButton signupToLogin;  //button tat takes the user from the sign up page to the login page
+    private JTextField usernameField;  //text field on login page for username
+    private JPasswordField passwordField;  //text field on login page for password
+    private JTextField createNameField;  //text field on sign up page to create name
+    private JTextField createUsernameField;  //text field on sign up page to create username
+    private JPasswordField createPasswordField;  //text field on sign up page to create password
+    private JFrame loginFrame;  //frame for login page
+    private JFrame signUpFrame;  //frame for signup page
+    private JFrame mainFrame;  //frame for main page containing all of the conversations
+    private JFrame messageFrame;  //frame for messages page for the displayed conversation
+    private JFrame editMessageFrame;  //frame for editing page for the displayed conversation
+    private JFrame addConversationFrame;  //frame for searching for users to add to a new conversation
+    private JFrame addConversationFields;  //frame for submitting fields to create a new conversation
+    private JTextField textField;  //text field within messages frame where users can add new messages
+    private JButton sendButton;  //button to send message
+    private JButton backButton;  //button to return to main screen from messages page
+    private JButton editMessBackButton;  //button to return to messages page from edit page
+    private JButton editMessagesButton;  //button to go to edit messages page
+    private JButton deleteMessageButton;  //button to delete specific message
+    private JButton editSpecificMsgButton;  //button to edit specific message
+    private JPanel messagePanel;  //panel for messages for displayed conversation
+    private JPanel usersPanel;  //panel that displays matched users during search
+    private JTextField searchUsers;  //text field to search for other users while adding a new conversation
+    private JButton searchButton;  //button to search for other users while adding a new conversation
+    private JButton submitFields;  //button to submit conversation fields when creating new conversation
+    private JButton addOtherUsers;  //button to add more users to a new conversation
+    private JTextField conversationNameField;  //text field for the name of the new conversation
+    private User user;  //current user
+    private boolean successfulLogin;  //boolean containing whether the login was successful
+    private boolean successfulAdditionToFile;  //boolean containing whether new conversation was added successfully
+    private Container messageContent;  //container for frame containing messages for the conversation displayed
+    private Timer timer;  //timer for the messages panel
+    private Timer timerMain;  //timer for the main screen
+    private JPanel conversationPanel;  //panel displaying the user's conversations on main screen
 
     //settings
-    private JFrame settingsFrame;
-    private JButton homeButton;
-    private JButton saveButton;
-    private JButton logoutButton;
-    private JButton deleteAccountButton;
-    private JTextField nameField;
-    private JLabel nameLabel;
-    private JLabel usernameLabel;
-    private JLabel passwordLabel;
+    private JFrame settingsFrame;  //frame for the settings page
+    private JButton homeButton;  //button to return to main screen
+    private JButton saveButton;  //button to save edits to account
+    private JButton logoutButton;  //button to logout of account
+    private JButton deleteAccountButton;  //button to delete account
+    private JTextField nameField;  //text field to enter a new name for account
+    private JLabel nameLabel;  //label before name text field
+    private JLabel usernameLabel;  //label before username label
+    private JLabel passwordLabel;  //label before password text field
     
-    JButton deleteConvButton;
-    public static Socket socket;
-    public static PrintWriter outputToServer;
-    public static ObjectInputStream obj;
-    
+    JButton deleteConvButton;  //button to delete conversations
+    public static Socket socket;  //socket connected to server
+    public static PrintWriter outputToServer;  //print writer to send messages to server
+    public static ObjectInputStream obj;  //object input stream to read in messages from server
+
+    /**
+     * Main action listener for login screen, signup screen, main screen, messages screen, and adding conversation
+     * screens
+     */
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -130,18 +149,6 @@ public class ClientGui extends JComponent implements Runnable {
                     addMessage(message);
                     displayMessages();
                 }
-            } else if (e.getSource() == deleteAccountButton) {
-                deleteAccount();
-                settingsFrame.setVisible(false);
-            } else if (e.getSource() == logoutButton) {
-                logoutButton.addActionListener(a -> System.exit(0));
-            } else if (e.getSource() == saveButton) {
-                saveSettings();
-            } else if (e.getSource() == homeButton) {
-                //messageFrame.setVisible(true);
-                mainPanel();
-                mainFrame.setVisible(true);
-                settingsFrame.setVisible(false);
             } else if (e.getSource() == backButton) {
                 messageFrame.setVisible(false);
                 mainPanel();
@@ -153,7 +160,7 @@ public class ClientGui extends JComponent implements Runnable {
                 messageFrame.dispose();
             } else if (e.getSource() == editMessBackButton) {
                 editMessageFrame.setVisible(false);
-                displayMessages();
+                displayConversation();
             } else {
                 int index = Integer.parseInt(e.getActionCommand());
                 conversationDisplayed = conversations.get(index);
@@ -165,7 +172,10 @@ public class ClientGui extends JComponent implements Runnable {
             }
         }
     };
-    
+
+    /**
+     * Action listener for settings page
+     */
     ActionListener settingsAL = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -180,12 +190,16 @@ public class ClientGui extends JComponent implements Runnable {
                 saveSettings();
             } else if (e.getSource() == logoutButton) {
                 settingsFrame.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Logging out...", "Log Out", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Logging out...", "Log Out",
+                        JOptionPane.PLAIN_MESSAGE);
                 System.exit(0);
             }
         }
     };
-    
+
+    /**
+     * Action listener for deleting specific messages
+     */
     ActionListener deleteMessageAL = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -194,7 +208,10 @@ public class ClientGui extends JComponent implements Runnable {
             editMessages();
         }
     };
-    
+
+    /**
+     * Action listener for deleting conversations
+     */
     ActionListener deleteConversation = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -203,7 +220,10 @@ public class ClientGui extends JComponent implements Runnable {
             deleteConversation();
         }
     };
-    
+
+    /**
+     * Action listener for editing specific messages
+     */
     ActionListener editSpecificMessageAL = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -212,7 +232,10 @@ public class ClientGui extends JComponent implements Runnable {
             editMessages();
         }
     };
-    
+
+    /**
+     * Action listener to add users to new conversations
+     */
     ActionListener addUserToConversation = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -221,7 +244,10 @@ public class ClientGui extends JComponent implements Runnable {
             fillConversationFields(userToBeAdded);
         }
     };
-    
+
+    /**
+     * Action listener to update messages frame for the conversation displayed
+     */
     ActionListener update = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -230,18 +256,28 @@ public class ClientGui extends JComponent implements Runnable {
         }
     };
 
+    /**
+     * Action listener to update main screen displaying all of the user's conversations
+     */
     ActionListener updateMain = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             mainPanel();
         }
     };
-    
+
+    /**
+     * Constructor for ClientGui
+     */
     public ClientGui() {
         conversations = new ArrayList<>();
         users = new ArrayList<>();
     }
-    
+
+    /**
+     * Main method
+     * @param args main method arguments
+     */
     public static void main(String[] args) {
         try {
             //Create a socket for the user and sets the host to localhost and port 8080
@@ -251,22 +287,23 @@ public class ClientGui extends JComponent implements Runnable {
             System.out.println("You connected to the server from address " +
                     socket.getLocalAddress() + " and port " + socket.getLocalPort());
         } catch (IOException i) {
-            JOptionPane.showMessageDialog(null, "Error connecting to Server", "Connection Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error connecting to Server",
+                    "Connection Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         SwingUtilities.invokeLater(new ClientGui());
     }
-    
-    public void run() {
-        /**
-         * Main Login Screen
-         */
 
+    /**
+     * Method that starts gui and displays the login screen
+     */
+    public void run() {
+        //Main Login Screen
         loginFrame = new JFrame("Login");
-        Container loginContent = loginFrame.getContentPane();
+        Container loginContent = loginFrame.getContentPane();  //container for login screen
         loginContent.setLayout(null);
 
-        JLabel userName = new JLabel("Username");
+        JLabel userName = new JLabel("Username");  //label for username text field
         userName.setFont(new Font("Arial", Font.PLAIN, 20));
         userName.setSize(100, 30);
         userName.setLocation(300, 220);
@@ -278,7 +315,7 @@ public class ClientGui extends JComponent implements Runnable {
         usernameField.setLocation(400, 227);
         loginContent.add(usernameField);
 
-        JLabel passWord = new JLabel("Password ");
+        JLabel passWord = new JLabel("Password ");  //label for password text field
         passWord.setFont(new Font("Arial", Font.PLAIN, 20));
         passWord.setSize(100, 30);
         passWord.setLocation(300, 265);
@@ -307,14 +344,14 @@ public class ClientGui extends JComponent implements Runnable {
         loginFrame.getContentPane().setBackground(Color.decode("#B9E0DE")); // set background color
         loginFrame.pack();
 
-        JLabel label1 = new JLabel();
+        JLabel label1 = new JLabel();  //welcome label on login screen
         label1.setText("Welcome!");
-        label1.setBounds(360, 75, 200, 50);
+        label1.setBounds(395, 75, 200, 50);
         label1.setFont(new Font("Verdana", 1, 20));
 
-        JLabel label2 = new JLabel();
+        JLabel label2 = new JLabel();  //label with directions on login screen
         label2.setText("login in below or create an account");
-        label2.setBounds(300, 115, 300, 50);
+        label2.setBounds(295, 115, 350, 50);
         label2.setFont(new Font("Verdana", 1, 15));
 
         loginFrame.setSize(900, 600);
@@ -325,15 +362,19 @@ public class ClientGui extends JComponent implements Runnable {
         loginFrame.add(label2);
         loginFrame.setVisible(true);
     }
-    
+
+    /**
+     * Method to log the user in
+     */
     private void logIn() {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-        boolean success = false;
+        String username = usernameField.getText();  //value entered in the username field
+        String password = passwordField.getText();  //value entered in password field
+        successfulLogin = false;
         
         if (username.isEmpty() || password.isEmpty()) {
             successfulLogin = false;
-            JOptionPane.showMessageDialog(null, "Please enter all of the fields", "Login Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please enter all of the fields",
+                    "Login Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -345,13 +386,15 @@ public class ClientGui extends JComponent implements Runnable {
         
         outputToServer.println(sb.toString());
         try {
-            success = obj.readBoolean();
+            successfulLogin = obj.readBoolean();
         } catch (IOException e) {
-            System.out.println("no response");
+            JOptionPane.showMessageDialog(null, "Error with login. Try again.",
+                    "Login Error", JOptionPane.ERROR_MESSAGE);
         }
         
-        if (!success) {
-            JOptionPane.showMessageDialog(null, "Wrong username or password", "Login Error", JOptionPane.ERROR_MESSAGE);
+        if (!successfulLogin) {
+            JOptionPane.showMessageDialog(null, "Wrong username or password",
+                    "Login Error", JOptionPane.ERROR_MESSAGE);
             successfulLogin = false;
         } else {
             successfulLogin = true;
@@ -366,13 +409,16 @@ public class ClientGui extends JComponent implements Runnable {
             readConversationsFromFile();
         }
     }
-    
+
+    /**
+     * Method to display sign up screen
+     */
     private void displaySignUp() {
         signUpFrame = new JFrame("Sign Up");
-        Container signUpContent = signUpFrame.getContentPane();
+        Container signUpContent = signUpFrame.getContentPane();  //container for sign up screen
         
         signUpContent.setLayout(null);
-        JLabel fullNameLabel = new JLabel("Full Name ");
+        JLabel fullNameLabel = new JLabel("Full Name ");  //label for full name text field
         fullNameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         fullNameLabel.setSize(100, 20);
         fullNameLabel.setLocation(300, 170);
@@ -385,10 +431,10 @@ public class ClientGui extends JComponent implements Runnable {
         createNameField.setLocation(400, 170);
         signUpContent.add(createNameField, BorderLayout.CENTER);
         
-        JLabel userName = new JLabel("Username");
+        JLabel userName = new JLabel("Username");  //label for username text field
         userName.setFont(new Font("Arial", Font.PLAIN, 20));
         userName.setSize(100, 20);
-        userName.setLocation(300, 200); //350
+        userName.setLocation(300, 200);
         signUpContent.add(userName, BorderLayout.CENTER);
         
         createUsernameField = new JTextField();
@@ -398,7 +444,7 @@ public class ClientGui extends JComponent implements Runnable {
         createUsernameField.setLocation(400, 200);
         signUpContent.add(createUsernameField, BorderLayout.CENTER);
         
-        JLabel passWord = new JLabel("Password ");
+        JLabel passWord = new JLabel("Password ");  //label for password text field
         passWord.setFont(new Font("Arial", Font.PLAIN, 20));
         passWord.setSize(100, 20);
         passWord.setLocation(300, 230);
@@ -418,7 +464,7 @@ public class ClientGui extends JComponent implements Runnable {
         signUpPageButton.addActionListener(actionListener);
         signUpContent.add(signUpPageButton);
         
-        signupToLogin = new JButton("Login"); //Sruthi
+        signupToLogin = new JButton("Login");
         signupToLogin.setFont(new Font("Arial", Font.PLAIN, 15));
         signupToLogin.setSize(100, 20);
         signupToLogin.setLocation(360, 350);
@@ -433,20 +479,34 @@ public class ClientGui extends JComponent implements Runnable {
         signUpFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         signUpFrame.setVisible(true);
     }
-    
+
+    /**
+     * Method to sign up as a new user
+     */
     private void signUp() {
         readUsers();
-        String username = createUsernameField.getText();
-        String password = createPasswordField.getText();
-        String name = createNameField.getText();
+        String username = createUsernameField.getText();  //username entered in text field
+        String password = createPasswordField.getText();  //password entered in text field
+        String name = createNameField.getText();  //full name entered in text field
+        if (username.contains("*") || password.contains("*") || name.contains("*")) {
+            JOptionPane.showMessageDialog(null, "Invalid information. No * allowed.",
+                    "Signup Error", JOptionPane.ERROR_MESSAGE);
+            signUpFrame.setVisible(false);
+            displaySignUp();
+            return;
+        }
+
+        //Displays error and returns to sign up screen if not all fields were entered
         if (username == null || ("".equals(username))
                 || ("".equals(password)) || password == null
                 || ("".equals(name)) || name == null) {
-            JOptionPane.showMessageDialog(null, "Please enter all details.", "Signup Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please enter all details.",
+                    "Signup Error", JOptionPane.ERROR_MESSAGE);
             signUpFrame.setVisible(false);
             displaySignUp();
+            return;
         } else {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();  //message to sent to server to sign up
             sb.append("SignUp*");
             sb.append(name + "*");
             sb.append(username + "*");
@@ -454,18 +514,21 @@ public class ClientGui extends JComponent implements Runnable {
             
             outputToServer.println(sb.toString());
             readUsers();
-            
+
+            //Displays error if unable to sign up
             try {
                 if (obj.readBoolean()) {
                     signUpFrame.setVisible(false);
                     loginFrame.setVisible(true);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Invalid username", "Signup Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Invalid username",
+                            "Signup Error", JOptionPane.ERROR_MESSAGE);
                     signUpFrame.setVisible(false);
                     displaySignUp();
                 }
             } catch (IOException ioException) {
-                JOptionPane.showMessageDialog(null, "Sign up failed. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Sign up failed. Try again.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -475,7 +538,7 @@ public class ClientGui extends JComponent implements Runnable {
      */
     private void mainScreen() {
         mainFrame = new JFrame("Messages");
-        Container content = mainFrame.getContentPane();
+        Container content = mainFrame.getContentPane();  //container for main screen
         
         content.setLayout(new BorderLayout());
 
@@ -483,13 +546,13 @@ public class ClientGui extends JComponent implements Runnable {
 
         mainPanel();
 
-        JScrollPane scrollPane = new JScrollPane(conversationPanel);
+        JScrollPane scrollPane = new JScrollPane(conversationPanel);  //scroll pane with all user's conversations
 
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         content.add(scrollPane, BorderLayout.CENTER);
 
-        JPanel bottomPanel = new JPanel(new BorderLayout());
+        JPanel bottomPanel = new JPanel(new BorderLayout());  //panel with settings and add conversation buttons
         settingsButton = new JButton("Settings");
         settingsButton.addActionListener(actionListener);
         bottomPanel.add(settingsButton, BorderLayout.WEST);
@@ -509,8 +572,11 @@ public class ClientGui extends JComponent implements Runnable {
         mainFrame.setVisible(true);
     }
 
-    //Separate Method for the ConversationsPanel in the Main Screen
+    /**
+     * Method to display conversations in panel of main screen
+     */
     private void mainPanel() {
+        //Clears panel
         conversationPanel.removeAll();
         conversationPanel.revalidate();
         conversationPanel.repaint();
@@ -519,8 +585,8 @@ public class ClientGui extends JComponent implements Runnable {
 
         conversationPanel.setLayout(new GridBagLayout());
         conversationPanel.setBackground(Color.decode("#B9E0DE")); // set background color
-        //conversationPanel.pack();
-        GridBagConstraints constraints = new GridBagConstraints();
+
+        GridBagConstraints constraints = new GridBagConstraints();  //constraints for layout
         constraints.gridx = 0;
         constraints.gridy = GridBagConstraints.RELATIVE;
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -529,8 +595,7 @@ public class ClientGui extends JComponent implements Runnable {
         deleteConvButton = new JButton("Delete");
 
         for (int i = 0; i < conversations.size(); i++) {
-            System.out.println(conversations.get(i).getName());
-            JButton button = new JButton(conversations.get(i).getName());
+            JButton button = new JButton(conversations.get(i).getName());  //button for conversation
             button.setActionCommand(String.valueOf(i));
             button.addActionListener(actionListener);
             constraints.gridwidth = 1;
@@ -548,33 +613,36 @@ public class ClientGui extends JComponent implements Runnable {
 
     }
 
+    /**
+     * Displays settings screen
+     */
     private void settings() {
-        //Send the command 'Settings*' to the server
+        //Tells server we are in settings
         outputToServer.println("Settings*");
         try {
             user = (User) obj.readObject();
-            System.out.println(user.getName());
         } catch (IOException i) {
-            System.out.println("Connection failed while searching for a user");
-            JOptionPane.showMessageDialog(null, "Connection failed while searching for a user", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Connection failed while searching for a user",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (ClassNotFoundException c) {
-            System.out.println("Class not found whilst searching for a user");
-            JOptionPane.showMessageDialog(null, "Connection failed while searching for a user", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Connection failed while searching for a user",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         settingsFrame = new JFrame("Settings");
-        Container content = settingsFrame.getContentPane();
+        Container content = settingsFrame.getContentPane();  //container for settings page
         content.setLayout(new BorderLayout());
 
         // Contains all the information fields to view and edit.
         // Includes the user's "Name", "Username", and "Password"
-        JPanel infoPanel = new JPanel();
+        JPanel infoPanel = new JPanel();  //panel with all settings information
         infoPanel.setBackground(Color.decode("#B9E0DE"));
         nameLabel = new JLabel("Name: ");
         nameField = new JTextField(user.getName(), 10);
         usernameLabel = new JLabel("Username: ");
-        JLabel usernameField = new JLabel(user.getUsername(), 10);
+        JLabel usernameField = new JLabel(user.getUsername(), 10);  //label with user's username
         passwordLabel = new JLabel("Password: ");
-        //passwordField = new JPasswordField(user.getPassword(), 10);
         passwordField = new JPasswordField("", 10);
         
         infoPanel.add(usernameLabel);
@@ -586,7 +654,7 @@ public class ClientGui extends JComponent implements Runnable {
         content.add(infoPanel, BorderLayout.CENTER);
 
         // Shows the "Home", "Save", and "Delete" buttons at the bottom of the GUI
-        JPanel buttonsPanel = new JPanel();
+        JPanel buttonsPanel = new JPanel();  //panel for all of the settings buttons
         homeButton = new JButton("Home");
         homeButton.addActionListener(settingsAL);
         saveButton = new JButton("Save Settings");
@@ -609,37 +677,49 @@ public class ClientGui extends JComponent implements Runnable {
         settingsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         settingsFrame.setVisible(true);
     }
-    
+
+    /**
+     * Method to delete current user's account
+     */
     private void deleteAccount() {
         //Send the command 'DeleteAccount*' to the server
         outputToServer.println("DeleteAccount*");
-        boolean success = false;
+        boolean success = false;  //boolean for whether deletion was successful
+
+        //Displays error if unsuccessful deletion
         try {
             success = obj.readBoolean();
             if (!success) {
-                JOptionPane.showMessageDialog(null, "Error in deleting Account", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error in deleting Account", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "Successfully Deleted Account", "Deletion Complete", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Successfully Deleted Account",
+                        "Deletion Complete", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error in deleting Account", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error in deleting Account", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
         readUsers();
         user = null;
-        System.exit(0);
+        System.exit(0);  //closes program
     }
-    
+
+    /**
+     * Method to edit account called after pressing save settings
+     */
     private void saveSettings() {
-        String fullName = nameField.getText();
-        String newPassword = passwordField.getText();
-        
+        String fullName = nameField.getText();  //new full name entered in text field
+        String newPassword = passwordField.getText();  //new password entered in text field
+
+        //Displays error if not all fields are entered
         if (fullName == null || fullName.equals("") || newPassword == null || newPassword.equals("")) {
             JOptionPane.showMessageDialog(null, "Please enter all the fields", "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();  //Message to be sent to server to edit account
         sb.append("SaveSettings*");
         sb.append(fullName + "*");
         sb.append(newPassword);
@@ -664,7 +744,8 @@ public class ClientGui extends JComponent implements Runnable {
         } catch (EOFException | NullPointerException e) {
             //end of file
         } catch (IOException | ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Error reading conversations from file. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error reading conversations from file. Try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -682,19 +763,23 @@ public class ClientGui extends JComponent implements Runnable {
         } catch (EOFException | FileNotFoundException e) {
             //end of file
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Error reading users from file. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error reading users from file. Try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
+    /**
+     * Displays the conversation that was clicked (frame only)
+     */
     private void displayConversation() {
         messageFrame = new JFrame(conversationDisplayed.getName());
         messageContent = messageFrame.getContentPane();
         messageContent.setLayout(new BorderLayout());
         messagePanel = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(messagePanel);
+        JScrollPane scrollPane = new JScrollPane(messagePanel);  //scroll pane for messages
 
         messageContent.add(scrollPane, BorderLayout.CENTER);
-        JPanel textFieldPanel = new JPanel();
+        JPanel textFieldPanel = new JPanel();  //panel for text field and buttons for messages
         textField = new JTextField(30);
         textField.addActionListener(actionListener);
         textFieldPanel.add(textField, BorderLayout.CENTER);
@@ -721,10 +806,10 @@ public class ClientGui extends JComponent implements Runnable {
     }
 
     /**
-     * Display messages frame for conversation
+     * Display messages for the conversation displayed
      */
     private void displayMessages() {
-        //different method for frame and panel, displayConvo vs displayMessages
+        //Clears message panel contents
         messagePanel.removeAll();
         messagePanel.revalidate();
         messagePanel.repaint();
@@ -735,8 +820,8 @@ public class ClientGui extends JComponent implements Runnable {
         messagePanel.setBackground(Color.decode("#B9E0DE")); // set background color
         //messageFrame.pack();
         
-        String user;
-        String message;
+        String user;  //user sending the message
+        String message;  //specific message
         try (BufferedReader br = new BufferedReader(new FileReader(messages))) {
             String line = br.readLine();
             while (line != null) {
@@ -749,7 +834,8 @@ public class ClientGui extends JComponent implements Runnable {
                 line = br.readLine();
             }
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error displaying messages. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error displaying messages. Try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -777,9 +863,11 @@ public class ClientGui extends JComponent implements Runnable {
                 messagesArr.add((String) obj.readObject());
             }
         } catch (IOException exception) {
-            JOptionPane.showMessageDialog(null, "Error editing messages. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error editing messages. Try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Error displaying messages. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error displaying messages. Try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
         for (String line : messagesArr) {
             String[] output = line.split("\\*");
@@ -846,7 +934,8 @@ public class ClientGui extends JComponent implements Runnable {
         editMessageFrame.setVisible(false);
         String editedMessage = JOptionPane.showInputDialog("Enter the new edited message:");
         if (editedMessage == null || editedMessage.equals("")) {
-            JOptionPane.showMessageDialog(null, "Invalid message", "Error Editing Message", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Invalid message", "Error Editing Message",
+                    JOptionPane.ERROR_MESSAGE);
             editMessages();
             return;
         }
@@ -862,9 +951,11 @@ public class ClientGui extends JComponent implements Runnable {
                 messagesArr.add((String) obj.readObject());
             }
         } catch (IOException exception) {
-            JOptionPane.showMessageDialog(null, "Failed to edit message. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Failed to edit message. Try again.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Failed to edit conversation. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Failed to edit conversation. Try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
         readConversationsFromFile();
     }
@@ -884,13 +975,15 @@ public class ClientGui extends JComponent implements Runnable {
         boolean success = false;
         try {
             success = obj.readBoolean();
-            System.out.println("deleteConversation success");
+            JOptionPane.showMessageDialog(null, "Successfully Deleted Conversation",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             if (!success) {
-                JOptionPane.showMessageDialog(null, "Error in deleting Conversation", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error in deleting Conversation",
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (IOException e) {
-            System.out.println("Failed to delete conversation");
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error in deleting Conversation",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -904,7 +997,8 @@ public class ClientGui extends JComponent implements Runnable {
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(messages, true))) {
             pw.print(formattedMessage);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Failed to add message. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Failed to add message. Try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
         messagePanel.add(new JLabel(user.getUsername() + ": " + message));
         messageFrame.setVisible(true);
@@ -954,9 +1048,13 @@ public class ClientGui extends JComponent implements Runnable {
         try {
             userMatches = (ArrayList<User>) obj.readObject();
         } catch (IOException i) {
-            System.out.println("Connection failed while searching for a user");
+            JOptionPane.showMessageDialog(null, "Error while searching for user. Try Again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (ClassNotFoundException c) {
-            System.out.println("Class not found whilst searching for a user");
+            JOptionPane.showMessageDialog(null, "Error in deleting Conversation",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
         for (int i = 0; i < userMatches.size(); i++) {
@@ -1001,7 +1099,8 @@ public class ClientGui extends JComponent implements Runnable {
                 usersToAdd.add((User) obj.readObject());
             }
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Failed to add conversation. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Failed to add conversation. Try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
         String names = "";
         for (User u : usersToAdd) {
@@ -1026,17 +1125,36 @@ public class ClientGui extends JComponent implements Runnable {
     
     private boolean addConversationToFile() {
         readConversationsFromFile();
-        String nameOfConversation = conversationNameField.getText();
+        String nameOfConversation = conversationNameField.getText();  //name of new conversation entered in text field
+        if (nameOfConversation.contains("*")) {
+            JOptionPane.showMessageDialog(null, "Invalid Conversation Name (No * allowed). Try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        String conversationFileName = nameOfConversation + ".txt";  //potential name of conversation messages file
+        if (new File(conversationFileName).exists()) {
+            JOptionPane.showMessageDialog(null, "Invalid Conversation Name. Try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        for (Conversation c : conversations) {
+            if (nameOfConversation.equals(c.getName())) {
+                JOptionPane.showMessageDialog(null, "Invalid Conversation Name. Try again.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
         outputToServer.println("CreateConversation*" + nameOfConversation);
         boolean successfulAddition = false;
         try {
             successfulAddition = obj.readBoolean();
-            System.out.println(successfulAddition);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Failed to add conversation. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Failed to add conversation. Try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
         if (!successfulAddition) {
-            JOptionPane.showMessageDialog(null, "Invalid conversation name", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Invalid conversation name", "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return false;
         }
         readConversationsFromFile();
@@ -1045,6 +1163,5 @@ public class ClientGui extends JComponent implements Runnable {
         mainScreen();
         mainFrame.setVisible(true);
         return true;
-        
     }
 }

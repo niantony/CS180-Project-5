@@ -1,38 +1,73 @@
 import java.util.ArrayList;
 import java.io.*;
 
+/**
+ * CS 180 Project 5 -- Conversation.java
+ *
+ * Represents a conversation and includes the name, users, and a file of the messages for the conversation.
+ *
+ * @author Antony Ni, G17
+ * @author Ishika Vachali, Online
+ * @author Michael Con, Online
+ * @author Sruthi Koukuntla, LC3
+ *
+ * @version December 6, 2020
+ */
 public class Conversation implements Serializable {
-    private String nameOfConversation; //Name of the Chat, can be used to identify
+    private String nameOfConversation; //name of the Chat, can be used to identify
     private ArrayList<User> conversationList; //the participants in the conversation
-    private File messages;
+    private File messages;  //file of the messages for the conversation
 
+    /**
+     * Constructor for conversation
+     *
+     * @param name name of the conversation
+     * @param users users that are participants of the conversation
+     * @param messages file containing the messages for the conversation
+     */
     public Conversation (String name, ArrayList<User> users, File messages) {
         this.nameOfConversation = name;
         this.conversationList = users;
         this.messages = messages;
     }
 
-    //return the name of the conversation
+    /**
+     * Returns the name of the conversation
+     * @return the name of the conversation
+     */
     public String getName () {
         return this.nameOfConversation;
     }
 
-    //add a new participant to the conversation
+    /**
+     * Adds a new user to the conversation
+     * @param newUser user to add to the conversation
+     */
     public void addParticipant (User newUser) {
         this.conversationList.add(newUser);
 
     }
 
-    //remove a user from the conversation
+    /**
+     * User to remove from the conversation
+     * @param user user to remove
+     */
     public void removeParticipant (User user) {
         this.conversationList.remove(user);
     }
 
-    //return int of number of users in the conversation
+    /**
+     * Returns the number of participants in the conversation
+     * @return the number of participants in the conversation
+     */
     public int numberOfParticipants () {
         return this.conversationList.size();
     }
 
+    /**
+     * Returns the file containing the messages for the conversation
+     * @return the file containing the messages for the conversation
+     */
     public File getMessages() {
         return messages;
     }

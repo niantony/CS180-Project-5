@@ -22,6 +22,16 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.fail;
 
+/**
+ * CS 180 Project 5 -- RunLocalTest.java
+ *
+ * Program that tests classes, fields, and methods of Project 5.
+ *
+ * Referenced public test cases from past assignments.
+ *
+ * @author Antony Ni, G17
+ * @version December 6, 2020
+ */
 public class RunLocalTest {
 
     public static void main(String[] args) {

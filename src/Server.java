@@ -5,12 +5,21 @@ import java.util.ArrayList;
 
 /**
  * CS 180 Project 5 -- Server.java
- * <p>
- * Server, a new thread is started for every new user
+ *
+ * Server - a new thread (instance of UserHandler) is started for every new user that connects to the server
+ *
+ * We visited the office hours for Albert Yu, who helped us make the program multi-threaded.
+ *
+ * @author Antony Ni, G17
+ * @author Ishika Vachali, Online
+ * @author Michael Con, Online
+ * @author Sruthi Koukuntla, LC3
+ *
+ * @version December 6, 2020
  */
 public class Server {
-    private int port;
-    public ArrayList<User> clients;
+    private int port;  //port number
+    public ArrayList<User> clients;  //arraylist of clients
 
     public static void main(String[] args) throws IOException {
         try(ServerSocket serverSocket = new ServerSocket(8080)) {
@@ -21,6 +30,7 @@ public class Server {
                 Socket socket = serverSocket.accept();
                 System.out.println("A client connected to the server from address " +
                         socket.getLocalAddress() + " and port " + socket.getLocalPort());
+
                 //Starts a thread for the new user, multi-threaded
                 Thread t = new Thread(new UserHandler(socket));
                 t.start();
