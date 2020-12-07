@@ -56,7 +56,7 @@ addUserToConversation
 It's the action listener for the userButton. Calls fillConversationFields to add users to the conversations list. 
 
 Update
- It is the action listener associated with the timer. Calls the displayMessages to refresh the messages frame (messages) for the conversation selected. It ensures that messages are displayed in real time.
+It is the action listener associated with the timer. Calls the displayMessages to refresh the messages frame (messages) for the conversation selected. It ensures that messages are displayed in real time.
  
 updateMain
  It’s the action listener associated with Timer. Calls the mainPanel to refresh the conversations. Makes sure that conversations created or deleted are shown in real time. 
@@ -152,6 +152,7 @@ addConversationToFile
 sends a request  to the server to add another conversation to the users conversations file. 
 If server is unsuccessful, sends user an error message indicating unable to write to the file
 
+
 UserHandler.java
 
 Description
@@ -160,6 +161,7 @@ The UserHandler class is instantiated by the Server class everytime a new client
 LogIn*Username*Password
 
 The UserHandler would receive this message and identify the “LogIn*” command, and react accordingly. 
+
 Methods
 run
 Endless loop that waits for user input. Once it receives a signal by the user it will check which actions the user wants to do. 
@@ -188,6 +190,7 @@ Receives the input by the user in the format of “SearchUser*Name”
 Calls the method readUsers
 Searches through arrayUsers for a username that resembles the input by the User
 If there is one or multiple matches for the the user input it will store these users in an ArrayList “result” and return it to the client
+
 addUserToConversation
 Call the method readUsers.
 Reads the Users sent by the Client, adds them to the Arraylist “usersToAdd” along with the currentUser itself.
@@ -204,23 +207,29 @@ It is only possible to edit and the messages that belong to the user.
 
 deleteMessage
 Receives the index of the message that the client wants to delete. Deletes the specified message and rewrites the “messages” without the deleted message
+
 editSpecificMessage
 Receives the newMessage from the user and the specific index of the message 
 Replaces the old message with the new message and then writes it to file, confirming the correct editing of the message.
+
 deleteAccount
 Calls the method readUsers
 Returns true or false if the account is successfully deleted. 
 Delete the corresponding personal file attached to this account.
 Removes the account from the usersFile and confirms the change. 
+
 saveSettings
 Receives the information for the account. The user is only capable of changing the name (not the username) and the password for the account. 
 It changes the account’s name and password, by writing to the file usersFile the requested change.
+
 readOtherUserConversations
-This method reads the list of conversations from another specified user. Adds these conversations to the Arraylist otherUserConversations and returns it. 
+This method reads the list of conversations from another specified user. Adds these conversations to the Arraylist otherUserConversations and returns it.
+
 writeUsersToFile
 First checks if the file usersFile exists, if not then create one.
 This method is used to save any changes to the file usersFile.
 Makes sure that data is stored and is persistent even if the program closes. 
+
 deleteConversation
 Receives the name of the conversation that the user wishes to delete.
 Removes the conversation from the Clients list of Conversations.
@@ -238,9 +247,12 @@ Next the settings panel was tested. To make sure that users were able to change 
 
 Throughout all of these texts, descriptive errors appeared as appropriate and the application did not crash under any circumstance. 
 RunLocalTest.java (JUnit Testing)
+
 RunLocalTest.java is a JUnit Testing class that will check if the program has the correct implementations. This class checks and verifies that each class exists and inherits from the correct superclass. It verifies that each field in every class exists and verifies that it has the correct type and access modifier. It verifies that each method in every class exists with the correct return type and modifier. Every method in the program has been tested with proper input and improper input. Upon proper input the program will function properly with no errors being thrown. Upon improper input, a descriptive error will be thrown. All classes, methods, and fields are tested. Listed below are methods that were tested in RunLocalTest.java...
+
 List of methods tested from Server.java class:
 main(String[] args)
+
 List of methods tested from User.java class:
 getName()
 setName(String newName)
@@ -248,10 +260,12 @@ getUsername()
 getPassword()
 setPassword(String newPassword)
 getConversations()
+
 List of methods tested in Conversation.java:
 getName()
 getParticipants()
 getMessages()
+
 List of methods tested from ClientGui.java class:
 main(String[] args)
 readUsers()
@@ -269,6 +283,7 @@ saveSettings(String userInfo)
 readOtherUserConversations(User otherUser)
 writeUsersToFile()
 deleteConversation(String userInfo)
+
 List of methods tested from UserHandler.java class:
 readUsers()
 readConversations()
