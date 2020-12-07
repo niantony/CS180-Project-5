@@ -10,6 +10,7 @@
 - For starting a new conversation then press the button "Add conversation" and search the desired members of your conversation
 - Edit mode in the chat window allows you the edit or delete your own messages 
 - Settings menu allows you to change your name and password, delete your account, and logout
+- while using this application, avoid using the "*" character. If the character is used, an error message will appear
 
 ## Description of each Class
 

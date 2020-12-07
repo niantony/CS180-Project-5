@@ -127,7 +127,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -138,11 +139,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -168,7 +172,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -179,11 +184,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -209,7 +217,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -220,11 +229,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -261,11 +273,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName
+                    + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName
+                    + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName
+                    + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -282,7 +297,8 @@ public class RunLocalTest {
             try {
                 constructor = clazz.getDeclaredConstructor(String.class, String.class, String.class, File.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a constructor that is `public` and has four parameters with types String, String, String, and File!");
+                Assert.fail("Ensure that `" + className + "` declares a constructor that is `public`" +
+                        " and has four parameters with types String, String, String, and File!");
 
                 return;
             } //end try catch
@@ -291,9 +307,11 @@ public class RunLocalTest {
 
             exceptions = constructor.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s parameterized constructor is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className +
+                    "`'s parameterized constructor is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s parameterized constructor has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className +
+                    "`'s parameterized constructor has an empty `throws` clause!", expectedLength, exceptions.length);
         }
 
         @Test(timeout = 1000)
@@ -322,7 +340,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` declares a method named `" +
+                        methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -336,13 +355,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName
+                    + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName
+                    + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName
+                    + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName
+                    + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -372,7 +395,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` declares a method named `" +
+                        methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -386,13 +410,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName +
+                    "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName +
+                    "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName +
+                    "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName +
+                    "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -422,7 +450,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` declares a method named `"
+                        + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -436,13 +465,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName +
+                    "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName +
+                    "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName +
+                    "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName +
+                    "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -472,7 +505,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` declares a method named `"
+                        + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -486,13 +520,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName +
+                    "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName +
+                    "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName +
+                    "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName +
+                    "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -519,13 +557,17 @@ public class RunLocalTest {
             actualReturnType = method.getReturnType();
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + clazz + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + clazz + "`'s `" + methodName +
+                    "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + clazz + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + clazz + "`'s `" + methodName +
+                    "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + clazz + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + clazz + "`'s `" + methodName +
+                    "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + clazz + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + clazz + "`'s `" + methodName +
+                    "` method has an empty `throws` clause!", expectedLength, exceptions.length);
         }
 
         @Test(timeout = 1000)
@@ -551,13 +593,17 @@ public class RunLocalTest {
             actualReturnType = method.getReturnType();
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + clazz + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + clazz + "`'s `" + methodName +
+                    "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + clazz + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + clazz + "`'s `" + methodName +
+                    "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + clazz + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + clazz + "`'s `" + methodName +
+                    "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + clazz + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + clazz + "`'s `" + methodName +
+                    "` method has an empty `throws` clause!", expectedLength, exceptions.length);
         }
 
         @Test(timeout = 1000)
@@ -583,13 +629,17 @@ public class RunLocalTest {
             actualReturnType = method.getReturnType();
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + clazz + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + clazz + "`'s `" + methodName +
+                    "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + clazz + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + clazz + "`'s `" + methodName +
+                    "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + clazz + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + clazz + "`'s `" + methodName +
+                    "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + clazz + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + clazz + "`'s `" + methodName +
+                    "` method has an empty `throws` clause!", expectedLength, exceptions.length);
         }
 
         // START OF SERVER CLASS TESTS (DONE)
@@ -613,13 +663,17 @@ public class RunLocalTest {
 
             superinterfaces = clazz.getInterfaces();
 
-            Assert.assertTrue("Ensure that `" + className + "` is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className +
+                    "` is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "` is NOT `abstract`!", Modifier.isAbstract(modifiers));
+            Assert.assertFalse("Ensure that `" + className +
+                    "` is NOT `abstract`!", Modifier.isAbstract(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "` extends `Object`!", Object.class, superclass);
+            Assert.assertEquals("Ensure that `" + className +
+                    "` extends `Object`!", Object.class, superclass);
 
-            Assert.assertEquals("Ensure that `" + className + "` implements `Serializable`!", 0, superinterfaces.length);
+            Assert.assertEquals("Ensure that `" + className +
+                    "` implements `Serializable`!", 0, superinterfaces.length);
         }
 
         @Test(timeout = 1000)
@@ -648,7 +702,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String[].class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has one parameter with type String[]!");
 
                 return;
@@ -662,13 +717,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `static`!", Modifier.isStatic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has one `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has one `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -693,13 +752,17 @@ public class RunLocalTest {
 
             superinterfaces = clazz.getInterfaces();
 
-            Assert.assertTrue("Ensure that `" + className + "` is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" +
+                    className + "` is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "` is NOT `abstract`!", Modifier.isAbstract(modifiers));
+            Assert.assertFalse("Ensure that `" +
+                    className + "` is NOT `abstract`!", Modifier.isAbstract(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "` extends `Object`!", Object.class, superclass);
+            Assert.assertEquals("Ensure that `" +
+                    className + "` extends `Object`!", Object.class, superclass);
 
-            Assert.assertEquals("Ensure that `" + className + "` implements `Serializable`!", 1, superinterfaces.length);
+            Assert.assertEquals("Ensure that `" +
+                    className + "` implements `Serializable`!", 1, superinterfaces.length);
         }
 
         @Test(timeout = 1_000)
@@ -725,7 +788,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -736,11 +800,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -766,7 +833,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" +
+                        className + "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -777,11 +845,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -807,7 +878,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -818,11 +890,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -839,7 +914,8 @@ public class RunLocalTest {
             try {
                 constructor = clazz.getDeclaredConstructor(String.class, ArrayList.class, File.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a constructor that is `public` and has three parameters with type String, ArrayList, and File!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a constructor that is `public` and has three parameters with type String, ArrayList, and File!");
 
                 return;
             } //end try catch
@@ -848,9 +924,11 @@ public class RunLocalTest {
 
             exceptions = constructor.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s parameterized constructor is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className +
+                    "`'s parameterized constructor is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s parameterized constructor has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className +
+                    "`'s parameterized constructor has an empty `throws` clause!", expectedLength, exceptions.length);
         }
 
         @Test(timeout = 1000)
@@ -879,7 +957,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -893,13 +972,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -929,7 +1012,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -943,13 +1027,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -979,7 +1067,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -993,13 +1082,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -1024,13 +1117,16 @@ public class RunLocalTest {
 
             superinterfaces = clazz.getInterfaces();
 
-            Assert.assertTrue("Ensure that `" + className + "` is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className +
+                    "` is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "` is NOT `abstract`!", Modifier.isAbstract(modifiers));
+            Assert.assertFalse("Ensure that `" + className +
+                    "` is NOT `abstract`!", Modifier.isAbstract(modifiers));
 
             Assert.assertEquals("Ensure that `" + className + "` extends `Object`!", Object.class, superclass);
 
-            Assert.assertEquals("Ensure that `" + className + "` implements `Runnable`!", 1, superinterfaces.length);
+            Assert.assertEquals("Ensure that `" + className +
+                    "` implements `Runnable`!", 1, superinterfaces.length);
 
         }
 
@@ -1057,7 +1153,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -1068,11 +1165,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -1098,7 +1198,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -1109,11 +1210,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -1139,7 +1243,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -1150,11 +1255,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -1180,7 +1288,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -1191,11 +1300,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -1221,7 +1333,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -1232,11 +1345,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -1262,7 +1378,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -1273,11 +1390,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -1303,7 +1423,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -1314,11 +1435,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -1344,7 +1468,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -1355,11 +1480,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className +
+                    "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className +
+                    "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className +
+                    "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -1376,7 +1504,8 @@ public class RunLocalTest {
             try {
                 constructor = clazz.getDeclaredConstructor(Socket.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a constructor that is `public` and has three parameters with type String, ArrayList, and File!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a constructor that is `public` and has three parameters with type String, ArrayList, and File!");
 
                 return;
             } //end try catch
@@ -1385,9 +1514,11 @@ public class RunLocalTest {
 
             exceptions = constructor.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s parameterized constructor is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className +
+                    "`'s parameterized constructor is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s parameterized constructor has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className +
+                    "`'s parameterized constructor has an empty `throws` clause!", expectedLength, exceptions.length);
         }
 
         @Test(timeout = 1000)
@@ -1416,7 +1547,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -1430,13 +1562,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -1466,7 +1602,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -1480,13 +1617,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -1516,7 +1657,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has one parameter with type String!");
 
                 return;
@@ -1530,13 +1672,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -1566,7 +1712,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has one parameter with type String!");
 
                 return;
@@ -1580,13 +1727,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -1616,7 +1767,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className
+                        + "` declares a method named `" + methodName + "` that" +
                         " has one parameter with type String!");
 
                 return;
@@ -1630,13 +1782,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -1666,7 +1822,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has one parameter with type String!");
 
                 return;
@@ -1680,13 +1837,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -1716,7 +1877,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className
+                        + "` declares a method named `" + methodName + "` that" +
                         " has one parameter with type String!");
 
                 return;
@@ -1730,13 +1892,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -1766,7 +1932,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className
+                        + "` declares a method named `" + methodName + "` that" +
                         " has one parameter with type String!");
 
                 return;
@@ -1780,13 +1947,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -1816,7 +1987,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className
+                        + "` declares a method named `" + methodName + "` that" +
                         " has one parameter with type String!");
 
                 return;
@@ -1830,13 +2002,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -1866,7 +2042,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className
+                        + "` declares a method named `" + methodName + "` that" +
                         " has one parameter with type String!");
 
                 return;
@@ -1880,13 +2057,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -1916,7 +2097,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className
+                        + "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -1930,13 +2112,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -1966,7 +2152,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` declares a method named `"
+                        + methodName + "` that" +
                         " has one parameter with type String!");
 
                 return;
@@ -1980,13 +2167,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -2030,13 +2221,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -2066,7 +2261,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -2080,13 +2276,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -2130,13 +2330,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -2161,13 +2365,17 @@ public class RunLocalTest {
 
             superinterfaces = clazz.getInterfaces();
 
-            Assert.assertTrue("Ensure that `" + className + "` is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className
+                    + "` is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "` is NOT `abstract`!", Modifier.isAbstract(modifiers));
+            Assert.assertFalse("Ensure that `" + className
+                    + "` is NOT `abstract`!", Modifier.isAbstract(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "` extends `JComponent`!", JComponent.class, superclass);
+            Assert.assertEquals("Ensure that `" + className
+                    + "` extends `JComponent`!", JComponent.class, superclass);
 
-            Assert.assertEquals("Ensure that `" + className + "` implements `Runnable`!", 1, superinterfaces.length);
+            Assert.assertEquals("Ensure that `" + className
+                    + "` implements `Runnable`!", 1, superinterfaces.length);
 
         }
 
@@ -2194,7 +2402,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className
+                        + "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2205,11 +2414,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2235,7 +2447,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2246,11 +2459,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2276,7 +2492,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className
+                        + "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2287,11 +2504,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2317,7 +2537,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2328,11 +2549,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2358,7 +2582,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className
+                        + "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2369,11 +2594,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2399,7 +2627,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className
+                        + "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2410,11 +2639,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2440,7 +2672,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2451,11 +2684,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className +
+                    "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className +
+                    "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className +
+                    "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2481,7 +2717,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2492,11 +2729,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2522,7 +2762,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2533,11 +2774,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2563,7 +2807,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2574,11 +2819,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2604,7 +2852,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2615,11 +2864,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2645,7 +2897,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className
+                        + "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2656,11 +2909,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2686,7 +2942,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2697,11 +2954,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2727,7 +2987,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2738,11 +2999,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2768,7 +3032,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className
+                        + "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2779,11 +3044,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2809,7 +3077,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2820,11 +3089,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName
+                    + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName
+                    + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName
+                    + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2850,7 +3122,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className
+                        + "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2861,11 +3134,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2891,7 +3167,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2902,11 +3179,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2932,7 +3212,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2943,11 +3224,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -2973,7 +3257,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -2984,11 +3269,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3014,7 +3302,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3025,11 +3314,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3055,7 +3347,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3066,11 +3359,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3096,7 +3392,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3107,11 +3404,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3137,7 +3437,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3148,11 +3449,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3178,7 +3482,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3189,11 +3494,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3219,7 +3527,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3230,11 +3539,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3260,7 +3572,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3271,11 +3584,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3301,7 +3617,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3312,11 +3629,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3342,7 +3662,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3353,11 +3674,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3383,7 +3707,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3394,11 +3719,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3424,7 +3752,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className
+                        + "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3435,11 +3764,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3476,11 +3808,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3506,7 +3841,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3517,11 +3853,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3547,7 +3886,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3558,11 +3898,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3588,7 +3931,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className
+                        + "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3599,11 +3943,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3629,7 +3976,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3640,11 +3988,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3670,7 +4021,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3681,11 +4033,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3711,7 +4066,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className
+                        + "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3722,11 +4078,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3752,7 +4111,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3763,11 +4123,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3804,11 +4167,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3834,7 +4200,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -3845,11 +4212,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3886,11 +4256,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3927,11 +4300,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -3968,11 +4344,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4009,11 +4388,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4050,11 +4432,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4091,11 +4476,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4132,11 +4520,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4173,11 +4564,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4214,11 +4608,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4255,11 +4652,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4285,7 +4685,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -4296,11 +4697,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4326,7 +4730,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -4337,11 +4742,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4367,7 +4775,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -4378,11 +4787,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4408,7 +4820,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -4419,9 +4832,11 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4447,7 +4862,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -4458,11 +4874,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `static`!", Modifier.isStatic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4488,7 +4907,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -4499,11 +4919,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `static`!", Modifier.isStatic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4529,7 +4952,8 @@ public class RunLocalTest {
             try {
                 testField = clazz.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a field named `" + fieldName + "`!");
 
                 return;
             } //end try catch
@@ -4540,11 +4964,14 @@ public class RunLocalTest {
 
             type = testField.getType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `static`!", Modifier.isStatic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + fieldName + "` field is the correct type!", expectedType, type);
         }
 
         @Test(timeout = 1_000)
@@ -4561,7 +4988,8 @@ public class RunLocalTest {
             try {
                 constructor = clazz.getDeclaredConstructor();
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a constructor that is `public` and has no parameters!");
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a constructor that is `public` and has no parameters!");
 
                 return;
             } //end try catch
@@ -4570,9 +4998,11 @@ public class RunLocalTest {
 
             exceptions = constructor.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s parameterized constructor is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s " +
+                    "parameterized constructor is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s parameterized constructor has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s" +
+                    " parameterized constructor has an empty `throws` clause!", expectedLength, exceptions.length);
         }
 
         @Test(timeout = 1000)
@@ -4601,7 +5031,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String[].class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has one parameter with type String[]!");
 
                 return;
@@ -4615,13 +5046,18 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `static`!", Modifier.isStatic(modifiers));
+                    methodName + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -4651,7 +5087,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -4665,13 +5102,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -4701,7 +5142,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -4715,13 +5157,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -4751,7 +5197,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -4765,13 +5212,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -4801,7 +5252,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -4815,13 +5267,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -4851,7 +5307,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "`" +
+                        " declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -4865,13 +5322,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -4901,7 +5362,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -4915,13 +5377,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -4951,7 +5417,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -4965,13 +5432,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5001,7 +5472,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -5015,13 +5487,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5051,7 +5527,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -5065,13 +5542,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5101,7 +5582,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -5115,13 +5597,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5151,7 +5637,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -5165,13 +5652,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5201,7 +5692,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -5215,13 +5707,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5251,7 +5747,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -5265,13 +5762,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5301,7 +5802,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, int.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has one parameter with type Int!");
 
                 return;
@@ -5315,13 +5817,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5351,7 +5857,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, int.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has one parameter with type Int!");
 
                 return;
@@ -5365,13 +5872,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5401,7 +5912,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has one parameter with type String!");
 
                 return;
@@ -5415,13 +5927,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5451,7 +5967,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "`" +
+                        " declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -5465,13 +5982,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" +
+                    methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5501,7 +6022,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, String.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has one parameter with type String!");
 
                 return;
@@ -5515,13 +6037,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5551,7 +6077,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName, User.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className + "` " +
+                        "declares a method named `" + methodName + "` that" +
                         " has one parameter with type User!");
 
                 return;
@@ -5565,13 +6092,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `"
+                    + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
 
@@ -5601,7 +6132,8 @@ public class RunLocalTest {
             try {
                 method = clazz.getDeclaredMethod(methodName);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                Assert.fail("Ensure that `" + className +
+                        "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
 
                 return;
@@ -5615,13 +6147,17 @@ public class RunLocalTest {
 
             exceptions = method.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName +
+                    "` method is `private`!", Modifier.isPrivate(modifiers));
 
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
+            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName +
+                    "` method is NOT `static`!", Modifier.isStatic(modifiers));
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName +
+                    "` method has the correct return type!", expectedReturnType, actualReturnType);
 
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
+            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName +
+                    "` method has an empty `throws` clause!", expectedLength, exceptions.length);
 
         }
     }
