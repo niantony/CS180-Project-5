@@ -138,6 +138,11 @@ public class ClientGui extends JComponent implements Runnable {
                 addConversation();
             } else if (e.getSource() == searchButton) {
                 String searchedUser = searchUsers.getText();
+                if (searchedUser.contains("*")) {
+                    JOptionPane.showMessageDialog(null, "No * Allowed", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 displaySearchMatches(searchedUser);
             } else if (e.getSource() == settingsButton) {
                 settings();
