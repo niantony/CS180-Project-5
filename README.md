@@ -1,5 +1,16 @@
 # README document 
 
+## Instructions on how to run it 
+- Run the Server.java class
+- Run the ClientGUI
+- If this is your first time then, 
+- Create an account by pressing the button Sign Up and fill in the required data fields
+- Else, log in into your previous account
+- If you want to test for real-time messages, allow for parallel running in your IDE of choice
+- For starting a new conversation then press the button "Add conversation" and search the desired members of your conversation
+- Edit mode in the chat window allows you the edit or delete your own messages 
+- Settings menu allows you to change your name and password, delete your account, and logout
+
 ## Description of each Class
 
 ### Conversation.java
