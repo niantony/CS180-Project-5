@@ -289,8 +289,6 @@ public class ClientGui extends JComponent implements Runnable {
             socket = new Socket("localhost", 8080);
             outputToServer = new PrintWriter(socket.getOutputStream(), true);
             obj = new ObjectInputStream(socket.getInputStream());
-            System.out.println("You connected to the server from address " +
-                    socket.getLocalAddress() + " and port " + socket.getLocalPort());
         } catch (IOException i) {
             JOptionPane.showMessageDialog(null, "Error connecting to Server",
                     "Connection Error", JOptionPane.ERROR_MESSAGE);
@@ -303,10 +301,12 @@ public class ClientGui extends JComponent implements Runnable {
      * Method that starts gui and displays the login screen
      */
     public void run() {
+        //Read in user's file
         try {
             usersFile = (File) obj.readObject();
         } catch (IOException | ClassNotFoundException exception) {
-            exception.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error connecting to the Server. Try again.",
+                    "Connection Error", JOptionPane.ERROR_MESSAGE);
         }
 
         //Main Login Screen
@@ -381,20 +381,31 @@ public class ClientGui extends JComponent implements Runnable {
         String username = usernameField.getText();  //value entered in the username field
         String password = passwordField.getText();  //value entered in password field
         successfulLogin = false;
-        
+
+        //If fields are empty, display an error
         if (username.isEmpty() || password.isEmpty()) {
             successfulLogin = false;
             JOptionPane.showMessageDialog(null, "Please enter all of the fields",
                     "Login Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
+        //Displays error if * is enteres
+        if (username.contains("*") || password.contains("*")) {
+            successfulLogin = false;
+            JOptionPane.showMessageDialog(null, "Wrong username or password",
+                    "Login Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
         readUsers();
         StringBuilder sb = new StringBuilder();
         sb.append("LogIn*");
         sb.append(username + "*");
         sb.append(password);
-        
+
+        //Send server login information
         outputToServer.println(sb.toString());
         try {
             successfulLogin = obj.readBoolean();
@@ -402,7 +413,8 @@ public class ClientGui extends JComponent implements Runnable {
             JOptionPane.showMessageDialog(null, "Error with login. Try again.",
                     "Login Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
+        //Displays error if login failed
         if (!successfulLogin) {
             JOptionPane.showMessageDialog(null, "Wrong username or password",
                     "Login Error", JOptionPane.ERROR_MESSAGE);
@@ -499,6 +511,8 @@ public class ClientGui extends JComponent implements Runnable {
         String username = createUsernameField.getText();  //username entered in text field
         String password = createPasswordField.getText();  //password entered in text field
         String name = createNameField.getText();  //full name entered in text field
+
+        //Displays error if sign up information contains *
         if (username.contains("*") || password.contains("*") || name.contains("*")) {
             JOptionPane.showMessageDialog(null, "Invalid information. No * allowed.",
                     "Signup Error", JOptionPane.ERROR_MESSAGE);
@@ -594,6 +608,7 @@ public class ClientGui extends JComponent implements Runnable {
 
         readConversationsFromFile();
 
+        //panel with conversations
         conversationPanel.setLayout(new GridBagLayout());
         conversationPanel.setBackground(Color.decode("#B9E0DE")); // set background color
 
@@ -605,6 +620,7 @@ public class ClientGui extends JComponent implements Runnable {
         constraints.anchor = GridBagConstraints.NORTH;
         deleteConvButton = new JButton("Delete");
 
+        //adds conversations as buttons to panel
         for (int i = 0; i < conversations.size(); i++) {
             JButton button = new JButton(conversations.get(i).getName());  //button for conversation
             button.setActionCommand(String.valueOf(i));
@@ -829,8 +845,7 @@ public class ClientGui extends JComponent implements Runnable {
         messages = conversationDisplayed.getMessages();
         
         messagePanel.setBackground(Color.decode("#B9E0DE")); // set background color
-        //messageFrame.pack();
-        
+
         String user;  //user sending the message
         String message;  //specific message
         try (BufferedReader br = new BufferedReader(new FileReader(messages))) {
@@ -975,11 +990,11 @@ public class ClientGui extends JComponent implements Runnable {
      * Delete conversation for the current user
      */
     private void deleteConversation() {
-        String convNameTodelete = conversationDisplayed.getName();
+        String convNameToDelete = conversationDisplayed.getName();
         
         StringBuilder sb = new StringBuilder();
         sb.append("DeleteConversation*");
-        sb.append(convNameTodelete);
+        sb.append(convNameToDelete);
         
         outputToServer.println(sb.toString());
         
