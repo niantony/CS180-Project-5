@@ -145,6 +145,11 @@ public class ClientGui extends JComponent implements Runnable {
             } else if (e.getSource() == sendButton) {
                 if (!textField.getText().isEmpty()) {
                     String message = textField.getText();
+                    if (message.contains("*")) {
+                        JOptionPane.showMessageDialog(null, "No * Allowed", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     textField.setText(null);
                     addMessage(message);
                     displayMessages();
