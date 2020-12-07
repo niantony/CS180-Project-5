@@ -105,129 +105,6 @@ public class RunLocalTest {
         }
 
         @Test(timeout = 1_000)
-        public void streamOutFieldDeclarationTest() {
-            Class<?> clazz;
-            String className = "User";
-            Field testField;
-            int modifiers;
-            Class<?> type;
-
-            // Set the field that you want to test
-            String fieldName = "streamOut";
-
-            // Set the type of the field you want to test
-            // Use the type + .class
-            // For example, String.class or int.class
-            Class<?> expectedType = PrintStream.class;
-
-            // Set the class being tested
-            clazz = User.class;
-
-            // Attempt to access the class field
-            try {
-                testField = clazz.getDeclaredField(fieldName);
-            } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
-
-                return;
-            } //end try catch
-
-            // Perform tests
-
-            modifiers = testField.getModifiers();
-
-            type = testField.getType();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
-
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
-        }
-
-        @Test(timeout = 1_000)
-        public void streamInFieldDeclarationTest() {
-            Class<?> clazz;
-            String className = "User";
-            Field testField;
-            int modifiers;
-            Class<?> type;
-
-            // Set the field that you want to test
-            String fieldName = "streamIn";
-
-            // Set the type of the field you want to test
-            // Use the type + .class
-            // For example, String.class or int.class
-            Class<?> expectedType = InputStream.class;
-
-            // Set the class being tested
-            clazz = User.class;
-
-            // Attempt to access the class field
-            try {
-                testField = clazz.getDeclaredField(fieldName);
-            } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
-
-                return;
-            } //end try catch
-
-            // Perform tests
-
-            modifiers = testField.getModifiers();
-
-            type = testField.getType();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
-
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
-        }
-
-        @Test(timeout = 1_000)
-        public void socketFieldDeclarationTest() {
-            Class<?> clazz;
-            String className = "User";
-            Field testField;
-            int modifiers;
-            Class<?> type;
-
-            // Set the field that you want to test
-            String fieldName = "client";
-
-            // Set the type of the field you want to test
-            // Use the type + .class
-            // For example, String.class or int.class
-            Class<?> expectedType = Socket.class;
-
-            // Set the class being tested
-            clazz = User.class;
-
-            // Attempt to access the class field
-            try {
-                testField = clazz.getDeclaredField(fieldName);
-            } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
-
-                return;
-            } //end try catch
-
-            // Perform tests
-
-            modifiers = testField.getModifiers();
-
-            type = testField.getType();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
-
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
-        }
-
-        @Test(timeout = 1_000)
         public void nameFieldDeclarationTest() {
             Class<?> clazz;
             String className = "User";
@@ -417,106 +294,6 @@ public class RunLocalTest {
             Assert.assertTrue("Ensure that `" + className + "`'s parameterized constructor is `public`!", Modifier.isPublic(modifiers));
 
             Assert.assertEquals("Ensure that `" + className + "`'s parameterized constructor has an empty `throws` clause!", expectedLength, exceptions.length);
-        }
-
-        @Test(timeout = 1000)
-        public void userGetOutStreamMethodTest() {
-            Class<?> clazz;
-            String className = "User";
-            Method method;
-            int modifiers;
-            Class<?> actualReturnType;
-            int expectedLength = 0;
-            Class<?>[] exceptions;
-
-            // Set the method that you want to test
-            String methodName = "getOutStream";
-
-            // Set the return type of the method you want to test
-            // Use the type + .class
-            // For example, String.class or int.class
-            Class<?> expectedReturnType = PrintStream.class;
-
-
-            // Set the class being tested
-            clazz = User.class;
-
-            // Attempt to access the class method
-            try {
-                method = clazz.getDeclaredMethod(methodName);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
-                        " has no parameters!");
-
-                return;
-            } //end try catch
-
-            // Perform tests
-
-            modifiers = method.getModifiers();
-
-            actualReturnType = method.getReturnType();
-
-            exceptions = method.getExceptionTypes();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
-
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
-
-        }
-
-        @Test(timeout = 1000)
-        public void userGetInputStreamMethodTest() {
-            Class<?> clazz;
-            String className = "User";
-            Method method;
-            int modifiers;
-            Class<?> actualReturnType;
-            int expectedLength = 0;
-            Class<?>[] exceptions;
-
-            // Set the method that you want to test
-            String methodName = "getInputStream";
-
-            // Set the return type of the method you want to test
-            // Use the type + .class
-            // For example, String.class or int.class
-            Class<?> expectedReturnType = InputStream.class;
-
-
-            // Set the class being tested
-            clazz = User.class;
-
-            // Attempt to access the class method
-            try {
-                method = clazz.getDeclaredMethod(methodName);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
-                        " has no parameters!");
-
-                return;
-            } //end try catch
-
-            // Perform tests
-
-            modifiers = method.getModifiers();
-
-            actualReturnType = method.getReturnType();
-
-            exceptions = method.getExceptionTypes();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
-
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
-
         }
 
         @Test(timeout = 1000)
@@ -845,88 +622,6 @@ public class RunLocalTest {
             Assert.assertEquals("Ensure that `" + className + "` implements `Serializable`!", 0, superinterfaces.length);
         }
 
-        @Test(timeout = 1_000)
-        public void portFieldDeclarationTest() {
-            Class<?> clazz;
-            String className = "Server";
-            Field testField;
-            int modifiers;
-            Class<?> type;
-
-            // Set the field that you want to test
-            String fieldName = "port";
-
-            // Set the type of the field you want to test
-            // Use the type + .class
-            // For example, String.class or int.class
-            Class<?> expectedType = int.class;
-
-            // Set the class being tested
-            clazz = Server.class;
-
-            // Attempt to access the class field
-            try {
-                testField = clazz.getDeclaredField(fieldName);
-            } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
-
-                return;
-            } //end try catch
-
-            // Perform tests
-
-            modifiers = testField.getModifiers();
-
-            type = testField.getType();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `private`!", Modifier.isPrivate(modifiers));
-
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
-        }
-
-        @Test(timeout = 1_000)
-        public void clientsFieldDeclarationTest() {
-            Class<?> clazz;
-            String className = "Server";
-            Field testField;
-            int modifiers;
-            Class<?> type;
-
-            // Set the field that you want to test
-            String fieldName = "clients";
-
-            // Set the type of the field you want to test
-            // Use the type + .class
-            // For example, String.class or int.class
-            Class<?> expectedType = ArrayList.class;
-
-            // Set the class being tested
-            clazz = Server.class;
-
-            // Attempt to access the class field
-            try {
-                testField = clazz.getDeclaredField(fieldName);
-            } catch (NoSuchFieldException e) {
-                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
-
-                return;
-            } //end try catch
-
-            // Perform tests
-
-            modifiers = testField.getModifiers();
-
-            type = testField.getType();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName + "` field is `public`!", Modifier.isPublic(modifiers));
-
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + fieldName + "` field is NOT `static`!", Modifier.isStatic(modifiers));
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
-        }
-
         @Test(timeout = 1000)
         public void serverMainMethodTest() {
             Class<?> clazz;
@@ -975,34 +670,6 @@ public class RunLocalTest {
 
             Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has one `throws` clause!", expectedLength, exceptions.length);
 
-        }
-
-        @Test(timeout = 1_000)
-        public void serverParameterizedConstructorDeclarationTest() {
-            Class<?> clazz;
-            String className = "Server";
-            Constructor<?> constructor;
-            int modifiers;
-            Class<?>[] exceptions;
-            int expectedLength = 0;
-
-            clazz = Server.class;
-
-            try {
-                constructor = clazz.getDeclaredConstructor(int.class);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a constructor that is `public` and has one parameter with type Int!");
-
-                return;
-            } //end try catch
-
-            modifiers = constructor.getModifiers();
-
-            exceptions = constructor.getExceptionTypes();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s parameterized constructor is `private`!", Modifier.isPrivate(modifiers));
-
-            Assert.assertEquals("Ensure that `" + className + "`'s parameterized constructor has an empty `throws` clause!", expectedLength, exceptions.length);
         }
 
         // START OF CONVERSATION CLASS TESTS (DONE)
@@ -1287,7 +954,7 @@ public class RunLocalTest {
         }
 
         @Test(timeout = 1000)
-        public void conversationNumberOfParticipantsMethodTest() {
+        public void conversationGetParticipantsMethodTest() {
             Class<?> clazz;
             String className = "Conversation";
             Method method;
@@ -1297,12 +964,12 @@ public class RunLocalTest {
             Class<?>[] exceptions;
 
             // Set the method that you want to test
-            String methodName = "numberOfParticipants";
+            String methodName = "getParticipants";
 
             // Set the return type of the method you want to test
             // Use the type + .class
             // For example, String.class or int.class
-            Class<?> expectedReturnType = int.class;
+            Class<?> expectedReturnType = ArrayList.class;
 
 
             // Set the class being tested
@@ -1314,106 +981,6 @@ public class RunLocalTest {
             } catch (NoSuchMethodException e) {
                 Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
                         " has no parameters!");
-
-                return;
-            } //end try catch
-
-            // Perform tests
-
-            modifiers = method.getModifiers();
-
-            actualReturnType = method.getReturnType();
-
-            exceptions = method.getExceptionTypes();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
-
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
-
-        }
-
-        @Test(timeout = 1000)
-        public void conversationAddParticipantMethodTest() {
-            Class<?> clazz;
-            String className = "Conversation";
-            Method method;
-            int modifiers;
-            Class<?> actualReturnType;
-            int expectedLength = 0;
-            Class<?>[] exceptions;
-
-            // Set the method that you want to test
-            String methodName = "addParticipant";
-
-            // Set the return type of the method you want to test
-            // Use the type + .class
-            // For example, String.class or int.class
-            Class<?> expectedReturnType = void.class;
-
-
-            // Set the class being tested
-            clazz = Conversation.class;
-
-            // Attempt to access the class method
-            try {
-                method = clazz.getDeclaredMethod(methodName, User.class);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
-                        " has one parameter with type User!");
-
-                return;
-            } //end try catch
-
-            // Perform tests
-
-            modifiers = method.getModifiers();
-
-            actualReturnType = method.getReturnType();
-
-            exceptions = method.getExceptionTypes();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `" + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
-
-            Assert.assertFalse("Ensure that `" + className + "`'s `" + methodName + "` method is NOT `static`!", Modifier.isStatic(modifiers));
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
-
-            Assert.assertEquals("Ensure that `" + className + "`'s `" + methodName + "` method has an empty `throws` clause!", expectedLength, exceptions.length);
-
-        }
-
-        @Test(timeout = 1000)
-        public void conversationRemoveParticipantMethodTest() {
-            Class<?> clazz;
-            String className = "Conversation";
-            Method method;
-            int modifiers;
-            Class<?> actualReturnType;
-            int expectedLength = 0;
-            Class<?>[] exceptions;
-
-            // Set the method that you want to test
-            String methodName = "removeParticipant";
-
-            // Set the return type of the method you want to test
-            // Use the type + .class
-            // For example, String.class or int.class
-            Class<?> expectedReturnType = void.class;
-
-
-            // Set the class being tested
-            clazz = Conversation.class;
-
-            // Attempt to access the class method
-            try {
-                method = clazz.getDeclaredMethod(methodName, User.class);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
-                        " has one parameter with type User!");
 
                 return;
             } //end try catch
