@@ -1012,7 +1012,7 @@ public class ClientGui extends JComponent implements Runnable {
         try {
             success = obj.readBoolean();
             JOptionPane.showMessageDialog(null, "Successfully Deleted Conversation",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error", JOptionPane.INFORMATION_MESSAGE);
             if (!success) {
                 JOptionPane.showMessageDialog(null, "Error in deleting Conversation",
                         "Error", JOptionPane.ERROR_MESSAGE);
