@@ -1,6 +1,6 @@
 # README document 
 
-Description of each Class
+## Description of each Class
 
 Conversation.java
 This class represents each of the user’s conversations. Each instance of this class will contain the fields of the conversation names, the users involved in each conversation, as well as the file in which the messages from all users in that conversation are stored. 
@@ -235,8 +235,8 @@ Receives the name of the conversation that the user wishes to delete.
 Removes the conversation from the Clients list of Conversations.
 This will remove the conversation from only the clients list. The conversation is not deleted from any other participants in the conversation. 
 
-Program Testing 
-GUI Manual Testing 
+## Program Testing 
+### GUI Manual Testing 
 Once the program was completed, different situations that the user might encounter while using the program were tested to make sure the program does not crash and that the GUI displays the proper frames. All of our GUI was located in the ClientGUI class and all user interactions for this program were done with GUI.
 
 Signup for an account was tested by creating 3 different users. It was tested that an error message would return if users clicked the signup button with any of the text fields empty or with an username that was already taken. This is to make sure that the username can be used as a unique identifier for each user and that user account information will be collected when an account is created. It was checked that users could not login without creating an account by logging with a random username and password. 
@@ -250,7 +250,7 @@ RunLocalTest.java (JUnit Testing)
 
 RunLocalTest.java is a JUnit Testing class that will check if the program has the correct implementations. This class checks and verifies that each class exists and inherits from the correct superclass. It verifies that each field in every class exists and verifies that it has the correct type and access modifier. It verifies that each method in every class exists with the correct return type and modifier. Every method in the program has been tested with proper input and improper input. Upon proper input the program will function properly with no errors being thrown. Upon improper input, a descriptive error will be thrown. All classes, methods, and fields are tested. Listed below are methods that were tested in RunLocalTest.java...
 
-List of methods tested from Server.java class:
+### List of methods tested from Server.java class:
 main(String[] args)
 
 List of methods tested from User.java class:
