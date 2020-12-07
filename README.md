@@ -2,24 +2,24 @@
 
 ## Description of each Class
 
-Conversation.java
+### Conversation.java
 This class represents each of the user’s conversations. Each instance of this class will contain the fields of the conversation names, the users involved in each conversation, as well as the file in which the messages from all users in that conversation are stored. 
 
-Server.java
+### Server.java
 This class represents a server that creates a server socket and waits for the clientGUI class to connect. Once connected, the client and server communicates with one another asynchronously. After the client class connects, it instantiates a new thread of type Userhandler for each user connection to help the program handle multiple users at the same time. 
 
-User.java
+### User.java
 This class represents each user of the application. It holds the user information such as full name, username, and password as well as a file that contains all the conversation names the user participated in. 
 
-RunLocalTest.java
+### RunLocalTest.java
 RunLocalTest.java is a JUnit Testing class that will check if the program has the correct implementations. (More information on this class is provided in the Program Testing section)
 
-ClientGUI.java
-Description:
+#### ClientGUI.java
+##### Description:
 This class represents the client that connects to the server and implements the view component of the application. Once connected, the client and server can both read and write data to one another asynchronously. This implements the GUI and functionality for all the screens in the application. This also implements various action listeners which responds to various user events with actions. 
 
-ActionListeners:
-actionListener
+##### ActionListeners:
+###### actionListener
 It is the main action listener for login screen, signup screen, main screen, messages screen, and adding conversation  screens
 addButton ("New Conversation") calls addConversation to create a new conversation
 signUpButton(“Sign Up”) hides the login frame and calls displaySignUp to open the signup frame.
@@ -36,67 +36,67 @@ editMessagesButton(“Edit”) calls the editMessage method so that users can ch
 editMessBackButton(“Back”) hides the editMessageFrame frame and calls the displayConversation method to display the specific conversation messages.
 Conversation Name button in home page calls displayConversation to display the list of messages in the selected conversation and also creates new instance of the Timer to refresh the messages in real-time.  
 
-settingsAL
+###### settingsAL
 It is the action listeners for the buttons(deleteAccountButton, homebutton, saveButton, and  logoutButton )  in the Settings frame. 
 For the deleteAccountButton (Delete), it calls the delteteAccount method to delete the user’s current account. 
 For the homebutton (Home), it makes settingsFrame not visible, and the mainFrame visible so users can go back to the home messages page. 
 For the saveButton (Save), it calls the settings method so that users can save their new account information for full name and password. 
 For the logoutButton (Logout) it exits the user from the program and sends a message informing them that they are logging out. 
 
-deleteMessageAL
+###### deleteMessageAL
 It is the actionlistener for the deleteMessageButton (“Delete”) button.  It calls the deleteMessage and editMessage methods to edit and delete specific messages.  
 deleteConversation
 It is the action listener for the deleteConvButton (“Delete”) button. 
 Calls deleteConversation method to delete a conversation from the user's conversations list. 
 
-editSpecificMessageAL
+###### editSpecificMessageAL
 It is the action listener for the editSpecificMsgButton (“Edit”) button. Calls editSpecificMessage and editMessage method to allow users to edit their messages once sent. 
 
-addUserToConversation
+###### addUserToConversation
 It's the action listener for the userButton. Calls fillConversationFields to add users to the conversations list. 
 
-Update
+###### Update
 It is the action listener associated with the timer. Calls the displayMessages to refresh the messages frame (messages) for the conversation selected. It ensures that messages are displayed in real time.
  
-updateMain
+###### updateMain
  It’s the action listener associated with Timer. Calls the mainPanel to refresh the conversations. Makes sure that conversations created or deleted are shown in real time. 
  
-Methods:
-Main
+##### Methods:
+###### Main
 Creates a socket for the user and sets the host to localhost and port 8080. Creates input and output streams.
- Calls SwingUtilities.invokeLater to run the client on EDT to avoid problems such as deadlock. 
+Calls SwingUtilities.invokeLater to run the client on EDT to avoid problems such as deadlock. 
  
-Run
+###### Run
 Creates the Login Frame with 2 text fields for users to enter their username and password. Below in the frame are the “Login” and “SignUp” button. 
 
-Login 
+###### Login 
 Reads the username and password and sends a request to the server to validate the account. 
 If the server sends back that the user’s input is invalid, informs users that information is invalid with JOptionPane error panel. If the server sends back that user input is valid, the mainFrame with the user’s conversation list is displayed. 
 
-displaySignup
+###### displaySignup
 Displays the Sign Up frame with 3 text fields for users to enter their full name, username, and password. 
 When users click the “Login” button below they will be taken to the login frame. 
 
-singUp
+###### singUp
 Once the user clicks the “Sign Up” button,  if any of the text fields are empty or user types in a username that already exists they will receive an error message accordingly.  Else, the User account information is sent to the server to create an account and store the information in the users file. If this is done successfully, users will be taken into the login frame to login. Otherwise they will receive another error message.
 
-mainScreen
+###### mainScreen
 This method creates a frame with a bottom panel contain a “Settings” button and a “New Conversations Button” 
 It calls the mainPanel to display the user’s current conversation list. 
 
-mainPanel 
+###### mainPanel 
 Calls the readConversationsFromFile method to get the list of user’s conversations. 
 Runs through the array and displays each conversation as a button with a delete button next to it. 
 
-settings
+###### settings
 Calls the server to get the current user information. If it is not successful sends error message 
 In the top panel, displays the user’s username, and provides a text field for users to enter the new username or password they would like to change to. 
 The bottom panel contains the “Back”,  “Save Settings”, “Delete”, and “Logout” buttons. 
 
-deleteAccount
+###### deleteAccount
 sends the request to the server to delete the account. If the server is not successful ,methods send an error message to users. 
 
-saveSettings
+###### saveSettings
 Methods makes sure that the username and password textfield in the settings panel is not null, and sends an error message if null. 
 Sends the information in these text fields to the server so the server can save the user’s new account information to the user’s file. 
 If Server is unsuccessful in saving the user's information, another error message will be sent to the user. 
