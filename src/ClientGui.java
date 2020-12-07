@@ -678,12 +678,12 @@ public class ClientGui extends JComponent implements Runnable {
         nameLabel = new JLabel("Name: ");
         nameField = new JTextField(user.getName(), 10);
         usernameLabel = new JLabel("Username: ");
-        JLabel usernameField = new JLabel(user.getUsername(), 10);  //label with user's username
+        JLabel usernameFieldLabel = new JLabel(user.getUsername(), 10);  //label with user's username
         passwordLabel = new JLabel("Password: ");
         passwordField = new JPasswordField("", 10);
         
         infoPanel.add(usernameLabel);
-        infoPanel.add(usernameField);
+        infoPanel.add(usernameFieldLabel);
         infoPanel.add(nameLabel);
         infoPanel.add(nameField);
         infoPanel.add(passwordLabel);
@@ -856,16 +856,16 @@ public class ClientGui extends JComponent implements Runnable {
         
         messagePanel.setBackground(Color.decode("#B9E0DE")); // set background color
 
-        String user;  //user sending the message
+        String currentUser;  //user sending the message
         String message;  //specific message
         try (BufferedReader br = new BufferedReader(new FileReader(messages))) {
             String line = br.readLine();
             while (line != null) {
                 if (!line.equals("")) {
                     String[] userAndMessage = line.split("\\*");
-                    user = userAndMessage[0];
+                    currentUser = userAndMessage[0];
                     message = userAndMessage[1];
-                    messagePanel.add(new JLabel(user + ": " + message));
+                    messagePanel.add(new JLabel(currentUser + ": " + message));
                 }
                 line = br.readLine();
             }
@@ -881,9 +881,9 @@ public class ClientGui extends JComponent implements Runnable {
         Container content = editMessageFrame.getContentPane();
         content.setLayout(new BorderLayout());
         
-        JPanel messagePanel = new JPanel(new GridBagLayout());
-        messagePanel.setBackground(Color.decode("#B9E0DE"));
-        JScrollPane scrollPane = new JScrollPane(messagePanel);
+        JPanel editMessagePanel = new JPanel(new GridBagLayout());
+        editMessagePanel.setBackground(Color.decode("#B9E0DE"));
+        JScrollPane scrollPane = new JScrollPane(editMessagePanel);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = GridBagConstraints.RELATIVE;
@@ -911,8 +911,8 @@ public class ClientGui extends JComponent implements Runnable {
             constraints.gridx = 0;
             constraints.ipadx = 300;
             String formattedMessage = output[0] + ": " + output[1];
-            messagePanel.add(new JLabel(formattedMessage), constraints);
-            messagePanel.setBackground(Color.decode("#B9E0DE"));
+            editMessagePanel.add(new JLabel(formattedMessage), constraints);
+            editMessagePanel.setBackground(Color.decode("#B9E0DE"));
             boolean editable = Boolean.parseBoolean(output[2]);
             String index = output[3];
             if (editable) {
@@ -929,13 +929,13 @@ public class ClientGui extends JComponent implements Runnable {
                 constraints.gridwidth = 1;
                 constraints.gridx = 2;
                 constraints.ipadx = 0;
-                messagePanel.add(editButtons, constraints);
+                editMessagePanel.add(editButtons, constraints);
             } else {
                 JLabel noDeleteMessage = new JLabel("Cannot Delete/Edit");
                 constraints.gridwidth = 1;
                 constraints.gridx = 2;
                 constraints.ipadx = 0;
-                messagePanel.add(noDeleteMessage, constraints);
+                editMessagePanel.add(noDeleteMessage, constraints);
             }
         }
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -1121,9 +1121,9 @@ public class ClientGui extends JComponent implements Runnable {
         fillFieldButtons.add(submitFields);
         
         content.add(fillFieldButtons, BorderLayout.SOUTH);
-        JLabel nameLabel = new JLabel("Name of Conversation: ");
-        nameLabel.setSize(10, 10);
-        fieldsToFill.add(nameLabel);
+        JLabel conversationNameLabel = new JLabel("Name of Conversation: ");
+        conversationNameLabel.setSize(10, 10);
+        fieldsToFill.add(conversationNameLabel);
         conversationNameField = new JTextField();
         conversationNameField.addActionListener(actionListener);
         fieldsToFill.add(conversationNameField);

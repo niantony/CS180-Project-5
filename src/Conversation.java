@@ -25,7 +25,7 @@ public class Conversation implements Serializable {
      * @param users users that are participants of the conversation
      * @param messages file containing the messages for the conversation
      */
-    public Conversation (String name, ArrayList<User> users, File messages) {
+    public Conversation(String name, ArrayList<User> users, File messages) {
         this.nameOfConversation = name;
         this.conversationList = users;
         this.messages = messages;

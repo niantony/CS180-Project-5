@@ -10,7 +10,6 @@ import org.junit.runner.notification.Failure;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -19,8 +18,6 @@ import java.lang.reflect.Modifier;
 
 import java.net.Socket;
 import java.util.ArrayList;
-
-import static org.junit.Assert.fail;
 
 /**
  * CS 180 Project 5 -- RunLocalTest.java
@@ -32,6 +29,7 @@ import static org.junit.Assert.fail;
  * @author Antony Ni, G17
  * @version December 6, 2020
  */
+
 public class RunLocalTest {
 
     public static void main(String[] args) {

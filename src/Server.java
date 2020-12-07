@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class Server {
     public static void main(String[] args) throws IOException {
-        try(ServerSocket serverSocket = new ServerSocket(8080)) {
+        try (ServerSocket serverSocket = new ServerSocket(8080)) {
             System.out.println("Server is running on port 8080");
             while (true) {
                 //Server socket for the Server, wait to accept a connection
